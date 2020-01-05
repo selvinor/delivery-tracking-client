@@ -15,9 +15,9 @@ export const fetchProtectedDataError = error => ({
 
 
 export const fetchProtectedData = () => (dispatch, getState)  => {
-  // console.log('fetch subscriptions fired!');
+  // console.log('fetch orders fired!');
   const authToken = getState().auth.authToken;
-  fetch(`${API_BASE_URL}/protected/subscriptions`, {
+  fetch(`${API_BASE_URL}/orders`, {
     method: 'GET',
     headers: {
         // Provide our auth token as credentials
@@ -31,31 +31,13 @@ export const fetchProtectedData = () => (dispatch, getState)  => {
       }      
       return res.json();
   }).then(data => {
-    // let  subscription_data = data;
-    // console.log('***** subscription_data: ', subscription_data);
-    //subscription_data = Object.keys(data);   
+    let  order_data = data;
+    let order_data_keys = Object.keys(data);   
+    console.log('***** order_data: ', order_data, '***** order_data_keys: ', order_data_keys);
     dispatch(fetchProtectedDataSuccess(data));
   });
   
-  // .then(subscriptions => {
-  //     dispatch(fetchProtectedDataSuccess(subscriptions));
+  // .then(orders => {
+  //     dispatch(fetchProtectedDataSuccess(orders));
   // });
-};
-
-
-export const xfetchProtectedData = () => (dispatch, getState) => {
-    const authToken = getState().auth.authToken;
-    return fetch(`${API_BASE_URL}/protected/subscriptions/`, {
-        method: 'GET',
-        headers: {
-            // Provide our auth token as credentials
-            Authorization: `Bearer ${authToken}`
-        }
-    })
-        .then(res => normalizeResponseErrors(res))
-        .then(res => res.json())
-        .then(({data}) => dispatch(fetchProtectedDataSuccess(data)))
-        .catch(err => {
-            dispatch(fetchProtectedDataError(err));
-        });
 };

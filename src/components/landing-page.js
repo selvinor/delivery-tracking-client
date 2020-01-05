@@ -7,7 +7,7 @@ import LogIn from './login';
 export class LandingPage extends React.Component {
 
   componentDidMount() {
-    document.title = 'Deliveries';
+    document.title = 'Landing';
   }
   
   render() {
@@ -20,6 +20,8 @@ export class LandingPage extends React.Component {
     return (
       <Fragment>
         <section id="main">
+        <h2>Order Pickup and Delivery Tracking</h2>
+        <p>To submit an Order for Pickup and Delivery, Please login.</p>
           <LogIn />
         </section>
       </Fragment>
@@ -27,7 +29,8 @@ export class LandingPage extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  showLogin: state.delivery.showLogin,
+  showLogin: state.order.showLogin,
+  returningUser : state.auth.returningUser,
   loggedIn: state.auth.currentUser !== null
 });
 

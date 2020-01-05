@@ -1,13 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Route, withRouter, Switch} from 'react-router-dom';
-
+import "./app.css";
 // import HeaderBar from './header-bar';
 import LandingPage from './landing-page';
 import LogIn from './login';
-//import Dashboard from './dashboard';
 import RegistrationPage from './registration-page';
-import Deliveries from './deliveries';
+import Dashboard from './dashboard';
 import AddDeliveries from './addDeliveries';
 
 
@@ -75,8 +74,8 @@ export class App extends React.Component {
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/login" component={LogIn} />
           <Route exact path="/register" component={RegistrationPage} />
-          <Route exact path="/deliveries" component={Deliveries} />
-          <Route exact  path="/deliveries/:deliveryNumber" component={Deliveries}/>
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact  path="/orders/:orderNumber" component={Dashboard}/>
           <Route exact path="/addDeliveries" component={AddDeliveries}/>
           
        </Switch>
