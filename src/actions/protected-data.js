@@ -14,13 +14,15 @@ export const fetchProtectedDataError = error => ({
 });
 
 
-export const fetchProtectedData = () => (dispatch, getState)  => {
-  // console.log('fetch orders fired!');
+export const fetchProtectedData = (userId) => (dispatch, getState)  => {  
+
+
+  // 1) Get the logged in user's data
   const authToken = getState().auth.authToken;
-  fetch(`${API_BASE_URL}/orders`, {
+  fetch(`${API_BASE_URL}/users/${userId}`, { 
     method: 'GET',
     headers: {
-        // Provide our auth token as credentials
+        // Provide our auth token as credentials 
         Authorization: `Bearer ${authToken}`
     }
 })
@@ -31,9 +33,9 @@ export const fetchProtectedData = () => (dispatch, getState)  => {
       }      
       return res.json();
   }).then(data => {
-    let  order_data = data;
-    let order_data_keys = Object.keys(data);   
-    console.log('***** order_data: ', order_data, '***** order_data_keys: ', order_data_keys);
+    let  user_data = data;
+    let user_data_keys = Object.keys(data);   
+    console.log('***** user_data: ', user_data, '***** user_data_keys: ', user_data_keys);
     dispatch(fetchProtectedDataSuccess(data));
   });
   

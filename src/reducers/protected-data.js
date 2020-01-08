@@ -4,15 +4,15 @@ import {
 } from '../actions/protected-data';
 
 const initialState = {
-    orders: [],
+    user: '',
     error: null
 };
 
 export default function reducer(state = initialState, action) {
     if (action.type === FETCH_PROTECTED_DATA_SUCCESS) {
-      console.log('*** FETCH_PROTECTED_DATA_SUCCESS ***  orders: ', action.data);
+      console.log('*** FETCH_PROTECTED_DATA_SUCCESS ***  user: ', action.data);
         return Object.assign({}, state, {
-            orders: action.data,
+            user: action.data,
             error: null
         });
     } else if (action.type === FETCH_PROTECTED_DATA_ERROR) {

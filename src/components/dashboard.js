@@ -2,6 +2,8 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import HeaderBar from './header-bar';
 import OrderList from './order-list';
+import OrderForm from './order-form';
+
 import { fetchProtectedData } from '../actions/protected-data';
 import { refreshAuthToken } from '../actions/auth';
 
@@ -17,12 +19,12 @@ export class Dashboard extends React.Component {
       this.state = {};
       this.componentDidMount = this.componentDidMount.bind(this);
       this.handleChange = this.handleChange.bind(this);
-      // this.submitOrderForm = this.submitOrderForm.bind(this);
+      this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
       }
 
   componentDidMount() {
     document.title = 'Dashboard';
-    this.props.dispatch(fetchProtectedData());
+    this.props.dispatch(fetchProtectedData(this.props.userId));
   }
 
   
@@ -33,13 +35,111 @@ export class Dashboard extends React.Component {
       fields
     });
   }
+//   'orderNumber',  'orderDetails', 'orderSize', 'recipient','recipientPhone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
+
+  submitNewOrderForm(e) { 
+    e.preventDefault();
+    let errors = {}
+
+    if(this.validateForm()) {
+      let fields = {};
+      this.setState({fields:fields});
+    } else {
+      errors['zip'] = 'Please enter a valid zip code';
+      this.setState({errors: errors})
+    }
+  }
+
+  validateForm() {
+
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+
+    if (!fields['orderNumber']) {
+      formIsValid = false;
+      errors['orderNumber'] = 'Please enter an order number';
+    }
+
+    if (typeof fields['orderNumber'] !== 'undefined') {
+      if (!fields['orderNumber'].match(/\d\w\S/)) {
+        formIsValid = false;
+        errors['orderNumber'] = 'Please enter a valid order number';
+      }
+    }
+    if (!fields['orderSize']) {
+      fields['orderSize'] = 1;
+    }
+
+    if (typeof fields['orderSize'] !== 'undefined') {
+      if (!fields['orderSize'].match(/\d/)) {
+        formIsValid = false;
+        errors['orderSize'] = 'Please enter a valid order size 1-3';
+      }
+    }
+    if (!fields['recipient']) {
+      formIsValid = false;
+      errors['recipient'] = 'Please enter a recipient name';
+    }
+
+    if (typeof fields['recipient'] !== 'undefined') {
+      if (!fields['recipient'].match(/\w/)) {
+        formIsValid = false;
+        errors['recipient'] = 'Please enter a valid recipient name';
+      }
+    }
+    if (!fields['recipientPhone']) {
+      formIsValid = false;
+      errors['recipientPhone'] = 'Please enter a recipient phone';
+    }
+
+    if (typeof fields['recipientPhone'] !== 'undefined') {
+      if (!fields['recipientPhone'].match(/^[0][1-9]\d{9}$|^[1-9]\d{9}$/g)) {
+        formIsValid = false;
+        errors['recipientPhone'] = 'Please enter a valid recipient phone';
+      }
+    }
+
+    if (!fields['streetAddress']) {
+      formIsValid = false;
+      errors['streetAddress'] = 'Please enter a street address';
+    }
+
+    if (!fields['city']) {
+      formIsValid = false;
+      errors['city'] = 'Please enter a city';
+    }
+
+    if (!fields['state']) {
+      formIsValid = false;
+      errors['state'] = 'Please enter a state';
+    }
+
+    if (!fields['zipcode']) {
+      formIsValid = false;
+      errors['zipcode'] = 'Please enter a zipcode';
+    }
+
+    if (typeof fields['zipcode'] !== 'undefined') {
+      if (!fields['zipcode'].match(/^\d{5}$|^\d{5}-\d{4}$/)) {
+        formIsValid = false;
+        errors['zipcode'] = 'Please enter a valid zipcode';
+      }
+    }
+   
+    
+    this.setState({
+      errors: errors
+    });
+    return formIsValid;
+  }
+
 
   render() {
     // Only render the log out button if we are logged in
-    // console.log('Logged in - this.props: ' , this.props);
+    console.log('Logged in - this.props: ' , this.props);
+    const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','recipientPhone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
 
-
-    console.log('dashboard!');
     if (this.props.showWarning) {
       let stayLoggedInButton = (
         <button onClick={() => this.props.dispatch(refreshAuthToken())}>Keep me logged in</button>
@@ -49,15 +149,16 @@ export class Dashboard extends React.Component {
       <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
     );
 
-    let orders = this.props.orders;
-    if (orders) {
-      console.log('dashboard orders: ', orders);
+    let user = this.props.user;
+    if (user) {
+      console.log('dashboard user: ', user);
       return (
         <Fragment>
           <HeaderBar />
           <h1>Dashboard</h1>
             <h2>Order Pickup and Delivery Tracking</h2>
-          <OrderList orders={orders}/>
+          <OrderList orders={user.vendor.orders}/>
+          <OrderForm newOrderFields={newOrderFields} submitNewOrderForm={this.submitNewOrderForm} />
         </Fragment>
       );
     }
@@ -65,7 +166,10 @@ export class Dashboard extends React.Component {
     return ( 
       <Fragment>
         <HeaderBar />
+        <h1>Dashboard</h1>
+            <h2>Order Pickup and Delivery Tracking</h2>
         <OrderList orders={[]}/>
+        <OrderForm newOrderFields={newOrderFields} />
       </Fragment>
     );
   }
@@ -75,8 +179,10 @@ const mapStateToProps = state => {
   const {currentUser} = state.auth;
 
   return {
-    orders: state.protectedData.orders,
-    // currentUser:  state.auth.currentUser,
+    user: state.protectedData.user,
+    username: currentUser.username,
+    userId: currentUser.id,
+    email: currentUser.email,
     name: `${currentUser.firstName} ${currentUser.lastName}`,
     showWarning: state.auth.showWarning,
     showLogin: state.order.showLogin,
