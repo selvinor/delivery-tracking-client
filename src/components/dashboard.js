@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import HeaderBar from './header-bar';
 import OrderList from './order-list';
+import DeliveryList from './delivery-list';
+import PickupList from './pickup-list';
+import DriverList from './driver-list';
 import OrderForm from './order-form';
 
 import { fetchProtectedData } from '../actions/protected-data';
@@ -148,30 +151,53 @@ export class Dashboard extends React.Component {
     let addOrderButton = (
       <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
     );
-
+    let fragment = null;
     let user = this.props.user;
     if (user) {
       console.log('dashboard user: ', user);
-      return (
-        <Fragment>
-          <HeaderBar />
-          <h1>Dashboard</h1>
-            <h2>Order Pickup and Delivery Tracking</h2>
-          <OrderList orders={user.vendor.orders}/>
-          <OrderForm newOrderFields={newOrderFields} submitNewOrderForm={this.submitNewOrderForm} />
-        </Fragment>
-      );
-    }
+      console.log('dashboard user.vendor: ', user.vendor);
+      console.log('dashboard user.driver: ', user.driver);
+      console.log('dashboard user.depot: ', user.depot);
 
-    return ( 
-      <Fragment>
-        <HeaderBar />
-        <h1>Dashboard</h1>
-            <h2>Order Pickup and Delivery Tracking</h2>
-        <OrderList orders={[]}/>
-        <OrderForm newOrderFields={newOrderFields} />
-      </Fragment>
-    );
+      if(user.vendor) {
+        fragment = (
+          <Fragment>
+            <HeaderBar />
+            <h1>Dashboard</h1>
+              <h2>Order Pickup and Delivery Tracking</h2>
+            <OrderList orders={user.vendor.orders}/>
+            <OrderForm newOrderFields={newOrderFields} submitNewOrderForm={this.submitNewOrderForm} />
+          </Fragment>  
+        )
+
+      } else {
+        if(user.driver) {
+          fragment = (
+            <Fragment>
+              <HeaderBar />
+              <h1>Dashboard</h1>
+                <h2>Order Pickup and Delivery Tracking</h2>
+              <PickupList pickups={user.driver.pickups}/>
+              <DeliveryList deliveries={user.driver.deliveries}/> 
+            </Fragment>        
+           )
+        } else {
+          if(user.depot) {
+            fragment = (
+              <Fragment>
+                <HeaderBar />
+                <h1>Dashboard</h1>
+                  <h2>Order Pickup and Delivery Tracking</h2>
+                <PickupList pickups={user.depot.pickups}/>
+                <DeliveryList deliveries={user.depot.deliveries}/>
+                <DriverList drivers={user.depot.drivers}/>
+              </Fragment>       
+            ) 
+          }
+        }
+      }
+    }
+    return fragment;
   }
 }
 
