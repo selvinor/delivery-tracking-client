@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import LogIn from './login';
 //import './styles/landing.css';
 
-export class LandingPage extends React.Component {
+export class LandingPage extends React.Component { 
 
   componentDidMount() {
     document.title = 'Landing';
@@ -13,8 +13,10 @@ export class LandingPage extends React.Component {
   render() {
   // If we are logged in redirect straight to the user's dashboard
   // Log the initial state
-    // console.log('landing this.props: ', this.props);
+    console.log('landing this.props: ', this.props);
     if (this.props.loggedIn) {
+      console.log('landing logged in as currentUser: ', this.props.loggedIn, this.props.currentUser);
+      console.log('redirecting to dashboard');
       return <Redirect to="/dashboard" />;
     }
     return (
@@ -29,9 +31,11 @@ export class LandingPage extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  showLogin: state.order.showLogin,
+  
+  showLogin: state.auth.showLogin,
   returningUser : state.auth.returningUser,
-  loggedIn: state.auth.currentUser !== null
+  loggedIn: state.auth.currentUser !== null,
+  currentUser: state.auth.currentUser
 });
 
 export default connect(mapStateToProps)(LandingPage);

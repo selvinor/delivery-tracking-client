@@ -67,6 +67,7 @@ export const storeInformedUser = () => (dispatch) => {
 };
 
 export const login = (username, password) => dispatch => {
+  console.log('logging in');
     dispatch(authRequest());
     return (
         fetch(`${API_BASE_URL}/auth/login`, {

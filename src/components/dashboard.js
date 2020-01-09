@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import HeaderBar from './header-bar';
 import OrderList from './order-list';
 import DeliveryList from './delivery-list';
@@ -27,11 +28,13 @@ export class Dashboard extends React.Component {
 
   componentDidMount() {
     document.title = 'Dashboard';
-    this.props.dispatch(fetchProtectedData(this.props.userId));
+    console.log('componentDidMount this.props', this.props);
+
+    this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
   }
 
   
-  handleChange(e) {
+  handleChange(e) { 
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
     this.setState({
@@ -140,7 +143,14 @@ export class Dashboard extends React.Component {
 
   render() {
     // Only render the log out button if we are logged in
-    console.log('Logged in - this.props: ' , this.props);
+    if (!this.props.loggedIn) {
+      console.log('Dashboard not logged in. Redirecting to landing page');
+      return <Redirect to="/" />;
+    };
+
+    console.log('Dashboard in - this.props: ' , this.props);
+
+
     const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','recipientPhone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
 
     if (this.props.showWarning) {
@@ -206,13 +216,14 @@ const mapStateToProps = state => {
 
   return {
     user: state.protectedData.user,
-    username: currentUser.username,
-    userId: currentUser.id,
-    email: currentUser.email,
-    name: `${currentUser.firstName} ${currentUser.lastName}`,
+    // username: currentUser.username,
+    // userId: currentUser.id,
+    // email: currentUser.email,
+    // name: `${currentUser.firstName} ${currentUser.lastName}`,
     showWarning: state.auth.showWarning,
     showLogin: state.order.showLogin,
-    loggedIn: state.auth.currentUser !== null    
+    loggedIn: state.auth.currentUser !== null,   
+    currentUser: state.auth.currentUser 
   };
 };
 
