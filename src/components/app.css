@@ -1,7 +1,52 @@
+p {
+  padding-right:5px;
+}
+h1 {
+
+  background: transparent;
+  border-radius: 4px;
+  padding: 5px;
+  text-align: center;
+}
+h3 {
+  margin:0 5px 0 0;
+  background: #000000;
+  color: #e8e8e8;
+  border-radius: 4px;
+  padding: 5px;
+  text-align: center;
+}
+.center {
+  text-align:center;
+}
+.status-text {
+  width:120px;
+  
+}
+.order-text {
+  width:40px;
+  
+}
+.vendor-text {
+  width:90px;
+  
+}
+.dest-text {
+  width:130px;
+  
+}
+.numItems-text {
+  width:80px;
+  
+}
+.driver-text {
+  width:90px;
+  
+}
 .app {
   background: #209cee;
   padding: 30px;
-  height: 100vh;
+  min-height: 100vh;
   font-family: sans-serif;
 }
 
@@ -20,7 +65,7 @@
   list-style-type: none;
   font-size: 12px;
 }
-.order, .pickup, .delivery {
+.order, .pickup, .delivery, .driver, .depot, .zone {
   background: #fff;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
   padding: 3px 10px;
@@ -31,16 +76,10 @@
   align-items: top;
   justify-content: space-between;
 }
-.wrapper {
-  margin: 0px;
-  background-color: transparent;
-}
+.order-form {
 
-.row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 80%;
+  padding-inline-start: 10px;
+
 }
 
 .column {
@@ -59,9 +98,7 @@
   background-color: transparent;
 
 }
-p {
-  padding-right:5px;
-}
+
 .bold {
   font-weight:800;
 }

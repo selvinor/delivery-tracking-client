@@ -14,6 +14,7 @@ export default function DeliveryList(props) {
     if (deliveries.length >= 1) {
       return (
           <div>
+            <h3>Deliveries</h3>
             <ul className="delivery-list">
               {deliveries.map((delivery, index) => (
                 <Delivery

@@ -14,6 +14,7 @@ export default function PickupList(props) {
     if (pickups.length >= 1) {
       return (
         <div>
+          <h3>Pickups</h3>
           <ul className="pickup-list">
             {pickups.map((pickup, index) => (
               <Pickup

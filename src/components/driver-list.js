@@ -1,5 +1,5 @@
 import React from 'react';
-import Driver from './driver-list';
+import Driver from './driver';
 
 export default function DriverList(props) {
 
@@ -10,8 +10,10 @@ export default function DriverList(props) {
   //    4)  select and show Driver detail   
 
 const drivers = props.drivers;
+console.log('driver-list props: ', drivers);
 return (
       <div>
+        <h3>Drivers</h3>
         <ul className="driver-list">
           {drivers.map((driver, index) => (
             <Driver

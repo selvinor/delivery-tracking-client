@@ -151,7 +151,6 @@ export class Dashboard extends React.Component {
     console.log('Dashboard in - this.props: ' , this.props);
 
 
-    const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','recipientPhone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
 
     if (this.props.showWarning) {
       let stayLoggedInButton = (
@@ -167,16 +166,15 @@ export class Dashboard extends React.Component {
       console.log('dashboard user: ', user);
       console.log('dashboard user.vendor: ', user.vendor);
       console.log('dashboard user.driver: ', user.driver);
-      console.log('dashboard user.depot: ', user.depot);
+      console.log('dashboard user.depot: ', user.depot); 
 
       if(user.vendor) {
         fragment = (
           <Fragment>
             <HeaderBar />
-            <h1>Dashboard</h1>
-              <h2>Order Pickup and Delivery Tracking</h2>
-            <OrderList orders={user.vendor.orders}/>
-            <OrderForm newOrderFields={newOrderFields} submitNewOrderForm={this.submitNewOrderForm} />
+            <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
+              <h2>Order Tracking</h2>
+            <OrderList orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm}/>
           </Fragment>  
         )
 
@@ -185,27 +183,27 @@ export class Dashboard extends React.Component {
           fragment = (
             <Fragment>
               <HeaderBar />
-              <h1>Dashboard</h1>
-                <h2>Order Pickup and Delivery Tracking</h2>
+              <h1>Driver Dashboard - {user.driver.driverName}</h1>
+                <h2>Pickup and Delivery Tracking</h2>
               <PickupList pickups={user.driver.pickups}/>
               <DeliveryList deliveries={user.driver.deliveries}/> 
             </Fragment>        
            )
         } else {
           if(user.depot) {
+            console.log('*** user.depot.drivers: ', user.depot.drivers, '***');
             fragment = (
               <Fragment>
                 <HeaderBar />
-                <h1>Dashboard</h1>
-                  <h2>Order Pickup and Delivery Tracking</h2>
-                <PickupList pickups={user.depot.pickups}/>
+                <h1>{user.depot.depotName} Dashboard</h1>
                 <DeliveryList deliveries={user.depot.deliveries}/>
+                <PickupList pickups={user.depot.pickups}/>
                 <DriverList drivers={user.depot.drivers}/>
               </Fragment>       
             ) 
-          }
+          } 
         }
-      }
+      } 
     }
     return fragment;
   }
@@ -223,7 +221,7 @@ const mapStateToProps = state => {
     showWarning: state.auth.showWarning,
     showLogin: state.order.showLogin,
     loggedIn: state.auth.currentUser !== null,   
-    currentUser: state.auth.currentUser 
+    currentUser: currentUser 
   };
 };
 
