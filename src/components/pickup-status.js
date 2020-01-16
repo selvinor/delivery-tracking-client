@@ -21,7 +21,7 @@ const PickupStatus = (props) => {
   }
 
   return (
-    <button className={circleColor} onClick={props.handleClick()}>
+    <button className={circleColor} onClick={() => { props.handleClick('yes')}}>
       {statusMsg}
     </button>
   );

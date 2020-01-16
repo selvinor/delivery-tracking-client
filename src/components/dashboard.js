@@ -34,8 +34,8 @@ export class Dashboard extends React.Component {
     this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
   }
 
-  handleClick() {
-    console.log('handleClick clicked');
+  handleClick(msg) {
+    console.log('handleClick clicked', msg);
   }
 
   handleChange(e) { 
