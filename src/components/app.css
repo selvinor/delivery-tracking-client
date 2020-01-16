@@ -102,3 +102,35 @@ h3 {
 .bold {
   font-weight:800;
 }
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #222;
+  /* become a flex container */
+  /* its children will be flex items */
+  display: flex;
+  /* place items in column */
+  flex-direction: column;
+  /* center flex items horizontally */
+  align-items: center;
+  /* center all content vertically */
+  justify-content: center;
+  font-size:.5vw;
+  font-weight: bold;
+}
+.green {
+  background: green;
+}
+.yellow {
+  background: yellow;
+}
+.red {
+  background: red;
+}
+.circle:hover {
+  background: #cccccc;
+  cursor: pointer;
+}
+

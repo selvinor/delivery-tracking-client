@@ -10,6 +10,8 @@ export default function PickupList(props) {
   //    4)  select and show Pickup detail   
 
   const pickups = props.pickups;
+  const handleClick = props.handleClick;
+
   if (pickups) {
     if (pickups.length >= 1) {
       return (
@@ -21,6 +23,8 @@ export default function PickupList(props) {
                 key={index}
                 index={index}
                 pickup={pickup}
+                handleClick={handleClick}
+                // {...props}
               />
             ))}
           </ul>

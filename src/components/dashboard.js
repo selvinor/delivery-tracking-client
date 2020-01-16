@@ -23,6 +23,7 @@ export class Dashboard extends React.Component {
       this.state = {};
       this.componentDidMount = this.componentDidMount.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.handleClick = this.handleClick.bind(this);
       this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
       }
 
@@ -33,7 +34,10 @@ export class Dashboard extends React.Component {
     this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
   }
 
-  
+  handleClick() {
+    console.log('handleClick clicked');
+  }
+
   handleChange(e) { 
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
@@ -185,7 +189,7 @@ export class Dashboard extends React.Component {
               <HeaderBar />
               <h1>Driver Dashboard - {user.driver.driverName}</h1>
                 <h2>Pickup and Delivery Tracking</h2>
-              <PickupList pickups={user.driver.pickups}/>
+              <PickupList pickups={user.driver.pickups} handleClick={this.handleClick} />
               <DeliveryList deliveries={user.driver.deliveries}/> 
             </Fragment>        
            )
@@ -198,7 +202,7 @@ export class Dashboard extends React.Component {
                 <h1>{user.depot.depotName} Dashboard</h1>
                 <DeliveryList deliveries={user.depot.deliveries}/>
                 <PickupList pickups={user.depot.pickups}/>
-                <DriverList drivers={user.depot.drivers}/>
+                <DriverList drivers={user.depot.drivers}/> 
               </Fragment>       
             ) 
           } 

@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
   showLogin: state.auth.showLogin,
   returningUser : state.auth.returningUser,
   loggedIn: state.auth.currentUser !== null,
-  currentUser: state.auth.currentUser
+  currentUser: state.auth.currentUser  
 });
 
 export default connect(mapStateToProps)(LandingPage);
