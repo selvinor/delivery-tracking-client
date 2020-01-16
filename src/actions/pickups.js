@@ -1,83 +1,115 @@
 import { API_BASE_URL } from '../config';
+import { normalizeResponseErrors } from './utils';
+import { SubmissionError } from 'redux-form';
 
-export const SUBSCRIPTIONS_HAS_ERRORED = 'SUBSCRIPTIONS_HAS_ERRORED';
-export const subscriptionsHasErrored = (hasErrored) => ({
-    type: SUBSCRIPTIONS_HAS_ERRORED,
-    hasErrored
+export const FETCH_PICKUP_REQUEST = 'FETCH_PICKUP_REQUEST';
+export const fetchPickupRequest = (pickups) => ({
+    type: FETCH_PICKUP_REQUEST
 });
-export const SUBSCRIPTIONS_IS_LOADING = 'SUBSCRIPTIONS_IS_LOADING'; 
-export const subscriptionsIsLoading = (isLoading) => ({
-    type: SUBSCRIPTIONS_IS_LOADING,
-    isLoading
+export const FETCH_PICKUP_SUCCESS = 'FETCH_PICKUP_SUCCESS';
+export const fetchPickupSuccess = (pickups) => ({
+    type: FETCH_PICKUP_SUCCESS,
+    pickups
 });
-export const ADD_SUBSCRIPTION_SUCCESS = 'ADD_SUBSCRIPTION_SUCCESS'; 
-export const addSubscriptionSuccess = (newSubscription) => ({
-    type: ADD_SUBSCRIPTION_SUCCESS,
-    newSubscription
+export const FETCH_PICKUP_ERROR = 'FETCH_PICKUP_ERROR';
+export const fetchPickupError = (error) => ({
+    type: FETCH_PICKUP_ERROR,
+    error
 });
-export const FETCH_SUBSCRIPTION_SUCCESS = 'FETCH_SUBSCRIPTION_SUCCESS';
-export const fetchSubscriptionSuccess = (subscriptions) => ({
-    type: FETCH_SUBSCRIPTION_SUCCESS,
-    subscriptions
+export const POST_PICKUP_REQUEST = 'POST_PICKUP_REQUEST';
+export const postPickupRequest = () => ({
+  type: POST_PICKUP_REQUEST
 });
-export const JUMP_TO_SECTION = 'JUMP_TO_SECTION';
-export const setSection = (section) => ({
-    type: JUMP_TO_SECTION, 
-    section
+export const POST_PICKUP_SUCCESS = 'POST_PICKUP_SUCCESS'; 
+export const postPickupSuccess = (newPickup) => ({
+    type: POST_PICKUP_SUCCESS,
+    newPickup
 });
-export const ADD_RECEIVER_TO_SUBSCRIPTION = 'ADD_RECEIVER_TO_SUBSCRIPTION';
-export const addReceiverToSubscription = (receiver) => ({
-    type: ADD_RECEIVER_TO_SUBSCRIPTION, 
-    receiver
+export const POST_PICKUP_ERROR = 'POST_PICKUP_ERROR';
+export const postPickupError = error => ({
+  type: POST_PICKUP_ERROR,
+  error
 });
-export const SET_NUMBER_OF_DELIVERIES = 'SET_NUMBER_OF_DELIVERIES';
-export const setNumberOfDeliveries = (numberOfDeliveries) => ({
-    type: SET_NUMBER_OF_DELIVERIES,
-    numberOfDeliveries
+export const UPDATE_PICKUP_STATUS_REQUEST = 'UPDATE_PICKUP_STATUS_REQUEST';
+export const updatePickupStatusRequest = () => ({
+  type: UPDATE_PICKUP_STATUS_REQUEST
 });
-export const SET_PRODUCT_CHOICE = 'SET_PRODUCT_CHOICE';
-export const setProductChoice = (productCode) => ({
-    type: SET_PRODUCT_CHOICE,
-    productCode
+export const UPDATE_PICKUP_STATUS_SUCCESS = 'UPDATE_PICKUP_STATUS_SUCCESS'; 
+export const updatePickupStatusSuccess = (newPickup) => ({
+    type: UPDATE_PICKUP_STATUS_SUCCESS,
+    newPickup
 });
-export const SET_FREQUENCY = 'SET_FREQUENCY';
-export const setFrequency = (frequency) => ({ 
-    type: SET_FREQUENCY,
-    frequency
+export const UPDATE_PICKUP_STATUS_ERROR = 'UPDATE_PICKUP_STATUS_ERROR';
+export const updatePickupStatusError = error => ({
+  type: UPDATE_PICKUP_STATUS_ERROR,
+  error
 });
-export const SET_DURATION = 'SET_DURATION';
-export const setDuration = (duration) => ({
-    type: SET_DURATION,
-    duration
+export const ADD_ORDER_TO_PICKUP_REQUEST = 'ADD_ORDER_TO_PICKUP_REQUEST';
+export const addOrderToPickupRequest = () => ({
+    type: ADD_ORDER_TO_PICKUP_REQUEST 
+    
 });
-
-export const SET_DELIVERY_DATE = 'SET_DELIVERY_DATE';
-export const setDeliveryDate = (deliveryDate) => ({
-    type: SET_DELIVERY_DATE,
-    deliveryDate
+export const ADD_ORDER_TO_PICKUP_SUCCESS = 'ADD_ORDER_TO_PICKUP_SUCCESS';
+export const addOrderToPickupSuccess = (order) => ({
+    type: ADD_ORDER_TO_PICKUP_SUCCESS, 
+    order
 });
-
-export const LOAD_TEST_DATA = 'LOAD_TEST_DATA';
-export const loadTestData = (testData) => ({
-    type: LOAD_TEST_DATA,
-    testData
+export const ADD_ORDER_TO_PICKUP_ERROR = 'ADD_ORDER_TO_PICKUP_ERROR';
+export const addOrderToPickupError = (error) => ({
+    type: ADD_ORDER_TO_PICKUP_ERROR, 
+    error
 });
-
 export const SHOW_LOGIN = 'SHOW_LOGIN';
 export const showLogin = () => ({
     type: SHOW_LOGIN
 });
 
+
 // Async actions
 
-export const addSubscription = () => dispatch => {
-  fetch(`${API_BASE_URL}/api/subscriptions`)
-  .then(res => {
-      if (!res.ok) {
-          return Promise.reject(res.statusText);
+
+export const postPickup = pickup => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+  dispatch(postPickupRequest());
+  return fetch(`${API_BASE_URL}/pickups`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    },
+    body: JSON.stringify(pickup)
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(postPickupSuccess(res)))
+    .catch(error => {
+      const { reason, message, location } = error;
+      dispatch(postPickupError(error));
+      if (reason === 'ValidationError') {
+        return Promise.reject(
+          new SubmissionError({
+            [location]: message
+          })
+        );
       }
-      return res.json();
-  }).then(newSubscription => {
-      dispatch(addSubscriptionSuccess(newSubscription));
-  });
+    });
+};
+
+export const updatePickupStatus = (newStatus, pickupId) => (dispatch, getState) => {
+  const authToken = getState().auth.authToken;
+  dispatch(updatePickupStatusRequest());
+  return fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    },
+    body: JSON.stringify(s)
+  })
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(res => dispatch(updatePickupStatusSuccess(res)))
+    .catch(error => {
+      dispatch(updatePickupStatusError(error));
+    });
 };
