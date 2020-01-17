@@ -98,13 +98,15 @@ export const postPickup = pickup => (dispatch, getState) => {
 export const updatePickupStatus = (newStatus, pickupId) => (dispatch, getState) => {
   const authToken = getState().auth.authToken;
   dispatch(updatePickupStatusRequest());
+  console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   return fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
     method: 'PUT',
     headers: {
       'content-type': 'application/json',
       Authorization: `Bearer ${authToken}`
     },
-    body: JSON.stringify(s)
+
+    body: JSON.stringify(newStatus)
   })
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())

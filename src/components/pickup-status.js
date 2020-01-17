@@ -4,8 +4,8 @@ const PickupStatus = (props) => {
   let circleColor;
   let statusMsg;
   console.log('pickup-status props: ', props);
-  console.log('pickup-status props.status: ', props.status);
-  console.log('pickup-status props.handleClick: ', (props.handleClick()));
+  console.log('pickup-status props.pickupStatus: ', props.pickupStatus);
+  console.log('pickup-status props.handleClick: ', props.handleClick);
   switch (props.status) {
     case 'pickedUp': 
       circleColor='circle green';
@@ -19,9 +19,9 @@ const PickupStatus = (props) => {
       circleColor='circle yellow';
       statusMsg = 'Pending';
   }
-
+  
   return (
-    <button className={circleColor} onClick={() => { props.handleClick('yes')}}>
+    <button className={circleColor} onClick={() => { props.handleClick(props.pickupStatus, props.pickup._id)}}>
       {statusMsg}
     </button>
   );

@@ -7,6 +7,7 @@ import DeliveryList from './delivery-list';
 import PickupList from './pickup-list';
 import DriverList from './driver-list';
 import OrderForm from './order-form';
+import { updatePickupStatus } from '../actions/pickups';
 
 import { fetchProtectedData } from '../actions/protected-data';
 import { refreshAuthToken } from '../actions/auth';
@@ -34,8 +35,19 @@ export class Dashboard extends React.Component {
     this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
   }
 
-  handleClick(msg) {
-    console.log('handleClick clicked', msg);
+  handleClick(status, id) {
+    console.log('handleClick clicked', status, id);
+    switch (status) {
+      case 'pending': 
+        this.props.dispatch(updatePickupStatus({"pickupStatus": "pickedUp"}, id));
+        break;
+      case 'pickedUp':
+        this.props.dispatch(updatePickupStatus({"pickupStatus": "droppedOff"}, id));
+        break;
+      default:
+        this.props.dispatch(updatePickupStatus({"pickupStatus": "pending"}, id));
+        break;
+    }
   }
 
   handleChange(e) { 
