@@ -95,23 +95,24 @@ export const postPickup = pickup => (dispatch, getState) => {
     });
 };
 
-export const updatePickupStatus = (newStatus, pickupId) => (dispatch, getState) => {
+export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
   dispatch(updatePickupStatusRequest());
   console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
-  return fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json',
-      Authorization: `Bearer ${authToken}`
-    },
-
-    body: JSON.stringify(newStatus)
-  })
-    .then(res => normalizeResponseErrors(res))
-    .then(res => res.json())
-    .then(res => dispatch(updatePickupStatusSuccess(res)))
-    .catch(error => {
-      dispatch(updatePickupStatusError(error));
+  try {
+    const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${authToken}`
+      },
+      body: JSON.stringify(newStatus)
     });
+    const res_1 = normalizeResponseErrors(res);
+    const res_2 = res_1.json();
+    return dispatch(updatePickupStatusSuccess(res_2));
+  }
+  catch (error) {
+    dispatch(updatePickupStatusError(error));
+  }
 };
