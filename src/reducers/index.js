@@ -1,12 +1,12 @@
 //import * as actions from '../actions'; 
 const initialState = {
-  deliveries: [],
+  orders: [],
   hasErrored : false,
   isLoading : false,
   showLogin : false
 }
 
-export const deliveryReducer = (state=initialState, action) => {
+export const orderReducer = (state=initialState, action) => {
   
   switch (action.type) {
     case 'SUBSCRIPTIONS_HAS_ERRORED':

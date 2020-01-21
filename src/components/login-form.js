@@ -36,7 +36,7 @@ export class LoginForm extends React.Component {
                   this.onSubmit(values)
               )}>
               {error}
-              <label htmlFor="username">demo username= "demouser"</label>
+              <label htmlFor="username">demo username= "vendor1"</label>
               <Field
                   component={Input}
                   type="text"
@@ -46,7 +46,7 @@ export class LoginForm extends React.Component {
                   autocomplete="username"
                   validate={[required, nonEmpty]}
               />
-              <label htmlFor="password">demo password = "demouser123"</label>
+              <label htmlFor="password">demo password = ""</label>
               <Field
                   component={Input}
                   type="password"
