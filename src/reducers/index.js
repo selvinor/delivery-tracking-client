@@ -132,7 +132,7 @@ export const senderReceiverReducer = (state=initialState, action) => {
       }); 
     case 'FETCH_RECIPIENTS_SUCCEEDED':
       return Object.assign({}, state, {
-        senderReceivers: action.fetchSenderReceiversSuccess
+        senderReceivers: action.fetchSenderReceiversSucceeded
       });
     default:
         return state;

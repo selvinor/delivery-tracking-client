@@ -21,12 +21,12 @@ export const showWarning = () => ({
 });
 
 export const AUTH_REQUESTED = 'AUTH_REQUESTED';
-export const authRequest = () => ({
+export const authRequested = () => ({
     type: AUTH_REQUESTED
 });
 
 export const AUTH_SUCCEEDED = 'AUTH_SUCCEEDED';
-export const authSuccess = currentUser => ({
+export const authSucceeded = currentUser => ({
     type: AUTH_SUCCEEDED,
     currentUser
 });
@@ -50,59 +50,59 @@ export const setInformedUser = () => ({
 // Stores the auth token in state and localStorage, and decodes and stores
 // the user data stored in the token
 const storeAuthInfo = (authToken, dispatch) => {
-    const decodedToken = jwtDecode(authToken);
-    dispatch(setAuthToken(authToken));
-    dispatch(authSuccess(decodedToken.user));
-    saveAuthToken(authToken);
+  const decodedToken = jwtDecode(authToken);
+  dispatch(setAuthToken(authToken));
+  dispatch(authSucceeded(decodedToken.user));
+  saveAuthToken(authToken);
 };
 
 export const storeReturningUser = () => (dispatch) => {
-    dispatch(setReturningUser());
-    saveReturningUser();
+  dispatch(setReturningUser());
+  saveReturningUser();
 };
 
 export const storeInformedUser = () => (dispatch) => {
-    dispatch(setInformedUser());
-    saveInformedUser();
+  dispatch(setInformedUser());
+  saveInformedUser();
 };
 
 export const login = (username, password) => dispatch => {
   console.log('logging in');
-    dispatch(authRequest());
-    return (
-        fetch(`${API_BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({username, password})
+  dispatch(authRequested());
+  return (
+    fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username, password})
+    })
+    // Reject any requests which don't return a 200 status, creating
+    // errors which follow a consistent format
+    .then(res => normalizeResponseErrors(res))
+    .then(res => res.json())
+    .then(({authToken}) => storeAuthInfo(authToken, dispatch))
+    .catch(err => {
+      const {reason, message, location} = err;
+      if (reason === 'AuthenticationError' || reason === 'ValidationError') {
+      // Convert ValidationErrors into SubmissionErrors for Redux Form
+        return Promise.reject(
+          new SubmissionError({
+              [location] : message
+          })
+        );
+      }
+      return Promise.reject(
+        new SubmissionError({
+            _error: 'Your credentials are not correct'
         })
-            // Reject any requests which don't return a 200 status, creating
-            // errors which follow a consistent format
-            .then(res => normalizeResponseErrors(res))
-            .then(res => res.json())
-            .then(({authToken}) => storeAuthInfo(authToken, dispatch))
-            .catch(err => {
-                const {reason, message, location} = err;
-                if (reason === 'AuthenticationError' || reason === 'ValidationError') {
-                // Convert ValidationErrors into SubmissionErrors for Redux Form
-                    return Promise.reject(
-                        new SubmissionError({
-                            [location] : message
-                        })
-                    );
-                }
-                return Promise.reject(
-                    new SubmissionError({
-                        _error: 'Your credentials are not correct'
-                    })
-                );
-            })
-    );
+      );
+    })
+  );
 };
 
 export const refreshAuthToken = () => (dispatch, getState) => {
-    dispatch(authRequest());
+    dispatch(authRequested());
     const authToken = getState().auth.authToken;
     return fetch(`${API_BASE_URL}/auth/refresh`, {
         method: 'POST',

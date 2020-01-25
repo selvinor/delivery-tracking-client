@@ -10,7 +10,24 @@ UPDATE_PICKUP_STATUS_SUCCEEDED,
 } from '../actions/pickups';
 
 const initialState = {
-    user: null,
+    user: {
+      vendor:{
+        orders:[],
+        pickups:[],
+        deliveries:[]
+      },
+      driver:{
+        pickups:[],
+        deliveries:[],
+      },
+      depot:{
+        orders:[],
+        pickups:[],
+        deliveries:[],
+        vendors:[],
+        drivers:[]
+      }
+    },
     error: null,
     loading: null
 };
@@ -33,24 +50,84 @@ export default function reducer(state = initialState, action) {
         updating:true
       });
     case UPDATE_PICKUP_STATUS_SUCCEEDED: 
-    return state.user.driver.pickups.map((item, index) => {
-      // Find the item with the matching id
-      if(item.id === action.payload.id) {
+      //create a replacement set of pickup
+    //   return Object.assign({}, state, {...state.user.driver.pickups.map((pickup, index) => {
+    //     // Find the pickup with the matching id
+    //     console.log('before: action.payload: ', action.payload);
+    //     let newStatus = 'pending';
+    //     if(pickup._id === action.payload.id) {
+
+    //       // Return a new object
+    //       if (action.payload.pickupStatus.pickupStatus === 'pending') {
+    //         newStatus = 'pickedUp';
+    //         console.log('after: newStatus: ', newStatus);
+    //       } else {
+    //         if (action.payload.pickupStatus.pickupStatus === 'pickedUp') {
+    //           newStatus = 'droppedOff';
+    //           console.log('after: newStatus: ', newStatus);
+    //         }
+    //       }
+    //       // console.log('pickup:  ', pickup);
+    //       return {
+    //         ...pickup,
+    //           // copy the existing pickup
+    //        pickupStatus: newStatus  // replace the pickupStatus      
+    //       }
+    //       // Object.assign({}, state, {
+    //       //   pickupStatus: action.payload.pickupStatus.pickupStatus,
+    //       //   error: null
+    //       // });          
+    //     } 
+    //     // Leave every other pickup unchanged
+    //     return pickup;
+    //   })
+    // });
+    //   console.log('newPickups: ', newPickups);
+    //   return Object.assign({}, state, {
+    //     user: {...state.user, ...state.user.driver, newPickups},
+    //     error: false
+    // });
+    const updPickups = state.user.driver.pickups.map((pickup, index) => {
+      // Find the pickup with the matching id
+      console.log('before: action.payload: ', action.payload);
+      let newStatus = 'pending';
+      if(pickup._id === action.payload.id) {      
         // Return a new object
+        if (action.payload.pickupStatus.pickupStatus === 'pending') {
+          newStatus = 'pickedUp';
+          console.log('after: newStatus: ', newStatus);
+        } else {
+          if (action.payload.pickupStatus.pickupStatus === 'pickedUp') {
+            newStatus = 'droppedOff';
+            console.log('after: newStatus: ', newStatus);
+          }
+        }
+        console.log('pickup:  ', pickup);
         return {
-          ...item,  // copy the existing item
-          pickupStatus: action.payload.pickupStatus,  // replace the pickupStatus      
-          updating:true  
+          ...pickup,
+            // copy the existing pickup
+          pickupStatus: newStatus  // replace the pickupStatus      
         }
       }
-  
-      // Leave every other item unchanged
-      return item;
+      return pickup;
     });
+
+    console.log('updPickups: ', updPickups);
+    return {
+      ...state,   //copy the state (level 0)
+        user: {
+          ...state.user,
+          driver: {
+            ...state.driver, //copy level 2
+              pickups: updPickups
+          }
+        }
+    }
+
     case UPDATE_PICKUP_STATUS_THREW_ERROR: 
-    return Object.assign({}, state, {
-      loading: false,
-      error: true
+      return Object.assign({}, state, {
+        loading: false,
+        error: true
     });
     default:  
       return state;

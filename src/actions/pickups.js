@@ -3,11 +3,11 @@ import { normalizeResponseErrors } from './utils';
 import { SubmissionError } from 'redux-form';
 
 export const FETCH_PICKUP_REQUESTED = 'FETCH_PICKUP_REQUESTED';
-export const fetchPickupRequest = (pickups) => ({
+export const fetchPickupRequested = (pickups) => ({
     type: FETCH_PICKUP_REQUESTED
 });
 export const FETCH_PICKUP_SUCCEEDED = 'FETCH_PICKUP_SUCCEEDED';
-export const fetchPickupSuccess = (pickups) => ({
+export const fetchPickupSucceeded = (pickups) => ({
     type: FETCH_PICKUP_SUCCEEDED,
     pickups
 });
@@ -17,11 +17,11 @@ export const fetchPickupError = (error) => ({
     error
 });
 export const POST_PICKUP_REQUESTED = 'POST_PICKUP_REQUESTED';
-export const postPickupRequest = () => ({
+export const postPickupRequested = () => ({
   type: POST_PICKUP_REQUESTED
 });
 export const POST_PICKUP_SUCCEEDED = 'POST_PICKUP_SUCCEEDED'; 
-export const postPickupSuccess = (newPickup) => ({
+export const postPickupSucceeded = (newPickup) => ({
     type: POST_PICKUP_SUCCEEDED,
     newPickup
 });
@@ -31,14 +31,16 @@ export const postPickupError = error => ({
   error
 });
 export const UPDATE_PICKUP_STATUS_REQUESTED = 'UPDATE_PICKUP_STATUS_REQUESTED';
-export const updatePickupStatusRequest = () => ({
+export const updatePickupStatusRequested = () => ({
   type: UPDATE_PICKUP_STATUS_REQUESTED
 });
 export const UPDATE_PICKUP_STATUS_SUCCEEDED = 'UPDATE_PICKUP_STATUS_SUCCEEDED'; 
-export const updatePickupStatusSuccess = (id, pickupStatus  ) => ({
+export const updatePickupStatusSucceeded = (id, pickupStatus  ) => ({
     type: UPDATE_PICKUP_STATUS_SUCCEEDED,
-    id,
-    pickupStatus
+    payload: {
+      id:id,
+      pickupStatus: pickupStatus
+    }
 });
 export const UPDATE_PICKUP_STATUS_THREW_ERROR = 'UPDATE_PICKUP_STATUS_THREW_ERROR';
 export const updatePickupStatusError = error => ({
@@ -46,12 +48,12 @@ export const updatePickupStatusError = error => ({
   error
 });
 export const ADD_ORDER_TO_PICKUP_REQUESTED = 'ADD_ORDER_TO_PICKUP_REQUESTED';
-export const addOrderToPickupRequest = () => ({
+export const addOrderToPickupRequested = () => ({
     type: ADD_ORDER_TO_PICKUP_REQUESTED 
     
 });
 export const ADD_ORDER_TO_PICKUP_SUCCEEDED = 'ADD_ORDER_TO_PICKUP_SUCCEEDED';
-export const addOrderToPickupSuccess = (order) => ({
+export const addOrderToPickupSucceeded = (order) => ({
     type: ADD_ORDER_TO_PICKUP_SUCCEEDED, 
     order
 });
@@ -71,7 +73,7 @@ export const showLogin = () => ({
 
 export const postPickup = pickup => (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(postPickupRequest());
+  dispatch(postPickupRequested());
   return fetch(`${API_BASE_URL}/pickups`, {
     method: 'POST',
     headers: {
@@ -82,7 +84,7 @@ export const postPickup = pickup => (dispatch, getState) => {
   })
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
-    .then(res => dispatch(postPickupSuccess(res)))
+    .then(res => dispatch(postPickupSucceeded(res)))
     .catch(error => {
       const { reason, message, location } = error;
       dispatch(postPickupError(error));
@@ -98,7 +100,8 @@ export const postPickup = pickup => (dispatch, getState) => {
 
 export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(updatePickupStatusRequest());
+  dispatch(updatePickupStatusRequested());
+  console.log('updatePickupStatus: ', newStatus,  '- ', pickupId);
   console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
@@ -111,9 +114,11 @@ export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getS
     });
     const res_1 = normalizeResponseErrors(res);
     const res_2 = res_1.json();
-    return dispatch(updatePickupStatusSuccess(res_2));
+    console.log('res_2: ', res_2);
+    return dispatch(updatePickupStatusSucceeded(pickupId, newStatus));
   }
   catch (error) {
+    console.log('error!: ', error);
     dispatch(updatePickupStatusError(error));
   }
 };

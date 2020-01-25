@@ -4,7 +4,7 @@ import {API_BASE_URL} from '../config.js';
 import {normalizeResponseErrors} from './utils';
 
 export const REGISTER_SUCCEEDED = 'REGISTER_SUCCEEDED';
-export const registerSuccess = () => ({
+export const registerSucceeded = () => ({
     type: REGISTER_SUCCEEDED
 });
 
@@ -15,12 +15,12 @@ export const registerError = (err) => ({
 });
 
 export const REGISTER_REQUESTED = 'REGISTER_REQUESTED';
-export const registerRequest = () => ({
+export const registerRequested = () => ({
     type: REGISTER_REQUESTED
 });
 
 export const registerUser = user => dispatch => {
-    dispatch(registerRequest());
+    dispatch(registerRequested());
     return fetch(`${API_BASE_URL}/api/users`, {
         method: 'POST',
         headers: {
@@ -30,7 +30,7 @@ export const registerUser = user => dispatch => {
     })
         .then(res => normalizeResponseErrors(res))
         .then(res => {
-          dispatch(registerSuccess());
+          dispatch(registerSucceeded());
           res.json();
         })
         .catch(err => {

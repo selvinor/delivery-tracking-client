@@ -38,7 +38,7 @@ export class Dashboard extends React.Component {
 
   handleClick(status, id) {
     console.log('handleClick clicked', status, id);
-    this.props.dispatch(updatePickupStatus({"pickupStatus": status}, id));}
+    this.props.dispatch(updatePickupStatus({"pickupStatus": status}, id));
   }
 
   handleChange(e) { 
@@ -155,7 +155,7 @@ export class Dashboard extends React.Component {
       return <Redirect to="/" />;
     };
 
-    console.log('Dashboard in - this.props: ' , this.props);
+    console.log('Dashboard - this.props: ' , this.props);
 
 
 
