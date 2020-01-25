@@ -2,61 +2,62 @@ import { API_BASE_URL } from '../config';
 import { normalizeResponseErrors } from './utils';
 import { SubmissionError } from 'redux-form';
 
-export const FETCH_PICKUP_REQUEST = 'FETCH_PICKUP_REQUEST';
+export const FETCH_PICKUP_REQUESTED = 'FETCH_PICKUP_REQUESTED';
 export const fetchPickupRequest = (pickups) => ({
-    type: FETCH_PICKUP_REQUEST
+    type: FETCH_PICKUP_REQUESTED
 });
-export const FETCH_PICKUP_SUCCESS = 'FETCH_PICKUP_SUCCESS';
+export const FETCH_PICKUP_SUCCEEDED = 'FETCH_PICKUP_SUCCEEDED';
 export const fetchPickupSuccess = (pickups) => ({
-    type: FETCH_PICKUP_SUCCESS,
+    type: FETCH_PICKUP_SUCCEEDED,
     pickups
 });
-export const FETCH_PICKUP_ERROR = 'FETCH_PICKUP_ERROR';
+export const FETCH_PICKUP_THREW_ERROR = 'FETCH_PICKUP_THREW_ERROR';
 export const fetchPickupError = (error) => ({
-    type: FETCH_PICKUP_ERROR,
+    type: FETCH_PICKUP_THREW_ERROR,
     error
 });
-export const POST_PICKUP_REQUEST = 'POST_PICKUP_REQUEST';
+export const POST_PICKUP_REQUESTED = 'POST_PICKUP_REQUESTED';
 export const postPickupRequest = () => ({
-  type: POST_PICKUP_REQUEST
+  type: POST_PICKUP_REQUESTED
 });
-export const POST_PICKUP_SUCCESS = 'POST_PICKUP_SUCCESS'; 
+export const POST_PICKUP_SUCCEEDED = 'POST_PICKUP_SUCCEEDED'; 
 export const postPickupSuccess = (newPickup) => ({
-    type: POST_PICKUP_SUCCESS,
+    type: POST_PICKUP_SUCCEEDED,
     newPickup
 });
-export const POST_PICKUP_ERROR = 'POST_PICKUP_ERROR';
+export const POST_PICKUP_THREW_ERROR = 'POST_PICKUP_THREW_ERROR';
 export const postPickupError = error => ({
-  type: POST_PICKUP_ERROR,
+  type: POST_PICKUP_THREW_ERROR,
   error
 });
-export const UPDATE_PICKUP_STATUS_REQUEST = 'UPDATE_PICKUP_STATUS_REQUEST';
+export const UPDATE_PICKUP_STATUS_REQUESTED = 'UPDATE_PICKUP_STATUS_REQUESTED';
 export const updatePickupStatusRequest = () => ({
-  type: UPDATE_PICKUP_STATUS_REQUEST
+  type: UPDATE_PICKUP_STATUS_REQUESTED
 });
-export const UPDATE_PICKUP_STATUS_SUCCESS = 'UPDATE_PICKUP_STATUS_SUCCESS'; 
-export const updatePickupStatusSuccess = (newPickup) => ({
-    type: UPDATE_PICKUP_STATUS_SUCCESS,
-    newPickup
+export const UPDATE_PICKUP_STATUS_SUCCEEDED = 'UPDATE_PICKUP_STATUS_SUCCEEDED'; 
+export const updatePickupStatusSuccess = (id, pickupStatus  ) => ({
+    type: UPDATE_PICKUP_STATUS_SUCCEEDED,
+    id,
+    pickupStatus
 });
-export const UPDATE_PICKUP_STATUS_ERROR = 'UPDATE_PICKUP_STATUS_ERROR';
+export const UPDATE_PICKUP_STATUS_THREW_ERROR = 'UPDATE_PICKUP_STATUS_THREW_ERROR';
 export const updatePickupStatusError = error => ({
-  type: UPDATE_PICKUP_STATUS_ERROR,
+  type: UPDATE_PICKUP_STATUS_THREW_ERROR,
   error
 });
-export const ADD_ORDER_TO_PICKUP_REQUEST = 'ADD_ORDER_TO_PICKUP_REQUEST';
+export const ADD_ORDER_TO_PICKUP_REQUESTED = 'ADD_ORDER_TO_PICKUP_REQUESTED';
 export const addOrderToPickupRequest = () => ({
-    type: ADD_ORDER_TO_PICKUP_REQUEST 
+    type: ADD_ORDER_TO_PICKUP_REQUESTED 
     
 });
-export const ADD_ORDER_TO_PICKUP_SUCCESS = 'ADD_ORDER_TO_PICKUP_SUCCESS';
+export const ADD_ORDER_TO_PICKUP_SUCCEEDED = 'ADD_ORDER_TO_PICKUP_SUCCEEDED';
 export const addOrderToPickupSuccess = (order) => ({
-    type: ADD_ORDER_TO_PICKUP_SUCCESS, 
+    type: ADD_ORDER_TO_PICKUP_SUCCEEDED, 
     order
 });
-export const ADD_ORDER_TO_PICKUP_ERROR = 'ADD_ORDER_TO_PICKUP_ERROR';
+export const ADD_ORDER_TO_PICKUP_THREW_ERROR = 'ADD_ORDER_TO_PICKUP_THREW_ERROR';
 export const addOrderToPickupError = (error) => ({
-    type: ADD_ORDER_TO_PICKUP_ERROR, 
+    type: ADD_ORDER_TO_PICKUP_THREW_ERROR, 
     error
 });
 export const SHOW_LOGIN = 'SHOW_LOGIN';

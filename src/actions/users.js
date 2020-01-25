@@ -3,20 +3,20 @@ import {SubmissionError} from 'redux-form';
 import {API_BASE_URL} from '../config.js';
 import {normalizeResponseErrors} from './utils';
 
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_SUCCEEDED = 'REGISTER_SUCCEEDED';
 export const registerSuccess = () => ({
-    type: REGISTER_SUCCESS
+    type: REGISTER_SUCCEEDED
 });
 
-export const REGISTER_ERROR = 'REGISTER_ERROR';
+export const REGISTER_THREW_ERROR = 'REGISTER_THREW_ERROR';
 export const registerError = (err) => ({
-    type: REGISTER_ERROR,
+    type: REGISTER_THREW_ERROR,
     err
 });
 
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_REQUESTED = 'REGISTER_REQUESTED';
 export const registerRequest = () => ({
-    type: REGISTER_REQUEST
+    type: REGISTER_REQUESTED
 });
 
 export const registerUser = user => dispatch => {

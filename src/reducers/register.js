@@ -1,7 +1,7 @@
 import {
- REGISTER_SUCCESS,
- REGISTER_ERROR,
- REGISTER_REQUEST
+ REGISTER_SUCCEEDED,
+ REGISTER_THREW_ERROR,
+ REGISTER_REQUESTED
 } from '../actions/users';
 
 const initialState = {
@@ -11,11 +11,11 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case REGISTER_SUCCESS:
+    case REGISTER_SUCCEEDED:
       return {...state, loading: false};
-    case REGISTER_ERROR:
+    case REGISTER_THREW_ERROR:
       return {...state, loading: false, error: action.error};
-    case REGISTER_REQUEST:
+    case REGISTER_REQUESTED:
       return {...state, loading: true};
     default: 
       return state;

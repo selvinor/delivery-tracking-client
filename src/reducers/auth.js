@@ -1,7 +1,7 @@
 import {
-  AUTH_REQUEST,
-  AUTH_SUCCESS,
-  AUTH_ERROR,
+  AUTH_REQUESTED,
+  AUTH_SUCCEEDED,
+  AUTH_THREW_ERROR,
   CLEAR_AUTH,
   SHOW_WARNING,
   SET_AUTH_TOKEN,
@@ -22,14 +22,14 @@ import {
  
  export default function reducer(state = initialState, action) {
   switch (action.type) {
-     case AUTH_SUCCESS:
+     case AUTH_SUCCEEDED:
        console.log('auth success! action.currentUser: ', action.currentUser);
        return {...state, loading: false, currentUser: action.currentUser, showWarning: false};
-     case AUTH_ERROR:
+     case AUTH_THREW_ERROR:
        return {...state, loading: false, error: action.error};
      case SHOW_WARNING:
        return {...state, showWarning: true};
-      case AUTH_REQUEST:
+      case AUTH_REQUESTED:
        return {...state, loading: true};
      case SET_AUTH_TOKEN:
        return {...state, authToken: action.authToken};

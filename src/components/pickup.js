@@ -9,7 +9,7 @@ const Pickup = (props) => {
     <Fragment>
       <li className="pickup">
       <p>
-        <PickupStatus pickupStatus={pickup.pickupStatus} lastUpupdatedAtdate={pickup.updatedAt} handleClick={handleClick} {...props} /> 
+        <PickupStatus pickupStatus={pickup.pickupStatus} handleClick={handleClick} {...props} /> 
         <br /><span className="bold"> Updated at:</span> {pickup.updatedAt} 
       </p>
       <p></p>  

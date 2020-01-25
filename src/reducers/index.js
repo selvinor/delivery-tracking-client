@@ -9,7 +9,7 @@ const initialState = {
 export const orderReducer = (state=initialState, action) => {
   
   switch (action.type) {
-    case 'SUBSCRIPTIONS_HAS_ERRORED':
+    case 'SUBSCRIPTIONS_HAS_THREW_ERRORED':
       return Object.assign({}, state, {
         hasErrored: action.hasErrored
     });  
@@ -23,13 +23,13 @@ export const orderReducer = (state=initialState, action) => {
       subscriptions: action.testData
   }); 
 
-    case 'FETCH_SUBSCRIPTION_SUCCESS':
+    case 'FETCH_SUBSCRIPTION_SUCCEEDED':
     // console.log('subscription success action.subscriptions: ', action.subscriptions);
       return Object.assign({}, state, {        
         subscriptions: action.subscriptions
     });
 
-    case 'ADD_SUBSCRIPTION_SUCCESS':
+    case 'ADD_SUBSCRIPTION_SUCCEEDED':
     return Object.assign({}, state, {
       subscriptions: [...state.subscriptions, action.newSubscription]
     });
@@ -122,7 +122,7 @@ export const orderReducer = (state=initialState, action) => {
 
 export const senderReceiverReducer = (state=initialState, action) => {
   switch (action.type) {
-    case 'RECIPIENTS_HAS_ERRORED':
+    case 'RECIPIENTS_HAS_THREW_ERRORED':
       return Object.assign({}, state, {
         hasErrored: action.hasErrored
       });  
@@ -130,7 +130,7 @@ export const senderReceiverReducer = (state=initialState, action) => {
       return Object.assign({}, state, {
         isLoading: action.isLoading
       }); 
-    case 'FETCH_RECIPIENTS_SUCCESS':
+    case 'FETCH_RECIPIENTS_SUCCEEDED':
       return Object.assign({}, state, {
         senderReceivers: action.fetchSenderReceiversSuccess
       });

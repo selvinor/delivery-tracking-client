@@ -20,20 +20,20 @@ export const showWarning = () => ({
     type: SHOW_WARNING
 });
 
-export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_REQUESTED = 'AUTH_REQUESTED';
 export const authRequest = () => ({
-    type: AUTH_REQUEST
+    type: AUTH_REQUESTED
 });
 
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_SUCCEEDED = 'AUTH_SUCCEEDED';
 export const authSuccess = currentUser => ({
-    type: AUTH_SUCCESS,
+    type: AUTH_SUCCEEDED,
     currentUser
 });
 
-export const AUTH_ERROR = 'AUTH_ERROR';
+export const AUTH_THREW_ERROR = 'AUTH_THREW_ERROR';
 export const authError = error => ({
-    type: AUTH_ERROR,
+    type: AUTH_THREW_ERROR,
     error
 });
 
