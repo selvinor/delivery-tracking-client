@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Status from './status';
-
+import TimeAgo from './timeAgo';
 const Pickup = (props) => {
   const pickup = props.pickup;
   console.log('pickup: ', pickup);
@@ -10,7 +10,7 @@ const Pickup = (props) => {
       <li className="pickup">
       <p>
         <Status handleClick={handleClick} status={props.pickup.pickupStatus} _id={props.pickup._id} /> 
-        <br /><span className="big  bold"> Updated at:</span> {pickup.updatedAt} 
+        <br /><span className="bold"> Updated </span> {TimeAgo(pickup.updatedAt)} 
       </p>
       <p></p>  
       <p>
@@ -30,7 +30,7 @@ const Pickup = (props) => {
       </p>
       
        
-      <p><span className="big  bold"> Number of items: </span><br />{pickup.pickupVendor.orders.length} </p>  
+      <p><span className="big  bold"> Number of orders: </span><br /><span className="big  bold">{pickup.pickupVendor.orders.length} </span></p>  
       <p><span className="big  bold"> Destination Depot: </span><br />{ pickup.depot.depotName} </p>
       </li>     
     </Fragment> 
