@@ -101,8 +101,20 @@ export const postPickup = pickup => (dispatch, getState) => {
 export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
   dispatch(updatePickupStatusRequested());
-  console.log('updatePickupStatus: ', newStatus,  '- ', pickupId);
-  console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
+  // console.log('updatePickupStatus: ', newStatus,  '- ', pickupId);
+  if (newStatus.pickupStatus === 'pending') {
+    newStatus.pickupStatus = 'pickedUp';
+    // console.log('after: newStatus: ', newStatus);
+  } else {
+    if (newStatus.pickupStatus === 'pickedUp') {
+      newStatus.pickupStatus = 'droppedOff';
+      // console.log('after: newStatus: ', newStatus);
+    } else {
+      newStatus.pickupStatus = 'pending';
+    }
+  }
+  
+  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
       method: 'PUT',
@@ -110,15 +122,16 @@ export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getS
         'content-type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
+      // body: JSON.stringify(newStatus)
       body: JSON.stringify(newStatus)
     });
     const res_1 = normalizeResponseErrors(res);
     const res_2 = res_1.json();
-    console.log('res_2: ', res_2);
+    // console.log('res_2: ', res_2);
     return dispatch(updatePickupStatusSucceeded(pickupId, newStatus));
   }
   catch (error) {
-    console.log('error!: ', error);
+    // console.log('error!: ', error);
     dispatch(updatePickupStatusError(error));
   }
 };
