@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import PickupStatus from './pickup-status';
-
+import Status from './status';
+import TimeAgo from './timeAgo';
 const Pickup = (props) => {
   const pickup = props.pickup;
   console.log('pickup: ', pickup);
@@ -9,14 +9,29 @@ const Pickup = (props) => {
     <Fragment>
       <li className="pickup">
       <p>
-        <PickupStatus pickupStatus={pickup.pickupStatus} lastUpupdatedAtdate={pickup.updatedAt} handleClick={handleClick} {...props} /> 
-        <br /><span className="bold"> Updated at:</span> {pickup.updatedAt} 
+        <Status handleClick={handleClick} status={props.pickup.pickupStatus} _id={props.pickup._id} /> 
+        <br /><span className="bold"> Updated </span> {TimeAgo(pickup.updatedAt)} 
       </p>
       <p></p>  
-      <p><span className="bold"> Pickup Location: </span><br />{pickup.pickupVendor.vendorName + ' ' + pickup.pickupVendor.vendorLocation.streetAddress + ' ' + pickup.pickupVendor.vendorLocation.city  + ', ' + pickup.pickupVendor.vendorLocation.state  + ' ' + pickup.pickupVendor.vendorLocation.zipcode } </p>  
-      <p><span className="bold"> Phone: </span><br />{pickup.pickupVendor.vendorPhone} </p>
-      <p><span className="bold"> Number of items: </span><br />{pickup.pickupVendor.orders.length} </p>  
-      <p><span className="bold"> Destination Depot: </span><br />{ pickup.depot.depotName} </p>
+      <p>
+        <span className="big  bold"> Pickup Location: </span>
+        <br /><span className="bold">
+        {pickup.pickupVendor.vendorName}
+        </span><br />
+          { 
+          ' ' + pickup.pickupVendor.vendorLocation.streetAddress}
+          <br />
+          {
+          ' ' + pickup.pickupVendor.vendorLocation.city  + 
+          ', ' + pickup.pickupVendor.vendorLocation.state  + 
+          ' ' + pickup.pickupVendor.vendorLocation.zipcode          
+        }
+        <br />{pickup.pickupVendor.vendorPhone} 
+      </p>
+      
+       
+      <p><span className="big  bold"> Number of orders: </span><br /><span className="big  bold">{pickup.pickupVendor.orders.length} </span></p>  
+      <p><span className="big  bold"> Destination Depot: </span><br />{ pickup.depot.depotName} </p>
       </li>     
     </Fragment> 
   );

@@ -31,23 +31,14 @@ export class Dashboard extends React.Component {
   componentDidMount() {
     document.title = 'Dashboard';
     console.log('componentDidMount this.props', this.props);
-
-    this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
+    if (this.props.currentUser) {
+      this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
+    }
   }
 
   handleClick(status, id) {
     console.log('handleClick clicked', status, id);
-    switch (status) {
-      case 'pending': 
-        this.props.dispatch(updatePickupStatus({"pickupStatus": "pickedUp"}, id));
-        break;
-      case 'pickedUp':
-        this.props.dispatch(updatePickupStatus({"pickupStatus": "droppedOff"}, id));
-        break;
-      default:
-        this.props.dispatch(updatePickupStatus({"pickupStatus": "pending"}, id));
-        break;
-    }
+    this.props.dispatch(updatePickupStatus({"pickupStatus": status}, id));
   }
 
   handleChange(e) { 
@@ -164,7 +155,7 @@ export class Dashboard extends React.Component {
       return <Redirect to="/" />;
     };
 
-    console.log('Dashboard in - this.props: ' , this.props);
+    console.log('Dashboard - this.props: ' , this.props);
 
 
 

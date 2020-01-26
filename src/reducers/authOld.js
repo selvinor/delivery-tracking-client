@@ -1,9 +1,9 @@
 import {
     SET_AUTH_TOKEN,
     CLEAR_AUTH,
-    AUTH_REQUEST,
-    AUTH_SUCCESS,
-    AUTH_ERROR,
+    AUTH_REQUESTED,
+    AUTH_SUCCEEDED,
+    AUTH_THREW_ERROR,
     SHOW_WARNING
 } from '../actions/auth';
 
@@ -26,18 +26,18 @@ export default function reducer(state = initialState, action) {
         authToken: null,
         currentUser: null
       });
-  } else if (action.type === AUTH_REQUEST) {
+  } else if (action.type === AUTH_REQUESTED) {
       return Object.assign({}, state, { 
         loading: true,
         error: null
       });
-  } else if (action.type === AUTH_SUCCESS) {
+  } else if (action.type === AUTH_SUCCEEDED) {
       return Object.assign({}, state, {
         loading: false,
         currentUser: action.currentUser,
         showWarning: false
       });
-  } else if (action.type === AUTH_ERROR) {
+  } else if (action.type === AUTH_THREW_ERROR) {
       return Object.assign({}, state, {
         loading: false,
         error: action.error

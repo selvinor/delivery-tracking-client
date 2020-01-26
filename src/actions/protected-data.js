@@ -1,15 +1,15 @@
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from './utils';
 
-export const FETCH_PROTECTED_DATA_SUCCESS = 'FETCH_PROTECTED_DATA_SUCCESS';
-export const fetchProtectedDataSuccess = data => ({
-    type: FETCH_PROTECTED_DATA_SUCCESS,
+export const FETCH_PROTECTED_DATA_SUCCEEDED = 'FETCH_PROTECTED_DATA_SUCCEEDED';
+export const fetchProtectedDataSucceeded = data => ({
+    type: FETCH_PROTECTED_DATA_SUCCEEDED,
     data
 });
 
-export const FETCH_PROTECTED_DATA_ERROR = 'FETCH_PROTECTED_DATA_ERROR';
+export const FETCH_PROTECTED_DATA_THREW_ERROR = 'FETCH_PROTECTED_DATA_THREW_ERROR';
 export const fetchProtectedDataError = error => ({
-    type: FETCH_PROTECTED_DATA_ERROR,
+    type: FETCH_PROTECTED_DATA_THREW_ERROR,
     error
 });
 
@@ -36,10 +36,10 @@ export const fetchProtectedData = (userId) => (dispatch, getState)  => {
     let  user_data = data;
     let user_data_keys = Object.keys(data);   
     console.log('***** user_data: ', user_data, '***** user_data_keys: ', user_data_keys);
-    dispatch(fetchProtectedDataSuccess(data));
+    dispatch(fetchProtectedDataSucceeded(data));
   });
   
   // .then(orders => {
-  //     dispatch(fetchProtectedDataSuccess(orders));
+  //     dispatch(fetchProtectedDataSucceeded(orders));
   // });
 };

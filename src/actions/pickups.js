@@ -2,61 +2,64 @@ import { API_BASE_URL } from '../config';
 import { normalizeResponseErrors } from './utils';
 import { SubmissionError } from 'redux-form';
 
-export const FETCH_PICKUP_REQUEST = 'FETCH_PICKUP_REQUEST';
-export const fetchPickupRequest = (pickups) => ({
-    type: FETCH_PICKUP_REQUEST
+export const FETCH_PICKUP_REQUESTED = 'FETCH_PICKUP_REQUESTED';
+export const fetchPickupRequested = (pickups) => ({
+    type: FETCH_PICKUP_REQUESTED
 });
-export const FETCH_PICKUP_SUCCESS = 'FETCH_PICKUP_SUCCESS';
-export const fetchPickupSuccess = (pickups) => ({
-    type: FETCH_PICKUP_SUCCESS,
+export const FETCH_PICKUP_SUCCEEDED = 'FETCH_PICKUP_SUCCEEDED';
+export const fetchPickupSucceeded = (pickups) => ({
+    type: FETCH_PICKUP_SUCCEEDED,
     pickups
 });
-export const FETCH_PICKUP_ERROR = 'FETCH_PICKUP_ERROR';
+export const FETCH_PICKUP_THREW_ERROR = 'FETCH_PICKUP_THREW_ERROR';
 export const fetchPickupError = (error) => ({
-    type: FETCH_PICKUP_ERROR,
+    type: FETCH_PICKUP_THREW_ERROR,
     error
 });
-export const POST_PICKUP_REQUEST = 'POST_PICKUP_REQUEST';
-export const postPickupRequest = () => ({
-  type: POST_PICKUP_REQUEST
+export const POST_PICKUP_REQUESTED = 'POST_PICKUP_REQUESTED';
+export const postPickupRequested = () => ({
+  type: POST_PICKUP_REQUESTED
 });
-export const POST_PICKUP_SUCCESS = 'POST_PICKUP_SUCCESS'; 
-export const postPickupSuccess = (newPickup) => ({
-    type: POST_PICKUP_SUCCESS,
+export const POST_PICKUP_SUCCEEDED = 'POST_PICKUP_SUCCEEDED'; 
+export const postPickupSucceeded = (newPickup) => ({
+    type: POST_PICKUP_SUCCEEDED,
     newPickup
 });
-export const POST_PICKUP_ERROR = 'POST_PICKUP_ERROR';
+export const POST_PICKUP_THREW_ERROR = 'POST_PICKUP_THREW_ERROR';
 export const postPickupError = error => ({
-  type: POST_PICKUP_ERROR,
+  type: POST_PICKUP_THREW_ERROR,
   error
 });
-export const UPDATE_PICKUP_STATUS_REQUEST = 'UPDATE_PICKUP_STATUS_REQUEST';
-export const updatePickupStatusRequest = () => ({
-  type: UPDATE_PICKUP_STATUS_REQUEST
+export const UPDATE_PICKUP_STATUS_REQUESTED = 'UPDATE_PICKUP_STATUS_REQUESTED';
+export const updatePickupStatusRequested = () => ({
+  type: UPDATE_PICKUP_STATUS_REQUESTED
 });
-export const UPDATE_PICKUP_STATUS_SUCCESS = 'UPDATE_PICKUP_STATUS_SUCCESS'; 
-export const updatePickupStatusSuccess = (newPickup) => ({
-    type: UPDATE_PICKUP_STATUS_SUCCESS,
-    newPickup
+export const UPDATE_PICKUP_STATUS_SUCCEEDED = 'UPDATE_PICKUP_STATUS_SUCCEEDED'; 
+export const updatePickupStatusSucceeded = (id, pickupStatus  ) => ({
+    type: UPDATE_PICKUP_STATUS_SUCCEEDED,
+    payload: {
+      id:id,
+      pickupStatus: pickupStatus
+    }
 });
-export const UPDATE_PICKUP_STATUS_ERROR = 'UPDATE_PICKUP_STATUS_ERROR';
+export const UPDATE_PICKUP_STATUS_THREW_ERROR = 'UPDATE_PICKUP_STATUS_THREW_ERROR';
 export const updatePickupStatusError = error => ({
-  type: UPDATE_PICKUP_STATUS_ERROR,
+  type: UPDATE_PICKUP_STATUS_THREW_ERROR,
   error
 });
-export const ADD_ORDER_TO_PICKUP_REQUEST = 'ADD_ORDER_TO_PICKUP_REQUEST';
-export const addOrderToPickupRequest = () => ({
-    type: ADD_ORDER_TO_PICKUP_REQUEST 
+export const ADD_ORDER_TO_PICKUP_REQUESTED = 'ADD_ORDER_TO_PICKUP_REQUESTED';
+export const addOrderToPickupRequested = () => ({
+    type: ADD_ORDER_TO_PICKUP_REQUESTED 
     
 });
-export const ADD_ORDER_TO_PICKUP_SUCCESS = 'ADD_ORDER_TO_PICKUP_SUCCESS';
-export const addOrderToPickupSuccess = (order) => ({
-    type: ADD_ORDER_TO_PICKUP_SUCCESS, 
+export const ADD_ORDER_TO_PICKUP_SUCCEEDED = 'ADD_ORDER_TO_PICKUP_SUCCEEDED';
+export const addOrderToPickupSucceeded = (order) => ({
+    type: ADD_ORDER_TO_PICKUP_SUCCEEDED, 
     order
 });
-export const ADD_ORDER_TO_PICKUP_ERROR = 'ADD_ORDER_TO_PICKUP_ERROR';
+export const ADD_ORDER_TO_PICKUP_THREW_ERROR = 'ADD_ORDER_TO_PICKUP_THREW_ERROR';
 export const addOrderToPickupError = (error) => ({
-    type: ADD_ORDER_TO_PICKUP_ERROR, 
+    type: ADD_ORDER_TO_PICKUP_THREW_ERROR, 
     error
 });
 export const SHOW_LOGIN = 'SHOW_LOGIN';
@@ -70,7 +73,7 @@ export const showLogin = () => ({
 
 export const postPickup = pickup => (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(postPickupRequest());
+  dispatch(postPickupRequested());
   return fetch(`${API_BASE_URL}/pickups`, {
     method: 'POST',
     headers: {
@@ -81,7 +84,7 @@ export const postPickup = pickup => (dispatch, getState) => {
   })
     .then(res => normalizeResponseErrors(res))
     .then(res => res.json())
-    .then(res => dispatch(postPickupSuccess(res)))
+    .then(res => dispatch(postPickupSucceeded(res)))
     .catch(error => {
       const { reason, message, location } = error;
       dispatch(postPickupError(error));
@@ -97,8 +100,21 @@ export const postPickup = pickup => (dispatch, getState) => {
 
 export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(updatePickupStatusRequest());
-  console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
+  dispatch(updatePickupStatusRequested());
+  // console.log('updatePickupStatus: ', newStatus,  '- ', pickupId);
+  if (newStatus.pickupStatus === 'pending') {
+    newStatus.pickupStatus = 'pickedUp';
+    // console.log('after: newStatus: ', newStatus);
+  } else {
+    if (newStatus.pickupStatus === 'pickedUp') {
+      newStatus.pickupStatus = 'droppedOff';
+      // console.log('after: newStatus: ', newStatus);
+    } else {
+      newStatus.pickupStatus = 'pending';
+    }
+  }
+  
+  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
       method: 'PUT',
@@ -106,13 +122,16 @@ export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getS
         'content-type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
+      // body: JSON.stringify(newStatus)
       body: JSON.stringify(newStatus)
     });
     const res_1 = normalizeResponseErrors(res);
     const res_2 = res_1.json();
-    return dispatch(updatePickupStatusSuccess(res_2));
+    // console.log('res_2: ', res_2);
+    return dispatch(updatePickupStatusSucceeded(pickupId, newStatus));
   }
   catch (error) {
+    // console.log('error!: ', error);
     dispatch(updatePickupStatusError(error));
   }
 };
