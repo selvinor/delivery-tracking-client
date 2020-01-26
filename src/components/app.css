@@ -69,12 +69,15 @@ h3 {
   background: #fff;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
   padding: 3px 10px;
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 6px;
   border-radius: 3px;
   display: flex;
   align-items: top;
   justify-content: space-between;
+}
+.pickup p {
+  text-align: center;
 }
 .order-form {
 
@@ -102,12 +105,14 @@ h3 {
 .bold {
   font-weight:800;
 }
-
+.big {
+  font-size: 14px;
+}
 .circle {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  border: 6px double #999999;
+  border: 6px solid #999999;
   /* become a flex container */
   /* its children will be flex items */
   display: flex;
