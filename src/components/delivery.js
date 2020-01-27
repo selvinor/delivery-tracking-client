@@ -1,26 +1,41 @@
 import React, { Fragment } from 'react';
-
-
+import Status from './status';
+import TimeAgo from './timeAgo';
 const Delivery = (props) => {
-const delivery = props.delivery;
-console.log('depot deliveries props: ', delivery)
-let localDate = new Date(delivery.updatedAt);
-// const str =localDate.slice(0,24);
-console.log('localDate: ', localDate.toString().slice(0,24));
-let myDate = localDate.toString().slice(0,24);
+  const delivery = props.delivery;
+  console.log('delivery: ', delivery);
+  const handleClick = props.handleClick;
   return (
     <Fragment>
       <li className="delivery">
-        <p className="status-text"><span className="bold ">Status:</span><br />{delivery.deliveryStatus}<br />{myDate} </p>
-        <p className="order-text"><span className="bold"> Order: </span><br />{delivery.order.orderNumber} </p>  
-        {/* <p className="delivery-text"><span className="bold"> Delivery Zone: </span><br />{delivery.zone.zoneName} </p>    */}
-        <p className="vendor-text"><span className="bold"> Vendor: </span><br />{delivery.order.vendor.vendorName} </p>  
-        <p className="dest-text"><span className="bold"> Destination: </span><br />{delivery.order.destination.streetAddress}<br />{delivery.order.destination.city}, {delivery.order.destination.state} {delivery.order.destination.zipcode}<br />{delivery.order.destination.recipient}</p> 
-        {/* <p className="numItems-text center"><span className="bold"> Num items: </span><br />{delivery.order.orderSize} </p>  */}
-        <p className="driver-text"><span className="bold"> Driver: </span><br />{delivery.deliveryDriver.driverName} </p> 
+      <p>
+        <Status handleClick={handleClick} status={props.delivery.deliveryStatus} _id={props.delivery._id} /> 
+        <br /><span className="bold"> Updated </span> {TimeAgo(delivery.updatedAt)} 
+      </p>
+      <p>
+        <span className="big  bold"> Destination: </span>
+        <br />{delivery.order.destination.recipient.businessName}
+        <br /><span className="bold">
+        {delivery.order.destination.recipient}        
+        </span>
+        <br />
+          { 
+          ' ' + delivery.order.destination.streetAddress}
+          <br />
+          {
+          ' ' + delivery.order.destination.city  + 
+          ', ' + delivery.order.destination.state  + 
+          ' ' + delivery.order.destination.zipcode          
+        }
+      <br />{delivery.order.destination.recipient.recipientPhone}
+      <br />{delivery.order.destination.instructions}
+      </p>
+      
+       
+      <p><span className="big  bold"> Order: </span><br /><span className="big  bold">{delivery.order.orderNumber} </span></p>  
       </li>     
-    </Fragment>
+    </Fragment> 
   );
 };
 
-export default Delivery; 
+export default Delivery;

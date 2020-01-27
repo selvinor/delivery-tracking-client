@@ -187,6 +187,7 @@ export class Dashboard extends React.Component {
 
       } else {
         if(user.driver) {
+          console.log('Driver: ',user.driver );
           fragment = (
             <Fragment>
               <HeaderBar />

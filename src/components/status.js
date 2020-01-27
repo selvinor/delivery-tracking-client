@@ -4,7 +4,7 @@ const Status = (props) => {
   const statusClass = `${props.status} circle`;   
   return (
     <button className={statusClass} onClick={() => { props.handleClick(props.status, props._id)}}>
-      {props.status}
+      {props.status.replace(/_/g, " ")}
     </button>
   );
 };
