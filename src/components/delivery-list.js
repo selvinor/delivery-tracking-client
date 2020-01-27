@@ -12,6 +12,7 @@ export default function DeliveryList(props) {
   const deliveries = props.deliveries;
   if (deliveries) {
     if (deliveries.length >= 1) {
+      console.log('delivery-list deliveries: ', deliveries)
       return (
           <div>
             <h3>Deliveries</h3>

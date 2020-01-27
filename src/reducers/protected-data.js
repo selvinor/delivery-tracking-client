@@ -35,7 +35,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PROTECTED_DATA_SUCCEEDED:
-      // console.log('*** FETCH_PROTECTED_DATA_SUCCEEDED ***  action.data: ', action.data);
+     console.log('*** FETCH_PROTECTED_DATA_SUCCEEDED ***  action.data: ', action.data);
       return Object.assign({}, state, {
         user: action.data,
         error: null
