@@ -23,20 +23,15 @@ export const updateDeliveryStatusError = error => ({
 export const updateDeliveryStatus = (newStatus, deliveryId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
   dispatch(updateDeliveryStatusRequested());
-  // console.log('updateDeliveryStatus: ', newStatus,  '- ', deliveryId);
-  if (newStatus.deliveryStatus === 'dispatching') {
-    newStatus.deliveryStatus = 'outForDelivery';
-    // console.log('after: newStatus: ', newStatus);
+  if (newStatus.deliveryStatus === 'Dispatching') {
+    newStatus.deliveryStatus = 'Out_For_Delivery';
   } else {
-    if (newStatus.deliveryStatus === 'outForDelivery') {
-      newStatus.deliveryStatus = 'delivered';
-      // console.log('after: newStatus: ', newStatus);
+    if (newStatus.deliveryStatus === 'Out For Delivery') {
+      newStatus.deliveryStatus = 'Delivered';
     } else {
-      newStatus.deliveryStatus = 'dispatching';
+      newStatus.deliveryStatus = 'Dispatching';
     }
   }
-  
-  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/deliveries/${deliveryId}`, {
       method: 'PUT',
@@ -49,11 +44,9 @@ export const updateDeliveryStatus = (newStatus, deliveryId) => async (dispatch, 
     });
     const res_1 = normalizeResponseErrors(res);
     const res_2 = res_1.json();
-    // console.log('res_2: ', res_2);
     return dispatch(updateDeliveryStatusSucceeded(deliveryId, newStatus));
   }
   catch (error) {
-    // console.log('error!: ', error);
     dispatch(updateDeliveryStatusError(error));
   }
 };

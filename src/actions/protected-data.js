@@ -14,7 +14,7 @@ export const fetchProtectedDataError = error => ({
 });
 
 export const SHOW_DETAILS_CLICKED = 'SHOW_DETAILS_CLICKED';
-export const showDetailsClicked = (id, component) => ({
+export const showDetailsClicked = (component, id) => ({
     type: SHOW_DETAILS_CLICKED,
     payload: {
       id: id,
@@ -37,18 +37,13 @@ export const fetchProtectedData = (userId) => (dispatch, getState)  => {
 })
   .then(res => {
       if (!res.ok) {
-        // console.log('!!!PROBLEM!!!');
           return Promise.reject(res.statusText);
       }      
       return res.json();
   }).then(data => {
     let  user_data = data;
     let user_data_keys = Object.keys(data);   
-    console.log('***** user_data: ', user_data, '***** user_data_keys: ', user_data_keys);
     dispatch(fetchProtectedDataSucceeded(data));
   });
   
-  // .then(orders => {
-  //     dispatch(fetchProtectedDataSucceeded(orders));
-  // });
 };

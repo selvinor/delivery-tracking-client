@@ -23,8 +23,7 @@ import {
  export default function reducer(state = initialState, action) {
   switch (action.type) {
      case AUTH_SUCCEEDED:
-       console.log('auth success! action.currentUser: ', action.currentUser);
-       return {...state, loading: false, currentUser: action.currentUser, showWarning: false};
+      return {...state, loading: false, currentUser: action.currentUser, showWarning: false};
      case AUTH_THREW_ERROR:
        return {...state, loading: false, error: action.error};
      case SHOW_WARNING:

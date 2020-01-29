@@ -23,20 +23,15 @@ export const updateOrderStatusError = error => ({
 export const updateOrderStatus = (newStatus, orderId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
   dispatch(updateOrderStatusRequested());
-  // console.log('updateOrderStatus: ', newStatus,  '- ', orderId);
   if (newStatus.orderStatus === 'pending') {
     newStatus.orderStatus = 'ready';
-    // console.log('after: newStatus: ', newStatus);
   } else {
     if (newStatus.orderStatus === 'ready') {
       newStatus.orderStatus = 'pending';
-      // console.log('after: newStatus: ', newStatus);
     } else {
       newStatus.orderStatus = 'pending';
     }
   }
-  
-  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
       method: 'PUT',
@@ -44,16 +39,13 @@ export const updateOrderStatus = (newStatus, orderId) => async (dispatch, getSta
         'content-type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
-      // body: JSON.stringify(newStatus)
       body: JSON.stringify(newStatus)
     });
     const res_1 = normalizeResponseErrors(res);
     const res_2 = res_1.json();
-    // console.log('res_2: ', res_2);
     return dispatch(updateOrderStatusSucceeded(orderId, newStatus));
   }
   catch (error) {
-    // console.log('error!: ', error);
     dispatch(updateOrderStatusError(error));
   }
 };

@@ -34,29 +34,26 @@ export class Dashboard extends React.Component {
   
   componentDidMount() {
     document.title = 'Dashboard';
-    console.log('componentDidMount this.props', this.props);
     if (this.props.currentUser) {
       this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
     }
   }
 
-  handleStatusClick(activity, status, id) {
-    console.log('handleStatusClick clicked', activity, status, id);
-    if (activity === 'pickup') {
+  handleStatusClick(component, status, id) {
+    if (component === 'pickup') {
       this.props.dispatch(updatePickupStatus({ "pickupStatus": status }, id));
     } else {
-      if (activity === 'delivery') {
+      if (component === 'delivery') {
         this.props.dispatch(updateDeliveryStatus({ "deliveryStatus": status }, id));
       } else {
-        if (activity === 'order') {
+        if (component === 'order') {
           this.props.dispatch(updateOrderStatus({ "orderStatus": status }, id));
         }
       }
     }
   }
-  handleDetailsClick(activity, index, id) {
-    console.log('handleDetailsClick clicked', id);
-    this.props.dispatch(showDetailsClicked(id));
+  handleDetailsClick(component, index, id) {
+    this.props.dispatch(showDetailsClicked(component, id));
   }
  
   submitNewOrderForm(e) {
@@ -160,13 +157,8 @@ export class Dashboard extends React.Component {
   render() {
     // Only render the log out button if we are logged in
     if (!this.props.loggedIn) {
-      console.log('Dashboard not logged in. Redirecting to landing page');
       return <Redirect to="/" />;
     };
-
-    console.log('Dashboard - this.props: ', this.props);
-
-
 
     if (this.props.showWarning) {
       let stayLoggedInButton = (
@@ -180,11 +172,6 @@ export class Dashboard extends React.Component {
     let fragment = null;
     let user = this.props.user;
     if (user) {
-      console.log('dashboard user: ', user);
-      console.log('dashboard user.vendor: ', user.vendor);
-      console.log('dashboard user.driver: ', user.driver);
-      console.log('dashboard user.depot: ', user.depot);
-
       if (user.vendor) {
         fragment = (
           <Fragment>
@@ -197,24 +184,22 @@ export class Dashboard extends React.Component {
 
       } else {
         if (user.driver) {
-          console.log('Driver: ', user.driver);
           fragment = (
             <Fragment>
               <HeaderBar />
               <h1>Driver Dashboard - {user.driver.driverName}</h1>
               <h2>Pickup and Delivery Tracking</h2>
               <PickupList pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} />
-              <DeliveryList deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick}  handleDetailsClick={this.handleDetailsClick}/>
+              <DeliveryList deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}/>
             </Fragment>
           )
         } else {
           if (user.depot) {
-            console.log('*** user.depot.drivers: ', user.depot.drivers, '***');
             fragment = (
               <Fragment>
                 <HeaderBar />
                 <h1>{user.depot.depotName} Dashboard</h1>
-                <DeliveryList deliveries={user.depot.deliveries} />
+                <DeliveryList deliveries={user.depot.deliveries} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}/>
                 <PickupList pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} />
                 <DriverList drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} />
               </Fragment>
@@ -235,7 +220,8 @@ const mapStateToProps = state => {
     showWarning: state.auth.showWarning,
     showLogin: state.auth.showLogin,
     loggedIn: state.auth.currentUser !== null,
-    currentUser: currentUser
+    currentUser: currentUser,
+    showDetails: state.protectedData.showDetails
   };
 };
 

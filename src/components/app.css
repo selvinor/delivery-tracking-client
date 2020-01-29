@@ -1,7 +1,4 @@
-p {
-  padding-right:5px;
 
-}
 h1 {
 
   background: transparent;
@@ -19,6 +16,28 @@ h3 {
 }
 li {
   list-style-type: none;
+}
+
+button {
+  margin-right:40px;
+}
+
+.status-button {
+  /* margin-right:40px; */
+  font-size:.5vw;
+  text-align:center;
+  min-width:170px;
+
+}
+.status-button button{
+  /* margin-right:40px; */
+  font-size:.8vw;
+  margin:auto;
+}
+
+status-button  p{
+text-align: center;
+display:flex;
 }
 
 .center {
@@ -120,30 +139,50 @@ li {
   margin:0 auto;
 }
 .Button {
-  padding: 24px;
-  /* background-color: hotpink; */
+  padding: 0 24px;
+  background-color: rgb(142, 186, 228);
   border-radius: 4px;
   color: black;
   font-weight: bold;
 }
 
-.pending, .dispatching {
+.pending, .Dispatching_Button {
   background: red;
   color: black;
   font: size 0.7vw;
+  padding: 24px;
+  border-radius: 4px;
   font-weight: bold;
 }
-.pickedUp, .outForDelivery {
+.pending:hover, .Dispatching_Button:hover {
+  color:#666666;
+  cursor: pointer;
+}
+.pickedUp, .Out_For_Delivery_Button {
   background: gold;
   color: black;
   font: size 0.7vw;
+  padding: 24px;
+  border-radius: 4px;
   font-weight: bold;
 }
-.droppedOff, .delivered {
+.pickedUp:hover, .Out_For_Delivery_Button:hover {
+  color:#ffffff;
+  cursor: pointer;
+}
+
+.droppedOff, .Delivered_Button {
   background: green;
   color: white;
   font: size 0.7vw;
+  padding: 24px;
+  border-radius: 4px;
   font-weight: bold;
+}
+
+.droppedOff:hover, .Delivered_Button:hover {
+  color:#333333;
+  cursor: pointer;
 }
 .Button:hover {
   cursor: pointer;
@@ -171,4 +210,13 @@ li {
 
 button.circle {
 padding:25px;
+}
+
+.deliveryDest {
+  min-width: 175px;
+  margin:auto;
+}
+.deliveryDest p{
+  padding:0;
+  margin: auto;
 }

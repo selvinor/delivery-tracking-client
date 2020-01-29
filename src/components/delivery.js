@@ -1,41 +1,25 @@
 import React, { Fragment } from 'react';
-import Status from './status';
-import Details from './details';
-import TimeAgo from './timeAgo';
-import DeliveryBasic from './delivery-basic'
+import ShowDetails from './show-details';
+import DeliveryBasic from './delivery-basic';
+import DeliveryDetail from './delivery-detail';
+
 const Delivery = (props) => {
-  // const delivery = props;
-  console.log('props.js props: ', props);
-  // const handleDetailsClick= props.handleDetailsClick;
+  const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
+  if (showDetails) {
+    return (
+      <Fragment>
+        <li className="delivery">
+          <ShowDetails component="delivery" updatedAt={props.updatedAt} handleDetailsClick={props.handleDetailsClick} index={props.index} id={props._id} orderNumber={props.order.orderNumber} /> 
+          <DeliveryDetail component="delivery" {...props}  />
+        </li>     
+      </Fragment> 
+    ); 
+  }
   return (
     <Fragment>
       <li className="delivery">
-
-      <Details activity="delivery" handleDetailsClick={props.handleDetailsClick} index={props.index} _id={props._id} /> 
-      <DeliveryBasic activity="delivery" {...props}  />
-    {/* <p>
-        <Status activity="delivery" handleStatusClick={props.handleStatusClick} status={props.deliveryStatus} _id={props._id} /> 
-        <br /><span className="bold"> Updated </span> {TimeAgo(props.updatedAt)} 
-      </p>
-       <p>
-        <span className="big  bold"> Destination: </span>
-        <br />{props.order.destination.recipient.businessName}
-        <br /><span className="bold">
-        {props.order.destination.recipient}        
-        </span>
-        <br />
-          { 
-          ' ' + props.order.destination.streetAddress}
-          <br />
-          {
-          ' ' + props.order.destination.city  + 
-          ', ' + props.order.destination.state  + 
-          ' ' + props.order.destination.zipcode          
-        }
-      <br />{props.order.destination.recipient.recipientPhone}
-      <br />{props.order.destination.instructions}
-      </p>       
-      <p><span className="big  bold"> Order: </span><br /><span className="big  bold">{props.order.orderNumber} </span></p>   */}
+        <ShowDetails component="delivery" updatedAt={props.updatedAt} handleDetailsClick={props.handleDetailsClick} index={props.index} id={props._id} orderNumber={props.order.orderNumber} /> 
+        <DeliveryBasic component="delivery" {...props}  />
       </li>     
     </Fragment> 
   );

@@ -19,7 +19,6 @@ const OrderDetail = (props) => {
   if (order.destination.recipient.businessName) {
     businessName = `<br />${order.destination.recipient.businessName}`;
   }
-  console.log('order.js order: ', order);
   return (
     <Fragment>
       <li className="order">

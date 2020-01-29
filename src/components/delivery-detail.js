@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Status from './status';
-const DeliveryBasic = (props) => {
+const DeliveryDetail = (props) => {
 
    return (
     <Fragment>
@@ -14,8 +14,16 @@ const DeliveryBasic = (props) => {
         <p>{props.order.destination.recipient.recipientPhone}</p>
         <p>{props.order.destination.instructions}</p>
       </div>       
+      <div>     
+        <p className="big bold center">Order Contents: </p>
+        <p>{props.order.orderContents}</p>
+      </div>    
+      <div className="center">
+        <p className="big bold center"> Order Size: </p>
+        <p>{props.order.orderSize}</p>
+      </div> 
     </Fragment>
   );
 
 };
-export default DeliveryBasic;
+export default DeliveryDetail;

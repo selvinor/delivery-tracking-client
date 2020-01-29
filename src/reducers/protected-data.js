@@ -49,12 +49,13 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_DETAILS_CLICKED:
-      let idAlreadyExists = state.showDetails.indexOf(action.payload.id) > -1;
+      let idAlreadyExists = state.showDetails.findIndex(detail => detail.id === action.payload.id) > -1;
       // make a copy of the existing array
       let showDetails = state.showDetails.slice();
 
       if (idAlreadyExists) {
-        showDetails = showDetails.filter(id => id != action.payload.id);
+        // showDetails = showDetails.filter(id => id !== action.payload.id);
+        showDetails.splice(state.showDetails.findIndex(detail => detail.id === action.payload.id), 1);
       }
       else {
         // modify the COPY, not the original
@@ -69,7 +70,6 @@ export default function reducer(state = initialState, action) {
       };
 
     case FETCH_PROTECTED_DATA_SUCCEEDED:
-      console.log('*** FETCH_PROTECTED_DATA_SUCCEEDED ***  action.data: ', action.data);
       return Object.assign({}, state, {
         user: action.data,
         error: null
