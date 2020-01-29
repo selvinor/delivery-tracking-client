@@ -1,9 +1,9 @@
 import React from 'react';
 const Status = (props) => {
   console.log('status props: ', props);
-  const statusClass = `${props.status} circle`;   
+  const statusClass = `${props.status} Button`;   
   return (
-    <button className={statusClass} onClick={() => { props.handleClick(props.status, props._id)}}>
+    <button className={statusClass} onClick={() => { props.handleStatusClick(props.activity, props.status, props._id)}}>
       {props.status.replace(/_/g, " ")}
     </button>
   );

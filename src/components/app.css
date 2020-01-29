@@ -1,5 +1,6 @@
 p {
   padding-right:5px;
+
 }
 h1 {
 
@@ -16,9 +17,10 @@ h3 {
   padding: 5px;
   text-align: center;
 }
-#root {
-
+li {
+  list-style-type: none;
 }
+
 .center {
   text-align:center;
 }
@@ -65,7 +67,6 @@ h3 {
   border-radius: 4px;
   padding: 5px;
   max-width: 400px;
-  list-style-type: none;
   font-size: 12px;
 }
 .order, .pickup, .delivery, .driver, .depot, .zone {
@@ -109,8 +110,45 @@ h3 {
   font-weight:800;
 }
 .big {
-  font-size: 1.2vw;
+  font-size: .9vw;
 }
+.center {
+  text-align: center;
+  margin:0 auto;
+}
+.center p {
+  margin:0 auto;
+}
+.Button {
+  padding: 24px;
+  /* background-color: hotpink; */
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+}
+
+.pending, .dispatching {
+  background: red;
+  color: black;
+  font: size 0.7vw;
+  font-weight: bold;
+}
+.pickedUp, .outForDelivery {
+  background: gold;
+  color: black;
+  font: size 0.7vw;
+  font-weight: bold;
+}
+.droppedOff, .delivered {
+  background: green;
+  color: white;
+  font: size 0.7vw;
+  font-weight: bold;
+}
+.Button:hover {
+  cursor: pointer;
+}
+
 .circle {
   width: 70px;
   height: 70px;
@@ -126,24 +164,6 @@ h3 {
   /* center all content vertically */
   justify-content: center;
   padding:10px;}
-.pending, .Dispatching_soon {
-  background: red;
-  color: black;
-  font-size:.5vw;
-  font-weight: bold;
-}
-.pickedUp, .Out_for_delivery {
-  background: yellow;
-  color: black;
-  font-size:.6vw;
-  font-weight: bold;
-}
-.droppedOff, .Delivered {
-  background: green;
-  color: white;
-  font-size:.5vw;
-  font-weight: bold;
-}
 
 .circle:hover {
   cursor: pointer;

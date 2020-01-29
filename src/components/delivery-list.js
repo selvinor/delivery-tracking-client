@@ -10,6 +10,7 @@ export default function DeliveryList(props) {
   //    4)  select and show Delivery detail   
 
   const deliveries = props.deliveries;
+  const handleStatusClick = props.handleStatusClick;
   if (deliveries) {
     if (deliveries.length >= 1) {
       console.log('delivery-list deliveries: ', deliveries)
@@ -21,7 +22,8 @@ export default function DeliveryList(props) {
                 <Delivery
                   key={index}
                   index={index}
-                  delivery={delivery}
+                  {...delivery}
+                  {...props}
                 />
               ))}
             </ul>

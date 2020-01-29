@@ -4,12 +4,12 @@ import TimeAgo from './timeAgo';
 const Pickup = (props) => {
   const pickup = props.pickup;
   console.log('pickup: ', pickup);
-  const handleClick = props.handleClick;
+  const handleStatusClick = props.handleStatusClick;
   return (
     <Fragment>
       <li className="pickup">
       <p>
-        <Status handleClick={handleClick} status={props.pickup.pickupStatus} _id={props.pickup._id} /> 
+        <Status handleStatusClick={handleStatusClick} status={props.pickup.pickupStatus} _id={props.pickup._id} /> 
         <br /><span className="bold"> Updated </span> {TimeAgo(pickup.updatedAt)} 
       </p>
       <p></p>  

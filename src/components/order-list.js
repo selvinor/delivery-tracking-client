@@ -1,5 +1,5 @@
 import React from 'react';
-import Order from './order';
+import Order from './order-detail';
 import OrderForm from './order-form';
 export default function OrderList(props) {
 
@@ -10,7 +10,7 @@ export default function OrderList(props) {
   //    4)  select and show Order detail   
 
 const orders = props.orders;
-const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','recipientPhone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
+const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','phone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
 const submitNewOrderForm = props.submitNewOrderForm;
 
 return (

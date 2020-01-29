@@ -13,6 +13,15 @@ export const fetchProtectedDataError = error => ({
     error
 });
 
+export const SHOW_DETAILS_CLICKED = 'SHOW_DETAILS_CLICKED';
+export const showDetailsClicked = (id, component) => ({
+    type: SHOW_DETAILS_CLICKED,
+    payload: {
+      id: id,
+      component: component
+    }
+});
+
 
 export const fetchProtectedData = (userId) => (dispatch, getState)  => {  
 

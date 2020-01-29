@@ -133,9 +133,9 @@ export class AddDeliveryForm extends React.Component {
                       validate={[required, nonEmpty]}
                     />
                   </label>             
-                  <label htmlFor="recipientPhone" className="recipientPhone">CELL PHONE                           
+                  <label htmlFor="phone" className="phone">CELL PHONE                           
                     <Field
-                      name="recipientPhone"
+                      name="phone"
                       type="text"
                       component={Input}
                       placeholder="Required"
