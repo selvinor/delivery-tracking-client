@@ -49,6 +49,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SHOW_DETAILS_CLICKED:
+      console.log('SHOW_DETAILS_CLICKED payload: ', action.payload);
       let idAlreadyExists = state.showDetails.findIndex(detail => detail.id === action.payload.id) > -1;
       // make a copy of the existing array
       let showDetails = state.showDetails.slice();
@@ -61,7 +62,7 @@ export default function reducer(state = initialState, action) {
         // modify the COPY, not the original
         showDetails.push(action.payload);
       }
-
+console.log('showDetails in reducer: ', showDetails);
       return {
         // "spread" the original state object
         ...state,

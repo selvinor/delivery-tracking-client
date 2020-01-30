@@ -178,7 +178,7 @@ export class Dashboard extends React.Component {
             <HeaderBar />
             <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
             <h2>Order Tracking</h2>
-            <OrderList orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} />
+            <OrderList orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick}handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
           </Fragment>
         )
 
@@ -189,7 +189,7 @@ export class Dashboard extends React.Component {
               <HeaderBar />
               <h1>Driver Dashboard - {user.driver.driverName}</h1>
               <h2>Pickup and Delivery Tracking</h2>
-              <PickupList pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} />
+              <PickupList pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
               <DeliveryList deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}/>
             </Fragment>
           )
@@ -199,9 +199,9 @@ export class Dashboard extends React.Component {
               <Fragment>
                 <HeaderBar />
                 <h1>{user.depot.depotName} Dashboard</h1>
-                <DeliveryList deliveries={user.depot.deliveries} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}/>
-                <PickupList pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} />
-                <DriverList drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} />
+                <PickupList pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+                <DeliveryList deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}/>
+                <DriverList drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
               </Fragment>
             )
           }

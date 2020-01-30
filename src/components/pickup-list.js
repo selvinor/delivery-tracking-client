@@ -1,5 +1,5 @@
 import React from 'react';
-import Pickup from './pickup';
+import Pickup from './pickup2';
 
 export default function PickupList(props) {
 
@@ -21,8 +21,10 @@ export default function PickupList(props) {
               <Pickup
                 key={index}
                 index={index}
-                pickup={pickup}
-                {...props}
+                {...pickup}
+                handleStatusClick={props.handleStatusClick}
+                handleDetailsClick={props.handleDetailsClick}
+                showDetails={props.showDetails}
               />
             ))}
           </ul>

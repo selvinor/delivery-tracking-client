@@ -19,11 +19,18 @@ li {
 }
 
 button {
-  margin-right:40px;
-}
-
-.status-button {
   /* margin-right:40px; */
+}
+a{
+  text-decoration:'none';
+  color:'black';
+}
+.pickup div{
+  margin:auto;
+
+}
+.status-button {
+  margin: auto;
   font-size:.5vw;
   text-align:center;
   min-width:170px;
@@ -115,15 +122,6 @@ display:flex;
   flex: 1;
 }
 
-.blue-column {
-  background-color: transparent;
-
-}
-
-.green-column {
-  background-color: transparent;
-
-}
 
 .bold {
   font-weight:800;
@@ -146,7 +144,7 @@ display:flex;
   font-weight: bold;
 }
 
-.pending, .Dispatching_Button {
+.pending_Button, .Dispatching_Button {
   background: red;
   color: black;
   font: size 0.7vw;
@@ -154,11 +152,11 @@ display:flex;
   border-radius: 4px;
   font-weight: bold;
 }
-.pending:hover, .Dispatching_Button:hover {
+.pending_Button:hover, .Dispatching_Button:hover {
   color:#666666;
   cursor: pointer;
 }
-.pickedUp, .Out_For_Delivery_Button {
+.pickedUp_Button, .Out_For_Delivery_Button {
   background: gold;
   color: black;
   font: size 0.7vw;
@@ -166,12 +164,12 @@ display:flex;
   border-radius: 4px;
   font-weight: bold;
 }
-.pickedUp:hover, .Out_For_Delivery_Button:hover {
+.pickedUp_Button:hover, .Out_For_Delivery_Button:hover {
   color:#ffffff;
   cursor: pointer;
 }
 
-.droppedOff, .Delivered_Button {
+.droppedOff_Button, .Delivered_Button {
   background: green;
   color: white;
   font: size 0.7vw;
@@ -180,7 +178,7 @@ display:flex;
   font-weight: bold;
 }
 
-.droppedOff:hover, .Delivered_Button:hover {
+.droppedOff_Button:hover, .Delivered_Button:hover {
   color:#333333;
   cursor: pointer;
 }
@@ -217,6 +215,10 @@ padding:25px;
   margin:auto;
 }
 .deliveryDest p{
+  padding:0;
+  margin: auto;
+}
+.pickupLocation p{
   padding:0;
   margin: auto;
 }

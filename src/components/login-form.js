@@ -23,7 +23,7 @@ export class LoginForm extends React.Component {
               </div>
           );
       }
-      const forgotPassword = (<button className="jump" type="button"><Link style={{display: 'block', height: '100%', textDecoration:'none', color:'white', }} to="/forgotPassword" >Register</Link></button>);
+      const forgotPassword = (<button className="forgotPassword" type="button"><Link style={{textDecoration:'none', color:'black', fontSize:'.7vw'}} to="/forgotPassword" >Forgot password</Link></button>);
 
       return (
         <Fragment>
@@ -36,7 +36,7 @@ export class LoginForm extends React.Component {
                   this.onSubmit(values)
               )}>
               {error}
-              <label htmlFor="username">demo username= "vendor1"</label>
+              <label htmlFor="username">demo username= "depot1"</label>
               <Field
                   component={Input}
                   type="text"
@@ -58,7 +58,7 @@ export class LoginForm extends React.Component {
               />
               <div className="login-button">
                 <button className="login" disabled={this.props.pristine || this.props.submitting}>
-                    LOG IN
+                    Sign in
                 </button>
                 {forgotPassword}
               </div>
