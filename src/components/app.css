@@ -196,7 +196,7 @@ text-align: center;
   color:#666666;
   cursor: pointer;
 }
-.pickedUp_Button, .en_route_Button {
+.picked_up_Button, .en_route_Button {
   background: gold;
   color: black;
   font: size 0.7vw;
@@ -204,7 +204,7 @@ text-align: center;
   border-radius: 4px;
   font-weight: bold;
 }
-.pickedUp_Button:hover, .en_route_Button:hover {
+.picked_up_Button:hover, .en_route_Button:hover {
   color:#999999;
   cursor: pointer;
 }

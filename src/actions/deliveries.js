@@ -1,16 +1,17 @@
 import { API_BASE_URL } from '../config';
 import { normalizeResponseErrors } from './utils';
-import { SubmissionError } from 'redux-form';
+// import { SubmissionError } from 'redux-form';
 
 export const UPDATE_DELIVERY_STATUS_REQUESTED = 'UPDATE_DELIVERY_STATUS_REQUESTED';
 export const updateDeliveryStatusRequested = () => ({
   type: UPDATE_DELIVERY_STATUS_REQUESTED
 });
 export const UPDATE_DELIVERY_STATUS_SUCCEEDED = 'UPDATE_DELIVERY_STATUS_SUCCEEDED'; 
-export const updateDeliveryStatusSucceeded = (id, deliveryStatus  ) => ({
+export const updateDeliveryStatusSucceeded = (id, userType, deliveryStatus  ) => ({
     type: UPDATE_DELIVERY_STATUS_SUCCEEDED,
     payload: {
       id:id,
+      userType: userType,
       deliveryStatus: deliveryStatus
     }
 });
@@ -20,9 +21,9 @@ export const updateDeliveryStatusError = error => ({
   error
 });
 
-export const updateDeliveryStatus = (status, deliveryId) => async (dispatch, getState) => {
+export const updateDeliveryStatus = (userType, status, deliveryId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(updateDeliveryStatusRequested());
+  dispatch(updateDeliveryStatusRequested(userType));
   console.log('status.deliveryStatus before:', status.deliveryStatus);
   if (status.deliveryStatus === 'dispatching') {
     status.deliveryStatus = 'en route';
@@ -46,8 +47,8 @@ export const updateDeliveryStatus = (status, deliveryId) => async (dispatch, get
       body: JSON.stringify(status)
     });
     const res_1 = normalizeResponseErrors(res);
-    const res_2 = res_1.json();
-    return dispatch(updateDeliveryStatusSucceeded(deliveryId, status));
+    // const res_2 = res_1.json();
+    return dispatch(updateDeliveryStatusSucceeded(deliveryId, userType, status));
   }
   catch (error) {
     dispatch(updateDeliveryStatusError(error));

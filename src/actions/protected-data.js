@@ -1,5 +1,4 @@
 import {API_BASE_URL} from '../config';
-import {normalizeResponseErrors} from './utils';
 
 export const FETCH_PROTECTED_DATA_SUCCEEDED = 'FETCH_PROTECTED_DATA_SUCCEEDED';
 export const fetchProtectedDataSucceeded = data => ({

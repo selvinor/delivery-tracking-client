@@ -31,14 +31,18 @@ export const postPickupError = error => ({
   error
 });
 export const UPDATE_PICKUP_STATUS_REQUESTED = 'UPDATE_PICKUP_STATUS_REQUESTED';
-export const updatePickupStatusRequested = () => ({
-  type: UPDATE_PICKUP_STATUS_REQUESTED
+export const updatePickupStatusRequested = (userType) => ({
+  type: UPDATE_PICKUP_STATUS_REQUESTED,
+  payload: {
+    userType
+  }
 });
 export const UPDATE_PICKUP_STATUS_SUCCEEDED = 'UPDATE_PICKUP_STATUS_SUCCEEDED'; 
-export const updatePickupStatusSucceeded = (id, pickupStatus  ) => ({
+export const updatePickupStatusSucceeded = (id, userType, pickupStatus  ) => ({
     type: UPDATE_PICKUP_STATUS_SUCCEEDED,
     payload: {
       id:id,
+      userType: userType,
       pickupStatus: pickupStatus
     }
 });
@@ -55,7 +59,9 @@ export const addOrderToPickupRequested = () => ({
 export const ADD_ORDER_TO_PICKUP_SUCCEEDED = 'ADD_ORDER_TO_PICKUP_SUCCEEDED';
 export const addOrderToPickupSucceeded = (order) => ({
     type: ADD_ORDER_TO_PICKUP_SUCCEEDED, 
-    order
+    payload: {
+      order
+    }
 });
 export const ADD_ORDER_TO_PICKUP_THREW_ERROR = 'ADD_ORDER_TO_PICKUP_THREW_ERROR';
 export const addOrderToPickupError = (error) => ({
@@ -98,17 +104,17 @@ export const postPickup = pickup => (dispatch, getState) => {
     });
 };
 
-export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getState) => {
+export const updatePickupStatus = (userType, newStatus, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(updatePickupStatusRequested());
-  // console.log('updatePickupStatus: ', newStatus,  '- ', pickupId);
+  dispatch(updatePickupStatusRequested(userType));
+  console.log('before updatePickupStatus: ',userType, ' - ', newStatus,  '- ', pickupId);
   if (newStatus.pickupStatus === 'pending') {
-    newStatus.pickupStatus = 'pickedUp';
-    // console.log('after: newStatus: ', newStatus);
+    newStatus.pickupStatus = 'picked_up';
+    console.log('after updatePickupStatus: newStatus: ', newStatus);
   } else {
-    if (newStatus.pickupStatus === 'pickedUp') {
-      newStatus.pickupStatus = 'droppedOff';
-      // console.log('after: newStatus: ', newStatus);
+    if (newStatus.pickupStatus === 'picked up') {
+      newStatus.pickupStatus = 'dropped_off';
+      console.log('after updatePickupStatus: newStatus: ', newStatus);
     } else {
       newStatus.pickupStatus = 'pending';
     }
@@ -125,13 +131,13 @@ export const updatePickupStatus = (newStatus, pickupId) => async (dispatch, getS
       // body: JSON.stringify(newStatus)
       body: JSON.stringify(newStatus)
     });
-    const res_1 = normalizeResponseErrors(res);
-    const res_2 = res_1.json();
-    // console.log('res_2: ', res_2);
-    return dispatch(updatePickupStatusSucceeded(pickupId, newStatus));
+    // const res_1 = normalizeResponseErrors(res);
+    // const res_2 = res_1.json();
+    // console.log('res_1: ', res_1);
+    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus));
   }
   catch (error) {
-    // console.log('error!: ', error);
+    console.log('error!: ', error);
     dispatch(updatePickupStatusError(error));
   }
 };

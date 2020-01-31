@@ -5,7 +5,7 @@ const PickupDetail = (props) => {
 
    return (
     <Fragment>
-      <StatusButton component="pickup" index={props.index} status={props.pickupStatus.replace(/_/g, " ")} />
+      <StatusButton component="pickup" numOrders={props.pickupVendor.orders.length} index={props.index}  {...props} status={props.pickupStatus.replace(/_/g, " ")} />
       <div className="pickupLocation">
         <p className="big  bold"> Pickup Location:</p>
         <p className="bold"> {props.pickupVendor.vendorName}</p>

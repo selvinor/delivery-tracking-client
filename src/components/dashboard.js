@@ -14,7 +14,7 @@ import { updateOrderStatus } from '../actions/orders';
 import { fetchProtectedData } from '../actions/protected-data';
 import { showDetailsClicked } from '../actions/protected-data';
 
-import { refreshAuthToken } from '../actions/auth';
+// import { refreshAuthToken } from '../actions/auth';
 
 export class Dashboard extends React.Component {
   // This component has these responsibilities:
@@ -39,15 +39,16 @@ export class Dashboard extends React.Component {
     }
   }
 
-  handleStatusClick(component, status, id) {
+  handleStatusClick(userType, component, status, id) {
+    console.log('*** handleStatusClick component: ',component, '| status: ', status, '| id: ', id, 'userType: ', userType, ' ***');
     if (component === 'pickup') {
-      this.props.dispatch(updatePickupStatus({ "pickupStatus": status }, id));
+      this.props.dispatch(updatePickupStatus(userType, { "pickupStatus": status }, id));
     } else {
       if (component === 'delivery') {
-        this.props.dispatch(updateDeliveryStatus({ "deliveryStatus": status }, id));
+        this.props.dispatch(updateDeliveryStatus(userType, { "deliveryStatus": status }, id));
       } else {
         if (component === 'order') {
-          this.props.dispatch(updateOrderStatus({ "orderStatus": status }, id));
+          this.props.dispatch(updateOrderStatus(userType, { "orderStatus": status }, id));
         }
       }
     }
@@ -160,14 +161,14 @@ export class Dashboard extends React.Component {
       return <Redirect to="/" />;
     };
 
-    if (this.props.showWarning) {
-      let stayLoggedInButton = (
-        <button onClick={() => this.props.dispatch(refreshAuthToken())}>Keep me logged in</button>
-      );
-    }
-    let addOrderButton = (
-      <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
-    );
+    // if (this.props.showWarning) {
+    //   let stayLoggedInButton = (
+    //     <button onClick={() => this.props.dispatch(refreshAuthToken())}>Keep me logged in</button>
+    //   );
+    // }
+    // let addOrderButton = (
+    //   <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
+    // );
 
     let fragment = null;
     let user = this.props.user;
@@ -178,7 +179,7 @@ export class Dashboard extends React.Component {
             <HeaderBar />
             <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
             <h2>Order Tracking</h2>
-            <OrderList orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick}handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+            <OrderList  userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick}handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
           </Fragment>
         )
 
@@ -189,8 +190,8 @@ export class Dashboard extends React.Component {
               <HeaderBar />
               <h1>Driver Dashboard - {user.driver.driverName}</h1>
               <h2>Pickup and Delivery Tracking</h2>
-              <PickupList driverName={user.driver.driverName} pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
-              <DeliveryList driverName={user.driver.driverName} deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+              <PickupList userType='driver' driverName={user.driver.driverName} pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+              <DeliveryList  userType='driver' driverName={user.driver.driverName} deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
             </Fragment>
           )
         } else {
@@ -200,9 +201,9 @@ export class Dashboard extends React.Component {
                 <HeaderBar />
                 <h1>Depot Dashboard - {user.depot.depotName}</h1>
                 <h2>Pickup and Delivery Tracking</h2>
-                <PickupList pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-                <DeliveryList deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
-                <DriverList drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}   />
+                <PickupList   userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+                <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+                <DriverList userType='depot' drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}   />
               </Fragment>
             )
           }

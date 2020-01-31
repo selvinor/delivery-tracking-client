@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import StatusButton from './status-button';
 import ShowDetailsButton from './show-details-button';
 const DeliveryBasic = (props) => {
+  console.log('DeliveryBasic props: ', props);
   let instructions = props.order.destination.instructions;
   if (props.order.destination.instructions.length > 0) {
     instructions = `*** ${props.order.destination.instructions} ***`;

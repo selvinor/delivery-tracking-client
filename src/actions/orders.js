@@ -20,9 +20,9 @@ export const updateOrderStatusError = error => ({
   error
 });
 
-export const updateOrderStatus = (newStatus, orderId) => async (dispatch, getState) => {
+export const updateOrderStatus = (userType, newStatus, orderId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  dispatch(updateOrderStatusRequested());
+  dispatch(updateOrderStatusRequested(userType));
   if (newStatus.orderStatus === 'pending') {
     newStatus.orderStatus = 'ready';
   } else {
