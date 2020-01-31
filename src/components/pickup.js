@@ -1,37 +1,25 @@
 import React, { Fragment } from 'react';
-import Status from './status';
-import TimeAgo from './timeAgo';
+import PickupBasic from './pickup-basic';
+import PickupDetail from './pickup-detail';
+
 const Pickup = (props) => {
-  const pickup = props.pickup;
-  console.log('pickup: ', pickup);
-  const handleStatusClick = props.handleStatusClick;
+  console.log('pickup props: ', props);
+  const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
+  let detailsButtonText = '-MORE-'
+  if (showDetails) {
+    let detailsButtonText = '-LESS-'
+    return (
+      <Fragment>
+        <li className="pickup">
+          <PickupDetail component="pickup" {...props}  detailsButtonText={detailsButtonText} />
+        </li>     
+      </Fragment> 
+    ); 
+  }
   return (
     <Fragment>
       <li className="pickup">
-      <p>
-        <Status handleStatusClick={handleStatusClick} status={props.pickup.pickupStatus} _id={props.pickup._id} /> 
-        <br /><span className="bold"> Updated </span> {TimeAgo(pickup.updatedAt)} 
-      </p>
-      <p></p>  
-      <p>
-        <span className="big  bold"> Pickup Location: </span>
-        <br /><span className="bold">
-        {pickup.pickupVendor.vendorName}
-        </span><br />
-          { 
-          ' ' + pickup.pickupVendor.vendorLocation.streetAddress}
-          <br />
-          {
-          ' ' + pickup.pickupVendor.vendorLocation.city  + 
-          ', ' + pickup.pickupVendor.vendorLocation.state  + 
-          ' ' + pickup.pickupVendor.vendorLocation.zipcode          
-        }
-        <br />{pickup.pickupVendor.vendorPhone} 
-      </p>
-      
-       
-      <p><span className="big  bold"> Number of orders: </span><br /><span className="big  bold">{pickup.pickupVendor.orders.length} </span></p>  
-      <p><span className="big  bold"> Destination Depot: </span><br />{ pickup.depot.depotName} </p>
+        <PickupBasic component="pickup" {...props}  detailsButtonText={detailsButtonText} />
       </li>     
     </Fragment> 
   );

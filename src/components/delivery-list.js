@@ -8,27 +8,25 @@ export default function DeliveryList(props) {
   //    2)  change delivery status from pending to ready and back
   //    3)  delete Delivery from list
   //    4)  select and show Delivery detail   
-
+console.log('delivery props: ', props);
   const deliveries = props.deliveries;
   if (deliveries) {
     if (deliveries.length >= 1) {
       return (
-          <div>
-            <h3>Deliveries</h3>
-            <ul className="delivery-list">
-              {deliveries.map((delivery, index) => (
-                <Delivery
-                  key={index}
-                  index={index}
-                  {...delivery}
-                  handleStatusClick={props.handleStatusClick}
-                  handleDetailsClick={props.handleDetailsClick}
-                  showDetails={props.showDetails}
-                />
-              ))}
-            </ul>
-          </div>
-        );
+        <div>
+          <h3>Deliveries</h3>
+          <ul className="delivery-list">
+            {deliveries.map((delivery, index) => (
+              <Delivery
+                key={index}
+                index={index}
+                {...delivery}
+                {...props}
+              />
+            ))}
+          </ul>
+        </div>
+      );
     } else {
       return '';
     }

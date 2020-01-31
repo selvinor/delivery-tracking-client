@@ -14,37 +14,77 @@ h3 {
   padding: 5px;
   text-align: center;
 }
+h4 {
+  margin:0 5px 0 0;
+  background: #cccccc;
+  color: #000000;
+  border-radius: 4px;
+  padding: 3px;
+  text-align: center;
+}
 li {
   list-style-type: none;
 }
 
 button {
   /* margin-right:40px; */
+  text-align: center;
+}
+button p{
+  /* margin-right:40px; */
+  text-align: center;
 }
 a{
   text-decoration:'none';
   color:'black';
 }
-.pickup div{
-  margin:auto;
-
+p {
+  font-size:.8vw;
 }
+
 .status-button {
-  margin: auto;
+  /* margin: auto; */
   font-size:.5vw;
   text-align:center;
   min-width:170px;
 
 }
+
+
+.updated {
+  font-size:.6vw;
+}
+
+.timeago {
+  font-size:.4vw;
+}
+
+.status {
+  font-size:1vw;
+  background-color:black;
+  color:white;
+  padding:5px;
+}
+.status:hover {
+  font-size:1vw;
+  background-color:white;
+  color:red;
+  padding:5px;
+}
+
 .status-button button{
   /* margin-right:40px; */
   font-size:.8vw;
   margin:auto;
 }
 
-status-button  p{
+.status-button  p{
 text-align: center;
-display:flex;
+
+}
+
+.list-index {
+  font-size:.6vw;
 }
 
 .center {
@@ -144,7 +184,7 @@ display:flex;
   font-weight: bold;
 }
 
-.pending_Button, .Dispatching_Button {
+.pending_Button, .dispatching_Button {
   background: red;
   color: black;
   font: size 0.7vw;
@@ -152,11 +192,11 @@ display:flex;
   border-radius: 4px;
   font-weight: bold;
 }
-.pending_Button:hover, .Dispatching_Button:hover {
+.pending_Button:hover, .dispatching_Button:hover {
   color:#666666;
   cursor: pointer;
 }
-.pickedUp_Button, .Out_For_Delivery_Button {
+.pickedUp_Button, .en_route_Button {
   background: gold;
   color: black;
   font: size 0.7vw;
@@ -164,12 +204,12 @@ display:flex;
   border-radius: 4px;
   font-weight: bold;
 }
-.pickedUp_Button:hover, .Out_For_Delivery_Button:hover {
-  color:#ffffff;
+.pickedUp_Button:hover, .en_route_Button:hover {
+  color:#999999;
   cursor: pointer;
 }
 
-.droppedOff_Button, .Delivered_Button {
+.dropped_off_Button, .delivered_Button {
   background: green;
   color: white;
   font: size 0.7vw;
@@ -178,14 +218,19 @@ display:flex;
   font-weight: bold;
 }
 
-.droppedOff_Button:hover, .Delivered_Button:hover {
+.dropped_off_Button:hover, .delivered_Button:hover {
   color:#333333;
   cursor: pointer;
 }
 .Button:hover {
   cursor: pointer;
 }
-
+.index {
+  margin:0 auto;
+}
+.small {
+  font-size: .6vw;
+}
 .circle {
   width: 70px;
   height: 70px;
@@ -213,12 +258,20 @@ padding:25px;
 .deliveryDest {
   min-width: 175px;
   margin:auto;
+  text-align:center;
 }
 .deliveryDest p{
-  padding:0;
   margin: auto;
+  font-size:1vw;
 }
+.deliveryInstructions{
+  font-style: italic;
+}
+
 .pickupLocation p{
   padding:0;
   margin: auto;
+}
+.details {
+  font-size:.5vw;
 }

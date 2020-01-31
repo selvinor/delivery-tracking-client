@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Status from './status';
+import StatusButton from './status-button';
 import TimeAgo from './timeAgo';
 const Order = (props) => {
 
@@ -22,7 +22,7 @@ const Order = (props) => {
     <Fragment>
       <li className="order">
         <p className="center">
-          <Status handleStatusClick={handleStatusClick} status={props.order.orderStatus} _id={props.order._id} /> 
+          <StatusButton handleStatusClick={handleStatusClick} status={props.order.orderStatus} _id={props.order._id} /> 
           <br /><span className="bold"> Updated </span> {TimeAgo(order.updatedAt)} 
         </p>      
         <p className="center"><span className="big bold center"> Order</span><br />{order.orderNumber} </p>
@@ -43,12 +43,12 @@ const Order = (props) => {
           }
           <br />{order.destination.phone}        
         </p>
-        <p className="center"><span className="big bold center"> Order Status: </span><br />{order.orderStatus}<br />{order.updatedAt}  </p>
+        <p className="center"><span className="big bold center"> Order StatusButton: </span><br />{order.orderStatus}<br />{order.updatedAt}  </p>
         <p className="center"><span className="big bold center"> Order Size: </span><br />{order.orderSize}</p>
-        <p className="center"><span className="big bold center"> Order Contents: </span><br />{order.orderContents}</p>
+        <p className="center"><span className="big bold center"> Order Contents: </span><br />{order.orderDescription}</p>
         <p className="center"><span className="big bold center"> Delivery Instructions: </span><br />{order.destination.instructions}</p>
-        <p className="center"><span className="big bold center"> Pickup Status: </span><br />{pickupStatus}</p>
-        <p className="center"><span className="big bold center"> Delivery Status: </span><br />{deliveryStatus} </p>  
+        <p className="center"><span className="big bold center"> Pickup StatusButton: </span><br />{pickupStatus}</p>
+        <p className="center"><span className="big bold center"> Delivery StatusButton: </span><br />{deliveryStatus} </p>  
       </li>     
     </Fragment>
   );

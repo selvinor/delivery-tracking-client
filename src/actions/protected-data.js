@@ -41,8 +41,8 @@ export const fetchProtectedData = (userId) => (dispatch, getState)  => {
       }      
       return res.json();
   }).then(data => {
-    let  user_data = data;
-    let user_data_keys = Object.keys(data);   
+    // let  user_data = data;
+    // let user_data_keys = Object.keys(data);   
     dispatch(fetchProtectedDataSucceeded(data));
   });
   

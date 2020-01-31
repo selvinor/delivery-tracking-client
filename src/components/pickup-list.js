@@ -1,5 +1,5 @@
 import React from 'react';
-import Pickup from './pickup2';
+import Pickup from './pickup';
 
 export default function PickupList(props) {
 

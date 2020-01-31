@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import Status from './status';
+import StatusButton from './status-button';
+import ShowDetailsButton from './show-details-button';
 const PickupDetail = (props) => {
 
    return (
     <Fragment>
-      <Status component="pickup" handleStatusClick={props.handleStatusClick} updatedAt={props.updatedAt} status={props.pickupStatus.replace(/_/g, " ")} _id={props._id} />
+      <StatusButton component="pickup" index={props.index} status={props.pickupStatus.replace(/_/g, " ")} />
       <div className="pickupLocation">
         <p className="big  bold"> Pickup Location:</p>
         <p className="bold"> {props.pickupVendor.vendorName}</p>
@@ -20,6 +21,7 @@ const PickupDetail = (props) => {
         <p className="big bold center"> Dropoff: </p>
         <p>{props.depot.depotName}</p>
       </div> 
+      <ShowDetailsButton component="pickup" {...props} /> 
     </Fragment>
   );
 

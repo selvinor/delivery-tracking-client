@@ -57,17 +57,16 @@ export default function reducer(state = initialState, action) {
       if (idAlreadyExists) {
         // showDetails = showDetails.filter(id => id !== action.payload.id);
         showDetails.splice(state.showDetails.findIndex(detail => detail.id === action.payload.id), 1);
-      }
-      else {
+      } else {
         // modify the COPY, not the original
         showDetails.push(action.payload);
       }
-console.log('showDetails in reducer: ', showDetails);
-      return {
+      console.log('showDetails in reducer: ', showDetails);
+     return {
         // "spread" the original state object
         ...state,
         // but replace the "showDetails" field
-        showDetails
+        showDetails      
       };
 
     case FETCH_PROTECTED_DATA_SUCCEEDED:
@@ -123,10 +122,10 @@ console.log('showDetails in reducer: ', showDetails);
         updating: true
       });
     case UPDATE_DELIVERY_STATUS_SUCCEEDED:
-      //create a replacement set of UPDATED pickups
+      //create a replacement set of UPDATED deliveries
 
       const updDeliveries = state.user.driver.deliveries.map((delivery, index) => {
-        // Find the pickup with the matching id
+        // Find the delivery with the matching id
         if (delivery._id === action.payload.id) {
           // Return a new object
           return {
@@ -143,7 +142,7 @@ console.log('showDetails in reducer: ', showDetails);
         user: {
           ...state.user,
           driver: {
-            ...state.driver, //copy level 2
+            ...state.user.driver, //copy level 2
             deliveries: updDeliveries
           }
         }

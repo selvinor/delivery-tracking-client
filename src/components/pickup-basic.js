@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import Status from './status';
-const DeliveryBasic = (props) => {
+import StatusButton from './status-button';
+import ShowDetailsButton from './show-details-button';
+const PickupBasic = (props) => {
 
    return (
     <Fragment>
-      <Status component="pickup" handleStatusClick={props.handleStatusClick} updatedAt={props.updatedAt} status={props.pickupStatus.replace(/_/g, " ")} _id={props._id} />
+      <StatusButton component="pickup" index={props.index} status={props.pickupStatus.replace(/_/g, " ")} />
       <div className="pickupLocation">
         <p className="big  bold"> Pickup Location:</p>
         <p className="bold"> {props.pickupVendor.vendorName}</p>
@@ -16,8 +17,9 @@ const DeliveryBasic = (props) => {
         <p className="big bold center">Number of orders: </p>
         <p>{props.pickupVendor.orders.length}</p>
       </div>    
+      <ShowDetailsButton component="pickup" {...props} /> 
     </Fragment>
   );
 
 };
-export default DeliveryBasic;
+export default PickupBasic;
