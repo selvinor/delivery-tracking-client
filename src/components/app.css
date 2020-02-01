@@ -42,15 +42,6 @@ p {
   font-size:.8vw;
 }
 
-.status-button {
-  /* margin: auto; */
-  font-size:.5vw;
-  text-align:center;
-  min-width:170px;
-
-}
-
-
 .updated {
   font-size:.6vw;
 }
@@ -70,6 +61,13 @@ p {
   background-color:white;
   color:red;
   padding:5px;
+}
+
+.status-button {
+  /* margin: auto; */
+  font-size:.5vw;
+  text-align:center;
+  min-width:170px;
 }
 
 .status-button button{
@@ -121,13 +119,13 @@ text-align: center;
   min-height: 150vh;
 }
 
-.order-list {
+/* .order-list {
   background: #e8e8e8;
   border-radius: 4px;
   padding: 5px;
   max-width: 400px;
 
-}
+} */
 .newOrder {
   background: #e8e8e8;
   border-radius: 4px;
@@ -147,6 +145,9 @@ text-align: center;
   justify-content: space-between;
 }
 .pickup p {
+  text-align: center;
+}
+.order p {
   text-align: center;
 }
 .order-form {
@@ -209,7 +210,7 @@ text-align: center;
   cursor: pointer;
 }
 
-.dropped_off_Button, .delivered_Button {
+.dropped_off_Button, .delivered_Button, .ready_Button {
   background: green;
   color: white;
   font: size 0.7vw;
@@ -231,29 +232,6 @@ text-align: center;
 .small {
   font-size: .6vw;
 }
-.circle {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  border: 6px solid #999999;
-  /* become a flex container */
-  /* its children will be flex items */
-  display: flex;
-  /* place items in column */
-  flex-direction: column;
-  /* center flex items horizontally */
-  align-items: center;
-  /* center all content vertically */
-  justify-content: center;
-  padding:10px;}
-
-.circle:hover {
-  cursor: pointer;
-}
-
-button.circle {
-padding:25px;
-}
 
 .deliveryDest {
   min-width: 175px;
@@ -272,6 +250,28 @@ padding:25px;
   padding:0;
   margin: auto;
 }
+.orderDest {
+  min-width: 175px;
+  margin:auto;
+  text-align:center;
+}
+.orderDest p{
+  padding:0;
+  margin: auto;
+}
 .details {
   font-size:.5vw;
+}
+.orderContents {
+  min-width: 175px;
+  margin:auto;
+  text-align:center;
+}
+.orderSize {
+  min-width: 175px;
+  margin:auto;
+  text-align:center;
+}
+.delete {
+  background-color:red;
 }

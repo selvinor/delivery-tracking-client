@@ -1,56 +1,37 @@
 import React, { Fragment } from 'react';
 import StatusButton from './status-button';
-import TimeAgo from './timeAgo';
+import ShowDetailsButton from './show-details-button';
+import DeleteOrderButton from './delete-button';
 
 const OrderDetail = (props) => {
+  console.log('OrderDetail props: ', props);
+  let instructions = null;
+  if (props.destination.instructions) {
+    instructions = `*** ${props.destination.instructions} ***`;
+  }  
 
-  const handleStatusClick = props.handleStatusClick;
-  const order = props.order;
-
-  let pickupStatus = 'pending';
-  let deliveryStatus = 'pending';
-  if (order.pickup) {
-     pickupStatus = order.pickup.pickupStatus;
-  }
-  if (order.delivery) {
-    deliveryStatus = order.delivery.deliveryStatus;
- }
-  let businessName = null;
-  if (order.destination.recipient.businessName) {
-    businessName = `<br />${order.destination.recipient.businessName}`;
-  }
   return (
     <Fragment>
-      <li className="order">
-        <p className="center">
-          <StatusButton handleStatusClick={handleStatusClick} status={order.orderStatus} _id={order._id} /> 
-          <br /><span className="bold"> Updated </span> {TimeAgo(order.updatedAt)} 
-        </p>      
-        <p className="center"><span className="big bold center"> Order</span><br />{order.orderNumber} </p>
-        <p className="center">
-          <span className="big bold center"> Destination: </span>
-          {businessName}
-          <br /><span className="bold">
-          {order.destination.recipient}        
-          </span>
-          <br />
-            { 
-            ' ' + order.destination.streetAddress}
-            <br />
-            {
-            ' ' + order.destination.city  + 
-            ', ' + order.destination.state  + 
-            ' ' + order.destination.zipcode          
-          }
-          <br />{order.destination.phone}        
-        </p>
-        <p className="center"><span className="big bold center"> Order StatusButton: </span><br />{order.orderStatus}<br />{order.updatedAt}  </p>
-        <p className="center"><span className="big bold center"> Order Size: </span><br />{order.orderSize}</p>
-        <p className="center"><span className="big bold center"> Order Contents: </span><br />{order.orderDescription}</p>
-        <p className="center"><span className="big bold center"> Delivery Instructions: </span><br />{order.destination.instructions}</p>
-        <p className="center"><span className="big bold center"> Pickup StatusButton: </span><br />{pickupStatus}</p>
-        <p className="center"><span className="big bold center"> Delivery StatusButton: </span><br />{deliveryStatus} </p>  
-      </li>     
+      <StatusButton component="order" {...props} index={props.index}  status={props.orderStatus.replace(/_/g, " ")}  />
+      <div className="orderDest">
+        <p className="big bold"> Destination:</p>
+        <p>{props.destination.recipient.businessName}</p>
+        <p>{props.destination.recipient}</p>
+        <p>{props.destination.streetAddress}</p>
+        <p>{props.destination.city  +  ', ' + props.destination.state + ' ' + props.destination.zipcode}</p>
+        <p>{props.destination.recipient.recipientPhone}</p>
+        <p className="bold orderInstructions">{instructions}</p>
+      </div>       
+      <div className="orderContents">     
+        <p className="big bold">Order Contents: </p>
+        <p>{props.orderDescription}</p>
+      </div>    
+      <div className="orderSize">
+        <p className="big bold"> Order Size: </p>
+        <p>{props.orderSize}</p>
+      </div> 
+      <ShowDetailsButton component="order" {...props} />   
+      <DeleteOrderButton component="order" {...props} />   
     </Fragment>
   );
 

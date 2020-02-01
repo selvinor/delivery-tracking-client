@@ -131,10 +131,10 @@ export const updatePickupStatus = (userType, newStatus, pickupId) => async (disp
       // body: JSON.stringify(newStatus)
       body: JSON.stringify(newStatus)
     });
-    // const res_1 = normalizeResponseErrors(res);
+    const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
     // console.log('res_1: ', res_1);
-    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus));
+    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus, res_1));
   }
   catch (error) {
     console.log('error!: ', error);

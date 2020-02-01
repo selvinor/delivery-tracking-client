@@ -13,6 +13,7 @@ import { updateOrderStatus } from '../actions/orders';
 
 import { fetchProtectedData } from '../actions/protected-data';
 import { showDetailsClicked } from '../actions/protected-data';
+import { deleteOrder } from '../actions/orders';
 
 // import { refreshAuthToken } from '../actions/auth';
 
@@ -29,6 +30,7 @@ export class Dashboard extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
     this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
   }
   
@@ -48,6 +50,7 @@ export class Dashboard extends React.Component {
         this.props.dispatch(updateDeliveryStatus(userType, { "deliveryStatus": status }, id));
       } else {
         if (component === 'order') {
+          console.log('dispatching updateOrderStatus')
           this.props.dispatch(updateOrderStatus(userType, { "orderStatus": status }, id));
         }
       }
@@ -56,7 +59,11 @@ export class Dashboard extends React.Component {
   handleDetailsClick(component, index, id) {
     this.props.dispatch(showDetailsClicked(component, id));
   }
- 
+
+  handleDeleteClick(id) {
+    this.props.dispatch(deleteOrder(id));
+  }
+
   submitNewOrderForm(e) {
     e.preventDefault();
     let errors = {}
@@ -179,7 +186,7 @@ export class Dashboard extends React.Component {
             <HeaderBar />
             <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
             <h2>Order Tracking</h2>
-            <OrderList  userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick}handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+            <OrderList  userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteClick={this.handleDeleteClick}showDetails={this.props.showDetails} />
           </Fragment>
         )
 

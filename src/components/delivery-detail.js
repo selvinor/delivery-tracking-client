@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import StatusButton from './status-button';
 import ShowDetailsButton from './show-details-button';
+
 const DeliveryDetail = (props) => {
   let instructions = props.order.destination.instructions;
   if (props.order.destination.instructions.length > 0) {

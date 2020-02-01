@@ -4,10 +4,9 @@ import Delivery from './delivery';
 export default function DeliveryList(props) {
 
   // This component has these responsibilities:
-  //    1)  Show today's Deliverys 
-  //    2)  change delivery status from pending to ready and back
-  //    3)  delete Delivery from list
-  //    4)  select and show Delivery detail   
+  //    1)  Show today's Deliveries 
+  //    2)  change delivery status
+  //    3)  select and show Delivery detail   
 console.log('delivery-list props: ', props);
   const deliveries = props.deliveries;
   if (deliveries) {

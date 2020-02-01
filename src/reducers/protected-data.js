@@ -115,8 +115,7 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-    
-        break;
+
         case  'driver':
           pickups = state.user.driver.pickups;
           updPickups = pickups.map((pickup, userType,index) => {
@@ -141,7 +140,6 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-            break;
         case  'depot':
           pickups = state.user.depot.pickups;
           updPickups = pickups.map((pickup, userType,index) => {
@@ -166,11 +164,10 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-            break;
         default:
           console.log("Sorry, unknown user type ", userType);
       }
-
+    break;
     case UPDATE_PICKUP_STATUS_THREW_ERROR:
       return Object.assign({}, state, {
         loading: false,
@@ -214,8 +211,7 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-    
-        break;
+
         case  'driver':
           deliveries = state.user.driver.deliveries;
           updDeliveries = deliveries.map((delivery, userType,index) => {
@@ -240,7 +236,7 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-            break;
+
         case  'depot':
           deliveries = state.user.depot.deliveries;
           updDeliveries = deliveries.map((delivery, userType,index) => {
@@ -265,11 +261,10 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-            break;
         default:
           console.log("Sorry, unknown user type ", userType);
       }
-
+    break;
     case UPDATE_DELIVERY_STATUS_THREW_ERROR:
       return Object.assign({}, state, {
         loading: false,
@@ -285,31 +280,88 @@ export default function reducer(state = initialState, action) {
       
     case UPDATE_ORDER_STATUS_SUCCEEDED:
       //create a replacement set of UPDATED pickups
-
-      const updOrders = state.user.vendor.orders.map((order, index) => {
-        // Find the order with the matching id
-        if (order._id === action.payload.id) {
-          // Return a new object
+      userType = action.userType;
+      console.log('action: ', action);
+      let orders = null;
+      let updOrders = null;
+      switch(action.payload.userType) {
+        case  'vendor':
+          orders = state.user.vendor.orders;
+          updOrders = orders.map((order, userType,index) => {
+            // Find the order with the matching id
+            if (order._id === action.payload.id) {
+              // Return a new object
+              return {
+                ...order,
+                // copy the existing order   
+                orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
+              }
+            }
+            return order; // Leave every other order unchanged
+          });
           return {
-            ...order,
-            // copy the existing order   
-            orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
+            ...state,   //copy the state (level 0)
+            user: {
+              ...state.user,
+              vendor: {
+                ...state.user.vendor, //copy level 2
+                orders: updOrders
+              }
+            }
           }
-        }
-        return order; // Leave every other order unchanged
-      });
 
-      return {
-        ...state,   //copy the state (level 0)
-        user: {
-          ...state.user,
-          driver: {
-            ...state.driver, //copy level 2
-            orders: updOrders
+        case  'driver':
+          orders = state.user.driver.orders;
+          updPickups = orders.map((order, userType,index) => {
+            // Find the order with the matching id
+            if (order._id === action.payload.id) {
+              // Return a new object
+              return {
+                ...order,
+                // copy the existing order   
+                orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
+              }
+            }
+            return order; // Leave every other order unchanged
+          });
+          return {
+            ...state,   //copy the state (level 0)
+            user: {
+              ...state.user,
+              driver: {
+                ...state.user.driver, //copy level 2
+                orders: updOrders
+              }
+            }
           }
-        }
+        case  'depot':
+          orders = state.user.depot.orders;
+          updPickups = orders.map((order, userType,index) => {
+            // Find the order with the matching id
+            if (order._id === action.payload.id) {
+              // Return a new object
+              return {
+                ...order,
+                // copy the existing order   
+                orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
+              }
+            }
+            return order; // Leave every other order unchanged
+          });
+          return {
+            ...state,   //copy the state (level 0)
+            user: {
+              ...state.user,
+              depot: {
+                ...state.user.depot, //copy level 2
+                orders: updOrders
+              }
+            }
+          }
+        default:
+          console.log("Sorry, unknown user type ", userType);
       }
-
+    break;
     case UPDATE_ORDER_STATUS_THREW_ERROR:
       return Object.assign({}, state, {
         loading: false,

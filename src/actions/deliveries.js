@@ -48,7 +48,7 @@ export const updateDeliveryStatus = (userType, status, deliveryId) => async (dis
     });
     const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
-    return dispatch(updateDeliveryStatusSucceeded(deliveryId, userType, status));
+    return dispatch(updateDeliveryStatusSucceeded(deliveryId, userType, status, res_1));
   }
   catch (error) {
     dispatch(updateDeliveryStatusError(error));
