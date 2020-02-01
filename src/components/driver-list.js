@@ -10,7 +10,6 @@ export default function DriverList(props) {
   //    4)  select and show Driver detail   
 
 const drivers = props.drivers;
-console.log('driver-list props: ', drivers);
 return (
       <div>
         <h3>Drivers</h3>

@@ -1,27 +1,28 @@
 import React, { Fragment } from 'react';
-import Status from './status';
-import TimeAgo from './timeAgo';
-const Order = (props) => {
+import OrderBasic from './order-basic';
+import OrderDetail from './order-detail';
 
-  const handleClick = props.handleClick;
-  const order = props.order;
-  const index = props.index;
-  console.log('order.js order: ', order);
+const Order = (props) => {
+  console.log('order props: ', props);
+  const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
+  let detailsButtonText = '-MORE-'
+  if (showDetails) {
+    let detailsButtonText = '-LESS-'
+    return (
+      <Fragment>
+        <li className="order">
+          <OrderDetail component="order" {...props}  detailsButtonText={detailsButtonText}  />
+        </li>     
+      </Fragment> 
+    ); 
+  }
   return (
     <Fragment>
       <li className="order">
-      <h3>#{index + 1}</h3> 
-      <p><span className="bold"> Order</span><br />{order.orderNumber} </p>
-      <p>
-        <Status handleClick={handleClick} status={props.order.orderStatus} _id={props.order._id} /> 
-        <br /><span className="bold"> Updated </span> {TimeAgo(order.updatedAt)} 
-      </p>      <p><span className="bold"> Recipient: </span><br />{ order.destination.recipient} </p>
-      <p><span className="bold"> Order Status: </span><br />{order.orderStatus}<br />{order.updatedAt}  </p>
-      <p><span className="bold"> Pickup Status: </span><br />{order.pickup.pickupStatus}<br />{order.pickup.updatedAt}  </p>
-      <p><span className="bold"> Delivery Status: </span><br />{order.delivery.deliveryStatus}<br />{order.delivery.updatedAt} </p>  
+        <OrderBasic component="order" {...props} detailsButtonText={detailsButtonText} />
       </li>     
-    </Fragment>
+    </Fragment> 
   );
-
 };
+
 export default Order;

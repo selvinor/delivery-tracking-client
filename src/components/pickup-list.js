@@ -8,7 +8,7 @@ export default function PickupList(props) {
   //    2)  change pickup status from pending to ready and back
   //    3)  delete Pickup from list
   //    4)  select and show Pickup detail   
-
+  console.log('pickup-list props: ', props);
   const pickups = props.pickups;
 
   if (pickups) {
@@ -21,7 +21,7 @@ export default function PickupList(props) {
               <Pickup
                 key={index}
                 index={index}
-                pickup={pickup}
+                {...pickup}
                 {...props}
               />
             ))}

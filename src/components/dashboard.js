@@ -6,11 +6,16 @@ import OrderList from './order-list';
 import DeliveryList from './delivery-list';
 import PickupList from './pickup-list';
 import DriverList from './driver-list';
-import OrderForm from './order-form';
+ 
 import { updatePickupStatus } from '../actions/pickups';
+import { updateDeliveryStatus } from '../actions/deliveries';
+import { updateOrderStatus } from '../actions/orders';
 
 import { fetchProtectedData } from '../actions/protected-data';
-import { refreshAuthToken } from '../actions/auth';
+import { showDetailsClicked } from '../actions/protected-data';
+import { deleteOrder } from '../actions/orders';
+
+// import { refreshAuthToken } from '../actions/auth';
 
 export class Dashboard extends React.Component {
   // This component has these responsibilities:
@@ -19,47 +24,56 @@ export class Dashboard extends React.Component {
   //    3)  delete Order from list
   //    4)  select and show Order detail   
 
-    constructor(props) {
-      super(props);
-      this.state = {};
-      this.componentDidMount = this.componentDidMount.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-      this.handleClick = this.handleClick.bind(this);
-      this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
-      }
-
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleStatusClick = this.handleStatusClick.bind(this);
+    this.handleDetailsClick = this.handleDetailsClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
+  }
+  
   componentDidMount() {
     document.title = 'Dashboard';
-    console.log('componentDidMount this.props', this.props);
     if (this.props.currentUser) {
       this.props.dispatch(fetchProtectedData(this.props.currentUser.id));
     }
   }
 
-  handleClick(status, id) {
-    console.log('handleClick clicked', status, id);
-    this.props.dispatch(updatePickupStatus({"pickupStatus": status}, id));
+  handleStatusClick(userType, component, status, id) {
+    console.log('*** handleStatusClick component: ',component, '| status: ', status, '| id: ', id, 'userType: ', userType, ' ***');
+    if (component === 'pickup') {
+      this.props.dispatch(updatePickupStatus(userType, { "pickupStatus": status }, id));
+    } else {
+      if (component === 'delivery') {
+        this.props.dispatch(updateDeliveryStatus(userType, { "deliveryStatus": status }, id));
+      } else {
+        if (component === 'order') {
+          console.log('dispatching updateOrderStatus')
+          this.props.dispatch(updateOrderStatus(userType, { "orderStatus": status }, id));
+        }
+      }
+    }
+  }
+  handleDetailsClick(component, index, id) {
+    this.props.dispatch(showDetailsClicked(component, id));
   }
 
-  handleChange(e) { 
-    let fields = this.state.fields;
-    fields[e.target.name] = e.target.value;
-    this.setState({
-      fields
-    });
+  handleDeleteClick(id) {
+    this.props.dispatch(deleteOrder(id));
   }
-//   'orderNumber',  'orderDetails', 'orderSize', 'recipient','recipientPhone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
 
-  submitNewOrderForm(e) { 
+  submitNewOrderForm(e) {
     e.preventDefault();
     let errors = {}
 
-    if(this.validateForm()) {
+    if (this.validateForm()) {
       let fields = {};
-      this.setState({fields:fields});
+      this.setState({ fields: fields });
     } else {
       errors['zip'] = 'Please enter a valid zip code';
-      this.setState({errors: errors})
+      this.setState({ errors: errors })
     }
   }
 
@@ -101,15 +115,15 @@ export class Dashboard extends React.Component {
         errors['recipient'] = 'Please enter a valid recipient name';
       }
     }
-    if (!fields['recipientPhone']) {
+    if (!fields['phone']) {
       formIsValid = false;
-      errors['recipientPhone'] = 'Please enter a recipient phone';
+      errors['phone'] = 'Please enter a recipient phone';
     }
 
-    if (typeof fields['recipientPhone'] !== 'undefined') {
-      if (!fields['recipientPhone'].match(/^[0][1-9]\d{9}$|^[1-9]\d{9}$/g)) {
+    if (typeof fields['phone'] !== 'undefined') {
+      if (!fields['phone'].match(/^[0][1-9]\d{9}$|^[1-9]\d{9}$/g)) {
         formIsValid = false;
-        errors['recipientPhone'] = 'Please enter a valid recipient phone';
+        errors['phone'] = 'Please enter a valid recipient phone';
       }
     }
 
@@ -139,8 +153,8 @@ export class Dashboard extends React.Component {
         errors['zipcode'] = 'Please enter a valid zipcode';
       }
     }
-   
-    
+
+
     this.setState({
       errors: errors
     });
@@ -151,85 +165,72 @@ export class Dashboard extends React.Component {
   render() {
     // Only render the log out button if we are logged in
     if (!this.props.loggedIn) {
-      console.log('Dashboard not logged in. Redirecting to landing page');
       return <Redirect to="/" />;
     };
 
-    console.log('Dashboard - this.props: ' , this.props);
+    // if (this.props.showWarning) {
+    //   let stayLoggedInButton = (
+    //     <button onClick={() => this.props.dispatch(refreshAuthToken())}>Keep me logged in</button>
+    //   );
+    // }
+    // let addOrderButton = (
+    //   <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
+    // );
 
-
-
-    if (this.props.showWarning) {
-      let stayLoggedInButton = (
-        <button onClick={() => this.props.dispatch(refreshAuthToken())}>Keep me logged in</button>
-      );
-    }  
-    let addOrderButton = (
-      <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
-    );
     let fragment = null;
     let user = this.props.user;
     if (user) {
-      console.log('dashboard user: ', user);
-      console.log('dashboard user.vendor: ', user.vendor);
-      console.log('dashboard user.driver: ', user.driver);
-      console.log('dashboard user.depot: ', user.depot); 
-
-      if(user.vendor) {
+      if (user.vendor) {
         fragment = (
           <Fragment>
             <HeaderBar />
             <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
-              <h2>Order Tracking</h2>
-            <OrderList orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm}/>
-          </Fragment>  
+            <h2>Order Tracking</h2>
+            <OrderList  userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteClick={this.handleDeleteClick}showDetails={this.props.showDetails} />
+          </Fragment>
         )
 
       } else {
-        if(user.driver) {
-          console.log('Driver: ',user.driver );
+        if (user.driver) {
           fragment = (
             <Fragment>
               <HeaderBar />
               <h1>Driver Dashboard - {user.driver.driverName}</h1>
-                <h2>Pickup and Delivery Tracking</h2>
-              <PickupList pickups={user.driver.pickups} handleClick={this.handleClick} />
-              <DeliveryList deliveries={user.driver.deliveries}/> 
-            </Fragment>        
-           )
+              <h2>Pickup and Delivery Tracking</h2>
+              <PickupList userType='driver' driverName={user.driver.driverName} pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+              <DeliveryList  userType='driver' driverName={user.driver.driverName} deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+            </Fragment>
+          )
         } else {
-          if(user.depot) {
-            console.log('*** user.depot.drivers: ', user.depot.drivers, '***');
-            fragment = (
+          if (user.depot) {
+          fragment = (
               <Fragment>
                 <HeaderBar />
-                <h1>{user.depot.depotName} Dashboard</h1>
-                <DeliveryList deliveries={user.depot.deliveries}/>
-                <PickupList pickups={user.depot.pickups}/>
-                <DriverList drivers={user.depot.drivers}/> 
-              </Fragment>       
-            ) 
-          } 
+                <h1>Depot Dashboard - {user.depot.depotName}</h1>
+                <h2>Pickup and Delivery Tracking</h2>
+                <PickupList   userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+                <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+                <DriverList userType='depot' drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}   />
+              </Fragment>
+            )
+          }
         }
-      } 
+      }
     }
     return fragment;
   }
 }
 
 const mapStateToProps = state => {
-  const {currentUser} = state.auth;
+  const { currentUser } = state.auth;
 
   return {
     user: state.protectedData.user,
-    // username: currentUser.username,
-    // userId: currentUser.id,
-    // email: currentUser.email,
-    // name: `${currentUser.firstName} ${currentUser.lastName}`,
     showWarning: state.auth.showWarning,
-    showLogin: state.order.showLogin,
-    loggedIn: state.auth.currentUser !== null,   
-    currentUser: currentUser 
+    showLogin: state.auth.showLogin,
+    loggedIn: state.auth.currentUser !== null,
+    currentUser: currentUser,
+    showDetails: state.protectedData.showDetails
   };
 };
 
