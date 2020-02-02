@@ -10,7 +10,7 @@ const Pickup = (props) => {
     let detailsButtonText = '-LESS-'
     return (
       <Fragment>
-        <li className="pickup">
+        <li className="dashboard">
           <PickupDetail component="pickup" {...props}  detailsButtonText={detailsButtonText} />
         </li>     
       </Fragment> 
@@ -18,7 +18,7 @@ const Pickup = (props) => {
   }
   return (
     <Fragment>
-      <li className="pickup">
+      <li className="dashboard">
         <PickupBasic component="pickup" {...props}  detailsButtonText={detailsButtonText} />
       </li>     
     </Fragment> 

@@ -14,24 +14,26 @@ const OrderDetail = (props) => {
     <Fragment>
       <StatusButton component="order" {...props} index={props.index}  status={props.orderStatus.replace(/_/g, " ")}  />
       <div className="orderDest">
-        <p className="big bold"> Destination:</p>
-        <p>{props.destination.recipient.businessName}</p>
+        <p className="big bold reverse">Destination:</p>
         <p>{props.destination.recipient}</p>
+        <p>{props.destination.businessName}</p>
         <p>{props.destination.streetAddress}</p>
         <p>{props.destination.city  +  ', ' + props.destination.state + ' ' + props.destination.zipcode}</p>
-        <p>{props.destination.recipient.recipientPhone}</p>
+        <p>{props.destination.phone}</p>
         <p className="bold orderInstructions">{instructions}</p>
       </div>       
       <div className="orderContents">     
-        <p className="big bold">Order Contents: </p>
+        <p className="big bold reverse">Contents:</p>
         <p>{props.orderDescription}</p>
       </div>    
       <div className="orderSize">
-        <p className="big bold"> Order Size: </p>
+        <p className="big bold reverse">Order Size:</p>
         <p>{props.orderSize}</p>
       </div> 
-      <ShowDetailsButton component="order" {...props} />   
-      <DeleteOrderButton component="order" {...props} />   
+      <div className= "orderButtons">
+        <p><ShowDetailsButton component="order" {...props} /></p>  
+        <p><DeleteOrderButton component="order" {...props} /></p>   
+      </div>
     </Fragment>
   );
 

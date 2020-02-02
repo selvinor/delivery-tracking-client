@@ -18,7 +18,8 @@ return (
             <Driver
               key={index}
               index={index}
-              driver={driver}
+              {...driver}
+              {...props}
             />
           ))}
         </ul>

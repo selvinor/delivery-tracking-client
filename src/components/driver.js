@@ -1,22 +1,26 @@
 import React, { Fragment } from 'react';
-
+import DriverBasic from './driver-basic';
+import DriverDetail from './driver-detail';
 
 const Driver = (props) => {
-  const driver = props.driver;
-
+  const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
+  let detailsButtonText = '-MORE-'
+  if (showDetails) {
+    let detailsButtonText = '-LESS-'
+    return (
+      <Fragment>
+        <li className="dashboard">
+          <DriverDetail component="driver" {...props}  detailsButtonText={detailsButtonText}  />
+        </li>     
+      </Fragment> 
+    ); 
+  }
   return (
     <Fragment>
-      <li className="driver">
-      <p><span className="bold"> Driver Name</span><br />{driver.driverName} </p>
-      <p><span className="bold"> Phone: </span><br />{ driver.driverPhone} </p>
-      <p><span className="bold"> VehicleMake: </span><br />{driver.driverVehicleMake}</p>
-      <p><span className="bold"> VehicleModel: </span><br />{driver.driverVehicleModel}</p>  
-      <p><span className="bold"> VehiclePlate: </span><br />{driver.driverVehiclePlate}</p>  
-      <p><span className="bold"> Driver StatusButton: </span><br />{driver.driverStatus}<br />{driver.updatedAt}  </p>
-      {/* <p><span className="bold"> Pickups: </span><br />{driver.pickups} </p>
-      <p><span className="bold"> Deliveries: </span><br />{driver.deliveries} </p> */}
-    </li>     
-    </Fragment>
+      <li className="dashboard">
+        <DriverBasic component="driver" {...props} detailsButtonText={detailsButtonText} />
+      </li>     
+    </Fragment> 
   );
 };
 

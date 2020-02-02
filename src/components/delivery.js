@@ -9,7 +9,7 @@ const Delivery = (props) => {
     let detailsButtonText = '-LESS-'
     return (
       <Fragment>
-        <li className="delivery">
+        <li className="dashboard">
           <DeliveryDetail component="delivery" {...props}  detailsButtonText={detailsButtonText}  />
         </li>     
       </Fragment> 
@@ -17,7 +17,7 @@ const Delivery = (props) => {
   }
   return (
     <Fragment>
-      <li className="delivery">
+      <li className="dashboard">
         <DeliveryBasic component="delivery" {...props} detailsButtonText={detailsButtonText} />
       </li>     
     </Fragment> 

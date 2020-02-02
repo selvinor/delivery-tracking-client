@@ -12,17 +12,18 @@ const OrderBasic = (props) => {
   return (
     <Fragment>
       <StatusButton component="delivery" {...props}  index={props.index}  status={props.orderStatus.replace(/_/g, " ")}  />
-      <div className="orderDest">
-        <p className="big  bold"> Destination:</p>
-        <p>{props.destination.recipient.businessName}</p>
+      <div className="orderDest reverse">
+        <p className="big  bold">Destination:</p>
         <p>{props.destination.recipient}</p>
+        <p>{props.destination.businessName}</p>
         <p>{props.destination.streetAddress}</p>
-        <p>{props.destination.city  +  ', ' + props.destination.state + ' ' + props.destination.zipcode}</p>
-        <p>{props.destination.recipient.recipientPhone}</p>
+        <p>{props.destination.city }</p>
         <p className="bold deliveryInstructions">{instructions}</p>
       </div>       
-      <ShowDetailsButton component="order" {...props} />   
-      <DeleteOrderButton component="order" {...props} />   
+      <div className= "orderButtons">
+        <p><ShowDetailsButton component="order" {...props} /></p>  
+        <p><DeleteOrderButton component="order" {...props} /></p>     
+      </div>
     </Fragment>
   );
 

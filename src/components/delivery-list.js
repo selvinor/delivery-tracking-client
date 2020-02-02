@@ -19,8 +19,11 @@ console.log('delivery-list props: ', props);
               <Delivery
                 key={index}
                 index={index}
-                {...delivery}
-                {...props}
+                delivery={delivery}
+                handleStatusClick={props.handleStatusClick} 
+                handleDetailsClick={props.handleDetailsClick} 
+                showDetails={props.showDetails}                 
+                // {...props}
               />
             ))}
           </ul>

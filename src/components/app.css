@@ -1,4 +1,6 @@
-
+body {
+  margin:0;
+}
 h1 {
 
   background: transparent;
@@ -39,15 +41,19 @@ a{
   color:'black';
 }
 p {
-  font-size:.8vw;
+  font-size:1.5vw;
 }
 
+#root {
+  padding:0;
+  margin:0;
+}
 .updated {
-  font-size:.6vw;
+  font-size:1vw;
 }
 
 .timeago {
-  font-size:.4vw;
+  font-size:.8vw;
 }
 
 .status {
@@ -66,8 +72,8 @@ p {
 .status-button {
   /* margin: auto; */
   font-size:.5vw;
-  text-align:center;
-  min-width:170px;
+  /* text-align:center; */
+  min-width:12px;
 }
 
 .status-button button{
@@ -82,7 +88,7 @@ text-align: center;
 }
 
 .list-index {
-  font-size:.6vw;
+  font-size:1vw;
 }
 
 .center {
@@ -119,13 +125,6 @@ text-align: center;
   min-height: 150vh;
 }
 
-/* .order-list {
-  background: #e8e8e8;
-  border-radius: 4px;
-  padding: 5px;
-  max-width: 400px;
-
-} */
 .newOrder {
   background: #e8e8e8;
   border-radius: 4px;
@@ -133,7 +132,7 @@ text-align: center;
   max-width: 400px;
   font-size: 12px;
 }
-.order, .pickup, .delivery, .driver, .depot, .zone {
+.dashboard{
   background: #fff;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
   padding: 3px 10px;
@@ -141,11 +140,14 @@ text-align: center;
   margin-bottom: 6px;
   border-radius: 3px;
   display: flex;
-  align-items: top;
   justify-content: space-between;
 }
 .pickup p {
   text-align: center;
+}
+.top{
+  padding:0;
+  margin: auto;
 }
 .order p {
   text-align: center;
@@ -168,11 +170,10 @@ text-align: center;
   font-weight:800;
 }
 .big {
-  font-size: .9vw;
+  font-size: 1.8vw;
 }
 .center {
   text-align: center;
-  margin:0 auto;
 }
 .center p {
   margin:0 auto;
@@ -230,24 +231,27 @@ text-align: center;
   margin:0 auto;
 }
 .small {
-  font-size: .6vw;
+  font-size: 1vw;
 }
-
+.reverse {
+  background-color:#cccccc;
+  color:#000000;
+  padding:0 5px;
+  font-weight:800;
+  border-radius:4px;
+}
 .deliveryDest {
-  min-width: 175px;
-  margin:auto;
+  /* padding:0; */
   text-align:center;
 }
 .deliveryDest p{
   margin: auto;
-  font-size:1vw;
 }
 .deliveryInstructions{
   font-style: italic;
 }
 
 .pickupLocation p{
-  padding:0;
   margin: auto;
 }
 .orderDest {
@@ -259,8 +263,15 @@ text-align: center;
   padding:0;
   margin: auto;
 }
+.detail {
+  font-size:.8vw;
+  margin:0;
+}
 .details {
-  font-size:.5vw;
+  font-size:1.1vw;
+}
+.makeModel {
+  margin-bottom:0px;
 }
 .orderContents {
   min-width: 175px;
@@ -274,4 +285,16 @@ text-align: center;
 }
 .delete {
   background-color:red;
+}
+.order-list {
+  display: block;
+  list-style-type: none;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+}
+.small-list p {
+  margin: auto;
 }

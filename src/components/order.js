@@ -10,7 +10,7 @@ const Order = (props) => {
     let detailsButtonText = '-LESS-'
     return (
       <Fragment>
-        <li className="order">
+        <li className="dashboard">
           <OrderDetail component="order" {...props}  detailsButtonText={detailsButtonText}  />
         </li>     
       </Fragment> 
@@ -18,7 +18,7 @@ const Order = (props) => {
   }
   return (
     <Fragment>
-      <li className="order">
+      <li className="dashboard">
         <OrderBasic component="order" {...props} detailsButtonText={detailsButtonText} />
       </li>     
     </Fragment> 

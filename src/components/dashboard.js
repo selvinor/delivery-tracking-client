@@ -30,7 +30,7 @@ export class Dashboard extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleDeleteOrder = this.handleDeleteOrder.bind(this);
     this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
   }
   
@@ -60,8 +60,10 @@ export class Dashboard extends React.Component {
     this.props.dispatch(showDetailsClicked(component, id));
   }
 
-  handleDeleteClick(id) {
-    this.props.dispatch(deleteOrder(id));
+  handleDeleteOrder(id) {
+    return this.props
+      .dispatch(deleteOrder(id))
+      .then(() => this.props.dispatch(fetchProtectedData(id)))
   }
 
   submitNewOrderForm(e) {
@@ -186,7 +188,7 @@ export class Dashboard extends React.Component {
             <HeaderBar />
             <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
             <h2>Order Tracking</h2>
-            <OrderList  userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteClick={this.handleDeleteClick}showDetails={this.props.showDetails} />
+            <OrderList  userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteOrder={this.handleDeleteOrder}showDetails={this.props.showDetails} />
           </Fragment>
         )
 
@@ -197,8 +199,8 @@ export class Dashboard extends React.Component {
               <HeaderBar />
               <h1>Driver Dashboard - {user.driver.driverName}</h1>
               <h2>Pickup and Delivery Tracking</h2>
-              <PickupList userType='driver' driverName={user.driver.driverName} pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
-              <DeliveryList  userType='driver' driverName={user.driver.driverName} deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+              <PickupList userType='driver'  pickups={user.driver.pickups}  handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
+              <DeliveryList  userType='driver'  deliveries={user.driver.deliveries}  handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
             </Fragment>
           )
         } else {
