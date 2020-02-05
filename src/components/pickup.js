@@ -20,6 +20,7 @@ const Pickup = (props) => {
             handleStatusClick={props.handleStatusClick} 
             updated={props.pickupStatus[props.pickupStatus.length - 1].timestamp} 
             status={props.pickupStatus[props.pickupStatus.length - 1].status} 
+            timestamp={props.pickupStatus[props.pickupStatus.length - 1].timestamp} 
             numOrders={props.pickupVendor.orders.length} 
             index={props.index} />
           <PickupDetail 
@@ -40,6 +41,7 @@ const Pickup = (props) => {
             handleStatusClick={props.handleStatusClick} 
             updated={props.pickupStatus[props.pickupStatus.length - 1].timestamp} 
             status={props.pickupStatus[props.pickupStatus.length - 1].status} 
+            timestamp={props.pickupStatus[props.pickupStatus.length - 1].timestamp} 
             numOrders={props.pickupVendor.orders.length} 
             index={props.index} />
         <PickupBasic component="pickup" {...props}  detailsButtonText={detailsButtonText} />

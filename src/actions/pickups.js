@@ -104,17 +104,17 @@ export const postPickup = pickup => (dispatch, getState) => {
     });
 };
 
-export const updatePickupStatus = (userType, oldStatus, pickupId) => async (dispatch, getState) => {
+export const updatePickupStatus = (userType, oldStatus, timestamp, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  let newStatus = {'status':'pending'};
+  let newStatus = {'status':'pending', 'timestamp': new Date()};
   dispatch(updatePickupStatusRequested(userType));
-  console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus,  '- ', pickupId);
+  console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', pickupId);
   if (oldStatus === 'pending') {
-    newStatus = {'status':'picked_up'};
+    newStatus = {'status':'picked_up', 'timestamp': timestamp};
     console.log('after updatePickupStatus: newStatus: ', newStatus);
   } else {
     if (oldStatus === 'picked up') {
-      newStatus = {'status':'dropped_off'};
+      newStatus = {'status':'dropped_off', 'timestamp': timestamp};
       console.log('after updatePickupStatus: newStatus: ', newStatus);
     }
   }

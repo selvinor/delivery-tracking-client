@@ -21,7 +21,7 @@ const StatusButton = (props) => {
   console.log('status-button status2: ', status);
   return (
     <div className="status-button">
-      <button className={statusClass} onClick={() => {props.handleStatusClick(props.userType, props.component, props.status, props.id)}}>
+      <button className={statusClass} onClick={() => {props.handleStatusClick(props.userType, props.component, props.status, props.timestamp, props.id)}}>
         <p className="bold small">{props.component.charAt(0).toUpperCase() + props.component.substring(1)}  #{props.index +1}</p>
         <p className="list-index">{order}</p>
         <p className="status">{status}</p>

@@ -41,17 +41,17 @@ export class Dashboard extends React.Component {
     }
   }
 
-  handleStatusClick(userType, component, status, id) {
-    console.log('*** handleStatusClick component: ','userType: ', userType, ' | ', component, '| status: ', status, '| id: ', id, ' ***');
+  handleStatusClick(userType, component, status, timestamp, id) {
+    console.log('*** handleStatusClick component: ','userType: ', userType, ' | ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
     if (component === 'pickup') {
-      this.props.dispatch(updatePickupStatus(userType,  status, id));
+      this.props.dispatch(updatePickupStatus(userType,  status, timestamp, id));
     } else {
       if (component === 'delivery') {
-        this.props.dispatch(updateDeliveryStatus(userType, status, id));
+        this.props.dispatch(updateDeliveryStatus(userType, status, timestamp, id));
       } else {
         if (component === 'order') {
           console.log('dispatching updateOrderStatus')
-          this.props.dispatch(updateOrderStatus(userType, status, id));
+          this.props.dispatch(updateOrderStatus(userType, status, timestamp, id));
         }
       }
     }
