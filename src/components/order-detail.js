@@ -1,8 +1,4 @@
 import React, { Fragment } from 'react';
-import StatusButton from './status-button';
-import ShowDetailsButton from './show-details-button';
-import DeleteOrderButton from './delete-button';
-
 const OrderDetail = (props) => {
   console.log('OrderDetail props: ', props);
   let instructions = null;
@@ -12,7 +8,6 @@ const OrderDetail = (props) => {
 
   return (
     <Fragment>
-      <StatusButton component="order" {...props} index={props.index}  status={props.orderStatus.replace(/_/g, " ")}  />
       <div className="orderDest">
         <p className="big bold reverse">Destination:</p>
         <p>{props.destination.recipient}</p>
@@ -31,8 +26,6 @@ const OrderDetail = (props) => {
         <p>{props.orderSize}</p>
       </div> 
       <div className= "orderButtons">
-        <p><ShowDetailsButton component="order" {...props} /></p>  
-        <p><DeleteOrderButton component="order" {...props} /></p>   
       </div>
     </Fragment>
   );

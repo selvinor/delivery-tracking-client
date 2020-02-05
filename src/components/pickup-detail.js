@@ -1,6 +1,4 @@
 import React, { Fragment } from 'react';
-import StatusButton from './status-button';
-import ShowDetailsButton from './show-details-button';
 
 const PickupDetail = (props) => {
   const orderList = props.pickupVendor.orders.map(order => {
@@ -9,7 +7,6 @@ const PickupDetail = (props) => {
 
    return (
     <Fragment>
-      <StatusButton component="pickup" numOrders={props.pickupVendor.orders.length} index={props.index}  {...props} status={props.pickupStatus.replace(/_/g, " ")} />
       <div className="pickupLocation center">
         <p className="big reverse bold"> Pickup Location:</p>
         <p>{props.pickupVendor.businessName}</p>
@@ -26,7 +23,6 @@ const PickupDetail = (props) => {
         <p className="big bold reverse top">Orders: </p>
         <p>{orderList}</p>
       </div>    
-      <ShowDetailsButton component="pickup" {...props} /> 
     </Fragment>
   );
 

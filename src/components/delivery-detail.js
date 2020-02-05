@@ -1,6 +1,4 @@
 import React, { Fragment } from 'react';
-import StatusButton from './status-button';
-import ShowDetailsButton from './show-details-button';
 
 const DeliveryDetail = (props) => {
   let instructions = props.order.destination.instructions;
@@ -9,7 +7,6 @@ const DeliveryDetail = (props) => {
   }
    return (
     <Fragment>
-      <StatusButton component="delivery" {...props}  status={props.deliveryStatus.replace(/_/g, " ")} />
       <div className="deliveryDest">
         <p className="big reverse">Destination:</p>
         <p className="bold" > {props.order.destination.businessName}</p>
@@ -27,7 +24,6 @@ const DeliveryDetail = (props) => {
         <p className="big bold reverse top"> Order Size: </p>
         <p className="center">{props.order.orderSize}</p>
       </div> 
-      <ShowDetailsButton component="delivery" {...props} /> 
     </Fragment>
   );
 

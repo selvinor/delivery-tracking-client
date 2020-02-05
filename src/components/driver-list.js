@@ -19,7 +19,9 @@ return (
               key={index}
               index={index}
               {...driver}
-              {...props}
+              handleStatusClick= {props.handleStatusClick}
+              handleDetailsClick= {props.handleDetailsClick}
+              showDetails= {props.showDetails}
             />
           ))}
         </ul>

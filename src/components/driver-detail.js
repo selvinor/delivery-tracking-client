@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
-import StatusButton from './status-button';
-import ShowDetailsButton from './show-details-button';
+import PickupList from './pickup-list'
+import DeliveryList from './delivery-list'
 
 const DriverDetail = (props) => {
   return (
     <Fragment>
-      <StatusButton component="delivery" {...props} status={props.deliveryStatus.replace(/_/g, " ")} />
       <div>
         <p className="big bold reverse top">Vehicle: </p>
         <p><span className="bold"> Driver Name</span><br />{props.driver} </p>
@@ -22,7 +21,6 @@ const DriverDetail = (props) => {
       <p className="big bold reverse top">Deliveries: </p>
         <p><span className="bold"> Deliveries: </span><br />{props.driver.deliveries} </p>
       </div>
-      <ShowDetailsButton component="delivery" {...props} /> 
     </Fragment>
   );
 };

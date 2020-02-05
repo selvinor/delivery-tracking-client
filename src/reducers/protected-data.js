@@ -100,7 +100,7 @@ export default function reducer(state = initialState, action) {
               return {
                 ...pickup,
                 // copy the existing pickup   
-                pickupStatus: action.payload.pickupStatus.pickupStatus  // replace the pickupStatus      
+                pickupStatus: action.payload.pickupStatus.status  // replace the pickupStatus      
               }
             }
             return pickup; // Leave every other pickup unchanged
@@ -125,7 +125,7 @@ export default function reducer(state = initialState, action) {
               return {
                 ...pickup,
                 // copy the existing pickup   
-                pickupStatus: action.payload.pickupStatus.pickupStatus  // replace the pickupStatus      
+                pickupStatus: action.payload.pickupStatus.status  // replace the pickupStatus      
               }
             }
             return pickup; // Leave every other pickup unchanged
@@ -142,6 +142,7 @@ export default function reducer(state = initialState, action) {
           }
         case  'depot':
           pickups = state.user.depot.pickups;
+          // console.log('reducer action.payload: ', action.payload );
           updPickups = pickups.map((pickup, userType,index) => {
             // Find the pickup with the matching id
             if (pickup._id === action.payload.id) {
@@ -149,7 +150,7 @@ export default function reducer(state = initialState, action) {
               return {
                 ...pickup,
                 // copy the existing pickup   
-                pickupStatus: action.payload.pickupStatus.pickupStatus  // replace the pickupStatus      
+                pickupStatus: action.payload.pickupStatus.status  // replace the pickupStatus      
               }
             }
             return pickup; // Leave every other pickup unchanged

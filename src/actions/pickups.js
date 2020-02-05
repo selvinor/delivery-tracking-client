@@ -104,23 +104,22 @@ export const postPickup = pickup => (dispatch, getState) => {
     });
 };
 
-export const updatePickupStatus = (userType, newStatus, pickupId) => async (dispatch, getState) => {
+export const updatePickupStatus = (userType, oldStatus, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
+  let newStatus = {'status':'pending'};
   dispatch(updatePickupStatusRequested(userType));
-  console.log('before updatePickupStatus: ',userType, ' - ', newStatus,  '- ', pickupId);
-  if (newStatus.pickupStatus === 'pending') {
-    newStatus.pickupStatus = 'picked_up';
+  console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus,  '- ', pickupId);
+  if (oldStatus === 'pending') {
+    newStatus = {'status':'picked_up'};
     console.log('after updatePickupStatus: newStatus: ', newStatus);
   } else {
-    if (newStatus.pickupStatus === 'picked up') {
-      newStatus.pickupStatus = 'dropped_off';
+    if (oldStatus === 'picked up') {
+      newStatus = {'status':'dropped_off'};
       console.log('after updatePickupStatus: newStatus: ', newStatus);
-    } else {
-      newStatus.pickupStatus = 'pending';
     }
   }
   
-  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
+  console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
       method: 'PUT',
@@ -128,13 +127,13 @@ export const updatePickupStatus = (userType, newStatus, pickupId) => async (disp
         'content-type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
-      // body: JSON.stringify(newStatus)
+      // body: JSON.stringify(oldStatus)
       body: JSON.stringify(newStatus)
     });
     const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
     // console.log('res_1: ', res_1);
-    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus, res_1));
+    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus));
   }
   catch (error) {
     console.log('error!: ', error);

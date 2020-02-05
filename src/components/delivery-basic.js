@@ -1,6 +1,4 @@
 import React, { Fragment } from 'react';
-import StatusButton from './status-button';
-import ShowDetailsButton from './show-details-button';
 const DeliveryBasic = (props) => {
   console.log('DeliveryBasic props: ', props);
   let instructions = null;
@@ -9,7 +7,6 @@ const DeliveryBasic = (props) => {
   }
    return (
     <Fragment>
-      <StatusButton component="delivery" {...props}  status={props.delivery.deliveryStatus.replace(/_/g, " ")}  />
       <div className="deliveryDest">
         <p className="big bold reverse"> Destination:</p>
         <p> {props.delivery.order.destination.recipient.businessName}</p>
@@ -19,7 +16,6 @@ const DeliveryBasic = (props) => {
         <p>{props.delivery.order.destination.recipient.phone}</p>
         <p className="bold deliveryInstructions">{instructions}</p>
       </div>     
-      <ShowDetailsButton component="delivery" {...props} />   
     </Fragment>
   );
 };
