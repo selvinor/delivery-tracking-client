@@ -16,6 +16,12 @@ import {
   UPDATE_DELIVERY_STATUS_SUCCEEDED,
 } from '../actions/deliveries';
 
+// import {
+//   UPDATE_DRIVER_STATUS_REQUESTED,
+//   UPDATE_DRIVER_STATUS_THREW_ERROR,
+//   UPDATE_DRIVER_STATUS_SUCCEEDED,
+// } from '../actions/drivers';
+
 import {
   UPDATE_ORDER_STATUS_REQUESTED,
   UPDATE_ORDER_STATUS_THREW_ERROR,
@@ -97,13 +103,14 @@ export default function reducer(state = initialState, action) {
             // Find the pickup with the matching id
             if (pickup._id === action.payload.id) {
               // Return a new object
-              return {
-                ...pickup,
-                // copy the existing pickup   
-                pickupStatus: action.payload.pickupStatus  // replace the pickupStatus      
-              }
+              return ( 
+                {...pickup, pickupStatus: [...pickup.pickupStatus, action.payload.pickupStatus]}  // append the new pickupStatus               
+              )
+            } else {
+              return (
+                {...pickup}  // return the new pickup              
+              )
             }
-            return pickup; // Leave every other pickup unchanged
           });
           return {
             ...state,   //copy the state (level 0)
@@ -115,20 +122,20 @@ export default function reducer(state = initialState, action) {
               }
             }
           }
-
         case  'driver':
           pickups = state.user.driver.pickups;
           updPickups = pickups.map((pickup, userType,index) => {
             // Find the pickup with the matching id
             if (pickup._id === action.payload.id) {
               // Return a new object
-              return {
-                ...pickup,
-                // copy the existing pickup   
-                pickupStatus: action.payload.pickupStatus  // replace the pickupStatus      
-              }
+              return ( 
+                {...pickup, pickupStatus: [...pickup.pickupStatus, action.payload.pickupStatus]}  // append the new pickupStatus               
+              )
+            } else {  
+              return (
+                {...pickup}  // return the new pickup              
+              )
             }
-            return pickup; // Leave every other pickup unchanged
           });
           return {
             ...state,   //copy the state (level 0)
@@ -149,6 +156,10 @@ export default function reducer(state = initialState, action) {
               // Return a new object
               return ( 
                 {...pickup, pickupStatus: [...pickup.pickupStatus, action.payload.pickupStatus]}  // append the new pickupStatus               
+              )
+            } else {
+              return (
+                {...pickup}  // return the new pickup              
               )
             }
           });
@@ -191,13 +202,14 @@ export default function reducer(state = initialState, action) {
             // Find the delivery with the matching id
             if (delivery._id === action.payload.id) {
               // Return a new object
-              return {
-                ...delivery,
-                // copy the existing delivery   
-                deliveryStatus: action.payload.deliveryStatus.deliveryStatus  // replace the deliveryStatus      
-              }
+              return ( 
+                {...delivery, deliveryStatus: [...delivery.deliveryStatus, action.payload.deliveryStatus]}  // append the new deliveryStatus               
+              )
+            } else {
+              return (
+                {...delivery}  // return the new delivery              
+              )
             }
-            return delivery; // Leave every other delivery unchanged
           });
           return {
             ...state,   //copy the state (level 0)
@@ -205,24 +217,24 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               vendor: {
                 ...state.user.vendor, //copy level 2
-                deliveries: updDeliveries
+                pickups: updPickups
               }
             }
           }
-
         case  'driver':
           deliveries = state.user.driver.deliveries;
           updDeliveries = deliveries.map((delivery, userType,index) => {
-            // Find the delivery with the matching id
+            // Find the pickup with the matching id
             if (delivery._id === action.payload.id) {
               // Return a new object
-              return {
-                ...delivery,
-                // copy the existing delivery   
-                deliveryStatus: action.payload.deliveryStatus.deliveryStatus  // replace the deliveryStatus      
-              }
+              return ( 
+                {...delivery, deliveryStatus: [...delivery.deliveryStatus, action.payload.deliveryStatus]}  // append the new deliveryStatus               
+              )
+            } else {
+              return (
+                {...delivery}  // return the new pickup              
+              )
             }
-            return delivery; // Leave every other delivery unchanged
           });
           return {
             ...state,   //copy the state (level 0)
@@ -230,45 +242,115 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               driver: {
                 ...state.user.driver, //copy level 2
-                deliveries: updDeliveries
+                pickups: updPickups
               }
             }
           }
-
-        case  'depot':
-          deliveries = state.user.depot.deliveries;
-          updDeliveries = deliveries.map((delivery, userType,index) => {
-            // Find the delivery with the matching id
-            if (delivery._id === action.payload.id) {
-              // Return a new object
-              return {
-                ...delivery,
-                // copy the existing delivery   
-                deliveryStatus: action.payload.deliveryStatus.deliveryStatus  // replace the deliveryStatus      
+          case  'depot':
+            deliveries = state.user.depot.deliveries;
+            console.log('reducer action.payload: ', action.payload );
+            updDeliveries = deliveries.map((delivery, userType,index) => {
+              // Find the delivery with the matching id
+              if (delivery._id === action.payload.id) {
+                // Return a new object
+                return ( 
+                  {...delivery, deliveryStatus: [...delivery.deliveryStatus, action.payload.deliveryStatus]}  // append the new deliveryStatus               
+                )
+              } else {
+                return (
+                  {...delivery}  // return the new delivery              
+                )
+              }
+            });
+            return {
+              ...state,   //copy the state (level 0)
+              user: {
+                ...state.user,
+                depot: {
+                  ...state.user.depot, //copy level 2
+                  deliveries: updDeliveries
+                }
               }
             }
-            return delivery; // Leave every other delivery unchanged
-          });
-          return {
-            ...state,   //copy the state (level 0)
-            user: {
-              ...state.user,
-              depot: {
-                ...state.user.depot, //copy level 2
-                deliveries: updDeliveries
-              }
-            }
-          }
-        default:
-          console.log("Sorry, unknown user type ", userType);
-      }
-    break;
-    case UPDATE_DELIVERY_STATUS_THREW_ERROR:
+          default:
+            console.log("Sorry, unknown user type ", userType);
+        }
+      break;
+      case UPDATE_PICKUP_STATUS_THREW_ERROR:
+      case UPDATE_DELIVERY_STATUS_THREW_ERROR:
       return Object.assign({}, state, {
         loading: false,
         error: true
       });
 
+// case UPDATE_DRIVER_STATUS_REQUESTED:
+//   return Object.assign({}, state, {
+//     loading: false,
+//     updating: true
+//   });
+// case UPDATE_DRIVER_STATUS_SUCCEEDED:
+//   //create a replacement set of UPDATED drivers
+//   userType = action.userType;
+//   console.log('action: ', action);
+//   let drivers = null;
+//   let updDrivers = null;
+//   switch(action.payload.userType) {
+//     case  'driver':
+//       driver = state.user.driver;
+//       if (driver._id === action.payload.id) {
+//         // Return a new object
+//         return ( 
+//           {...driver, driver.driverStatus: [...driverStatus, action.payload.driverStatus]}  // append the new driverStatus               
+//         )
+//       } else {
+//         return (
+//           {...driver}  // return the new pickup              
+//         )
+//       }
+//       return {
+//         ...state,   //copy the state (level 0)
+//         user: {
+//           ...state.user,
+//           driver: {
+//             ...state.user.driver, //copy level 2
+//             driverStatus: action.payload.driverStatus
+//           }
+//         }
+//       }
+//     case  'depot':
+//       drivers = state.user.depot.drivers;
+//       updDrivers = drivers.map((driver, userType,index) => {
+//         // Find the pickup with the matching id
+//         if (driver._id === action.payload.id) {
+//           // Return a new object
+//           return ( 
+//             {...driver, driverStatus: [...driver.driverStatus, action.payload.driverStatus]}  // append the new driverStatus               
+//           )
+//         } else {
+//           return (
+//             {...driver}  // return the new pickup              
+//           )
+//         }
+//       });
+//       return {
+//         ...state,   //copy the state (level 0)
+//         user: {
+//           ...state.user,
+//           depot: {
+//             ...state.user.depot, //copy level 2
+//             drivers: updDrivers
+//           }
+//         }
+//       }
+//     default:
+//       console.log("Sorry, unknown user type ", userType);
+//   }
+// break;
+// case UPDATE_DRIVER_STATUS_THREW_ERROR:
+//   return Object.assign({}, state, {
+//     loading: false,
+//     error: true
+//   });
 
     case UPDATE_ORDER_STATUS_REQUESTED:
       return Object.assign({}, state, {
@@ -286,16 +368,17 @@ export default function reducer(state = initialState, action) {
         case  'vendor':
           orders = state.user.vendor.orders;
           updOrders = orders.map((order, userType,index) => {
-            // Find the order with the matching id
+            // Find the pickup with the matching id
             if (order._id === action.payload.id) {
               // Return a new object
-              return {
-                ...order,
-                // copy the existing order   
-                orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
-              }
+              return ( 
+                {...order, deliveryStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new deliveryStatus               
+              )
+            } else {
+              return (
+                {...order}  // return the new pickup              
+              )
             }
-            return order; // Leave every other order unchanged
           });
           return {
             ...state,   //copy the state (level 0)
@@ -303,24 +386,24 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               vendor: {
                 ...state.user.vendor, //copy level 2
-                orders: updOrders
+                pickups: updOrders
               }
             }
           }
-
         case  'driver':
           orders = state.user.driver.orders;
-          updPickups = orders.map((order, userType,index) => {
-            // Find the order with the matching id
+          updOrders = orders.map((order, userType,index) => {
+            // Find the pickup with the matching id
             if (order._id === action.payload.id) {
               // Return a new object
-              return {
-                ...order,
-                // copy the existing order   
-                orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
-              }
+              return ( 
+                {...order, deliveryStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new deliveryStatus               
+              )
+            } else {
+              return (
+                {...order}  // return the new pickup              
+              )
             }
-            return order; // Leave every other order unchanged
           });
           return {
             ...state,   //copy the state (level 0)
@@ -328,7 +411,7 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               driver: {
                 ...state.user.driver, //copy level 2
-                orders: updOrders
+                pickups: updOrders
               }
             }
           }

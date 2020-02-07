@@ -18,12 +18,14 @@ const Driver = (props) => {
     return (
       <Fragment>
         <li className="dashboard">
-          <StatusButton 
+        <StatusButton 
             id={props._id}
             userType={props.userType}
             component="driver" 
-            updated={props.driverStatus[props.driver.driverStatus.length - 1].timestamp} 
+            handleStatusClick={props.handleStatusClick} 
+            updated={props.driverStatus[props.driverStatus.length - 1].timestamp} 
             status={props.driverStatus[props.driverStatus.length - 1].status} 
+            timestamp={props.driverStatus[props.driverStatus.length - 1].timestamp} 
             index={props.index} 
           />
           <DriverDetail component="driver" {...props} detailsButtonText={detailsButtonText} />
@@ -31,10 +33,10 @@ const Driver = (props) => {
         </li>
       </Fragment>
     );
-  }
-  return (
-    <Fragment>
-      <li className="dashboard">
+  } else {
+    return (
+      <Fragment>
+        <li className="dashboard">
         <StatusButton 
           id={props._id}
           userType={props.userType}
@@ -42,13 +44,16 @@ const Driver = (props) => {
           handleStatusClick={props.handleStatusClick} 
           updated={props.driverStatus[props.driverStatus.length - 1].timestamp} 
           status={props.driverStatus[props.driverStatus.length - 1].status} 
+          timestamp={props.driverStatus[props.driverStatus.length - 1].timestamp} 
           index={props.index} 
+          {...props}
         />
         <DriverBasic component="driver" {...props} detailsButtonText={detailsButtonText} />
         <ShowDetailsButton component="driver" {...props} />
-      </li>
-    </Fragment>
-  );
+        </li>
+      </Fragment>
+    );
+  }
 };
 
 export default Driver;

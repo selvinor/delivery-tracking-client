@@ -113,13 +113,13 @@ export const updatePickupStatus = (userType, oldStatus, timestamp, pickupId) => 
     newStatus = {'status':'picked_up', 'timestamp': timestamp};
     console.log('after updatePickupStatus: newStatus: ', newStatus);
   } else {
-    if (oldStatus === 'picked up') {
+    if (oldStatus === 'picked_up') {
       newStatus = {'status':'dropped_off', 'timestamp': timestamp};
       console.log('after updatePickupStatus: newStatus: ', newStatus);
     }
   }
   
-  console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
+  console.log('JSON.stringify({pickupStatus:newStatus}): ',JSON.stringify({pickupStatus:newStatus}));
   try {
     const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
       method: 'PUT',
@@ -128,7 +128,7 @@ export const updatePickupStatus = (userType, oldStatus, timestamp, pickupId) => 
         Authorization: `Bearer ${authToken}`
       },
       // body: JSON.stringify(oldStatus)
-      body: JSON.stringify(newStatus)
+      body: JSON.stringify({pickupStatus:newStatus})
     });
     const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();

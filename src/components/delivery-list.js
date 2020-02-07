@@ -17,13 +17,16 @@ console.log('delivery-list props: ', props);
           <ul className="delivery-list">
             {deliveries.map((delivery, index) => (
               <Delivery
-                key={index}
-                index={index}
-                delivery={delivery}
-                handleStatusClick={props.handleStatusClick} 
-                handleDetailsClick={props.handleDetailsClick} 
-                showDetails={props.showDetails}                 
-                // {...props}
+              key={index}
+              index={index}
+              {...delivery}
+              id={delivery.id}
+              userType={props.userType}
+              component="pickup"  
+              handleStatusClick={props.handleStatusClick}
+              handleDetailsClick={props.handleDetailsClick}
+              showDetails={props.showDetails}
+
               />
             ))}
           </ul>

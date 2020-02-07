@@ -1,5 +1,7 @@
 import React from 'react';
 import Driver from './driver';
+import PickupList from './pickup-list';
+import DeliveryList from './delivery-list';
 
 export default function DriverList(props) {
 
@@ -15,14 +17,29 @@ return (
         <h3>Drivers</h3>
         <ul className="driver-list">
           {drivers.map((driver, index) => (
+          <li>
             <Driver
               key={index}
               index={index}
               {...driver}
-              handleStatusClick= {props.handleStatusClick}
-              handleDetailsClick= {props.handleDetailsClick}
-              showDetails= {props.showDetails}
+              {...props}
             />
+            <PickupList className="pickupList"
+              {...driver} 
+              {...props}
+
+              // handleStatusClick={props.handleStatusClick} 
+              // handleDetailsClick={props.handleDetailsClick} 
+              // showDetails={props.showDetails}
+            />
+            <DeliveryList 
+              {...driver}
+              {...props} 
+              // handleStatusClick={props.handleStatusClick} 
+              // handleDetailsClick={props.handleDetailsClick} 
+              // showDetails={props.showDetails}
+            />
+          </li>
           ))}
         </ul>
       </div>

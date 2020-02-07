@@ -14,7 +14,7 @@ const Pickup = (props) => {
       <Fragment>
         <li className="dashboard">
           <StatusButton 
-            id={props._id}
+            id={props.id}
             userType={props.userType}
             component="pickup"  
             handleStatusClick={props.handleStatusClick} 

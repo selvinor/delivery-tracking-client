@@ -182,7 +182,7 @@ export class Dashboard extends React.Component {
     let fragment = null;
     let user = this.props.user;
     if (user) {
-      if (user.vendor) {
+      if (user.vendor) {   // Display components and send props to components based on who's logged in
         fragment = (
           <Fragment>
             <HeaderBar />
@@ -193,7 +193,7 @@ export class Dashboard extends React.Component {
         )
 
       } else {
-        if (user.driver) {
+        if (user.driver) { // Display components and send props to components based on who's logged in
           fragment = (
             <Fragment>
               <HeaderBar />
@@ -204,7 +204,7 @@ export class Dashboard extends React.Component {
             </Fragment>
           )
         } else {
-          if (user.depot) {
+          if (user.depot) { // Display components and send props to components based on who's logged in
           fragment = (
               <Fragment>
                 <HeaderBar />
@@ -212,7 +212,7 @@ export class Dashboard extends React.Component {
                 <h2>Pickup and Delivery Tracking</h2>
                 <PickupList   userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
                 <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
-                <DriverList userType='depot' drivers={user.depot.drivers} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}   />
+                <DriverList userType='depot' drivers={user.depot.drivers}   pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}   />
               </Fragment>
             )
           }

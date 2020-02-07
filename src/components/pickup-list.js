@@ -21,8 +21,13 @@ export default function PickupList(props) {
               <Pickup
                 key={index}
                 index={index}
+                id={pickup._id}
+                userType={props.userType}
+                component="pickup"  
                 {...pickup}
-                {...props}
+                handleStatusClick={props.handleStatusClick}
+                handleDetailsClick={props.handleDetailsClick}
+                showDetails={props.showDetails}
               />
             ))}
           </ul>

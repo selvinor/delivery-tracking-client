@@ -13,13 +13,14 @@ const Delivery = (props) => {
       <Fragment>
         <li className="dashboard">
           <StatusButton 
-            id={props._id}
+            id={props.id}
             userType={props.userType}
             component="delivery" 
             handleStatusClick={props.handleStatusClick} 
-            updated={props.delivery.deliveryStatus[props.delivery.deliveryStatus.length - 1].timestamp} 
-            status={props.delivery.deliveryStatus[props.delivery.deliveryStatus.length - 1].status} 
-            orderNumber={props.delivery.orderNumber} 
+            updated={props.deliveryStatus[props.deliveryStatus.length - 1].timestamp} 
+            status={props.deliveryStatus[props.deliveryStatus.length - 1].status} 
+            timestamp={props.deliveryStatus[props.deliveryStatus.length - 1].timestamp} 
+            orderNumber={props.orderNumber} 
             index={props.index} 
           />
           <DeliveryDetail component="delivery" {...props}  
@@ -37,9 +38,10 @@ const Delivery = (props) => {
           userType={props.userType}
           component="delivery" 
           handleStatusClick={props.handleStatusClick} 
-          updated={props.delivery.deliveryStatus[props.delivery.deliveryStatus.length - 1].timestamp} 
-          status={props.delivery.deliveryStatus[props.delivery.deliveryStatus.length - 1].status} 
-          orderNumber={props.delivery.orderNumber} 
+          updated={props.deliveryStatus[props.deliveryStatus.length - 1].timestamp} 
+          status={props.deliveryStatus[props.deliveryStatus.length - 1].status} 
+          timestamp={props.deliveryStatus[props.deliveryStatus.length - 1].timestamp} 
+          orderNumber={props.orderNumber} 
           index={props.index} 
         />
         <DeliveryBasic component="delivery" {...props} detailsButtonText={detailsButtonText} />
