@@ -25,7 +25,7 @@ const Delivery = (props) => {
           />
           <DeliveryDetail component="delivery" {...props}  
             detailsButtonText={detailsButtonText}  />
-          <ShowDetailsButton component="delivery" {...props} />   
+          <ShowDetailsButton component="delivery" detailsButtonText={detailsButtonText} {...props} />   
         </li>     
       </Fragment> 
     ); 
@@ -45,7 +45,7 @@ const Delivery = (props) => {
           index={props.index} 
         />
         <DeliveryBasic component="delivery" {...props} detailsButtonText={detailsButtonText} />
-        <ShowDetailsButton component="delivery" {...props} />   
+        <ShowDetailsButton component="delivery" detailsButtonText={detailsButtonText} {...props} />   
       </li>     
     </Fragment> 
   );

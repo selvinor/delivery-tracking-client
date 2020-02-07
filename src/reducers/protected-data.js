@@ -56,7 +56,7 @@ export default function reducer(state = initialState, action) {
   let  userType = null;
   switch (action.type) {
     case SHOW_DETAILS_CLICKED:
-      // console.log('SHOW_DETAILS_CLICKED payload: ', action.payload);
+      // //console.log('SHOW_DETAILS_CLICKED payload: ', action.payload);
       let idAlreadyExists = state.showDetails.findIndex(detail => detail.id === action.payload.id) > -1;
       // make a copy of the existing array
       let showDetails = state.showDetails.slice();
@@ -68,7 +68,7 @@ export default function reducer(state = initialState, action) {
         // modify the COPY, not the original
         showDetails.push(action.payload);
       }
-      // console.log('showDetails in reducer: ', showDetails);
+      // //console.log('showDetails in reducer: ', showDetails);
      return {
         // "spread" the original state object
         ...state,
@@ -93,7 +93,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_PICKUP_STATUS_SUCCEEDED:
       //create a replacement set of UPDATED pickups
       userType = action.userType;
-      console.log('action: ', action);
+      //console.log('action: ', action);
       let pickups = null;
       let updPickups = null;
       switch(action.payload.userType) {
@@ -149,7 +149,7 @@ export default function reducer(state = initialState, action) {
           }
         case  'depot':
           pickups = state.user.depot.pickups;
-          console.log('reducer action.payload: ', action.payload );
+          //console.log('reducer action.payload: ', action.payload );
           updPickups = pickups.map((pickup, userType,index) => {
             // Find the pickup with the matching id
             if (pickup._id === action.payload.id) {
@@ -192,7 +192,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_DELIVERY_STATUS_SUCCEEDED:
       //create a replacement set of UPDATED deliveries
       userType = action.userType;
-      console.log('action: ', action);
+      //console.log('action: ', action);
       let deliveries = null;
       let updDeliveries = null;
       switch(action.payload.userType) {
@@ -248,7 +248,7 @@ export default function reducer(state = initialState, action) {
           }
           case  'depot':
             deliveries = state.user.depot.deliveries;
-            console.log('reducer action.payload: ', action.payload );
+            //console.log('reducer action.payload: ', action.payload );
             updDeliveries = deliveries.map((delivery, userType,index) => {
               // Find the delivery with the matching id
               if (delivery._id === action.payload.id) {
@@ -273,10 +273,9 @@ export default function reducer(state = initialState, action) {
               }
             }
           default:
-            console.log("Sorry, unknown user type ", userType);
+            //console.log("Sorry, unknown user type ", userType);
         }
       break;
-      case UPDATE_PICKUP_STATUS_THREW_ERROR:
       case UPDATE_DELIVERY_STATUS_THREW_ERROR:
       return Object.assign({}, state, {
         loading: false,
@@ -291,7 +290,7 @@ export default function reducer(state = initialState, action) {
 // case UPDATE_DRIVER_STATUS_SUCCEEDED:
 //   //create a replacement set of UPDATED drivers
 //   userType = action.userType;
-//   console.log('action: ', action);
+//   //console.log('action: ', action);
 //   let drivers = null;
 //   let updDrivers = null;
 //   switch(action.payload.userType) {
@@ -343,7 +342,7 @@ export default function reducer(state = initialState, action) {
 //         }
 //       }
 //     default:
-//       console.log("Sorry, unknown user type ", userType);
+//       //console.log("Sorry, unknown user type ", userType);
 //   }
 // break;
 // case UPDATE_DRIVER_STATUS_THREW_ERROR:
@@ -361,7 +360,7 @@ export default function reducer(state = initialState, action) {
     case UPDATE_ORDER_STATUS_SUCCEEDED:
       //create a replacement set of UPDATED pickups
       userType = action.userType;
-      console.log('action: ', action);
+      //console.log('action: ', action);
       let orders = null;
       let updOrders = null;
       switch(action.payload.userType) {
@@ -440,7 +439,7 @@ export default function reducer(state = initialState, action) {
             }
           }
         default:
-          console.log("Sorry, unknown user type ", userType);
+          //console.log("Sorry, unknown user type ", userType);
       }
     break;
     case UPDATE_ORDER_STATUS_THREW_ERROR:

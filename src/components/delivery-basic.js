@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 const DeliveryBasic = (props) => {
-  console.log('DeliveryBasic props: ', props);
+  //console.log('DeliveryBasic props: ', props);
   let instructions = null;
   if (props.order.destination.instructions) {
     instructions = `*** ${props.order.destination.instructions} ***`;

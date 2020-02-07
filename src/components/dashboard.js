@@ -26,12 +26,10 @@ export class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
     this.handleDeleteOrder = this.handleDeleteOrder.bind(this);
-    this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
   }
   
   componentDidMount() {
@@ -42,7 +40,7 @@ export class Dashboard extends React.Component {
   }
 
   handleStatusClick(userType, component, status, timestamp, id) {
-    console.log('*** handleStatusClick component: ','userType: ', userType, ' | ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
+    //console.log('*** handleStatusClick component: ','userType: ', userType, ' | ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
     if (component === 'pickup') {
       this.props.dispatch(updatePickupStatus(userType,  status, timestamp, id));
     } else {
@@ -50,7 +48,7 @@ export class Dashboard extends React.Component {
         this.props.dispatch(updateDeliveryStatus(userType, status, timestamp, id));
       } else {
         if (component === 'order') {
-          console.log('dispatching updateOrderStatus')
+          //console.log('dispatching updateOrderStatus')
           this.props.dispatch(updateOrderStatus(userType, status, timestamp, id));
         }
       }
@@ -66,102 +64,6 @@ export class Dashboard extends React.Component {
       .then(() => this.props.dispatch(fetchProtectedData(id)))
   }
 
-  submitNewOrderForm(e) {
-    e.preventDefault();
-    let errors = {}
-
-    if (this.validateForm()) {
-      let fields = {};
-      this.setState({ fields: fields });
-    } else {
-      errors['zip'] = 'Please enter a valid zip code';
-      this.setState({ errors: errors })
-    }
-  }
-
-  validateForm() {
-
-    let fields = this.state.fields;
-    let errors = {};
-    let formIsValid = true;
-
-    if (!fields['orderNumber']) {
-      formIsValid = false;
-      errors['orderNumber'] = 'Please enter an order number';
-    }
-
-    if (typeof fields['orderNumber'] !== 'undefined') {
-      if (!fields['orderNumber'].match(/\d\w\S/)) {
-        formIsValid = false;
-        errors['orderNumber'] = 'Please enter a valid order number';
-      }
-    }
-    if (!fields['orderSize']) {
-      fields['orderSize'] = 1;
-    }
-
-    if (typeof fields['orderSize'] !== 'undefined') {
-      if (!fields['orderSize'].match(/\d/)) {
-        formIsValid = false;
-        errors['orderSize'] = 'Please enter a valid order size 1-3';
-      }
-    }
-    if (!fields['recipient']) {
-      formIsValid = false;
-      errors['recipient'] = 'Please enter a recipient name';
-    }
-
-    if (typeof fields['recipient'] !== 'undefined') {
-      if (!fields['recipient'].match(/\w/)) {
-        formIsValid = false;
-        errors['recipient'] = 'Please enter a valid recipient name';
-      }
-    }
-    if (!fields['phone']) {
-      formIsValid = false;
-      errors['phone'] = 'Please enter a recipient phone';
-    }
-
-    if (typeof fields['phone'] !== 'undefined') {
-      if (!fields['phone'].match(/^[0][1-9]\d{9}$|^[1-9]\d{9}$/g)) {
-        formIsValid = false;
-        errors['phone'] = 'Please enter a valid recipient phone';
-      }
-    }
-
-    if (!fields['streetAddress']) {
-      formIsValid = false;
-      errors['streetAddress'] = 'Please enter a street address';
-    }
-
-    if (!fields['city']) {
-      formIsValid = false;
-      errors['city'] = 'Please enter a city';
-    }
-
-    if (!fields['state']) {
-      formIsValid = false;
-      errors['state'] = 'Please enter a state';
-    }
-
-    if (!fields['zipcode']) {
-      formIsValid = false;
-      errors['zipcode'] = 'Please enter a zipcode';
-    }
-
-    if (typeof fields['zipcode'] !== 'undefined') {
-      if (!fields['zipcode'].match(/^\d{5}$|^\d{5}-\d{4}$/)) {
-        formIsValid = false;
-        errors['zipcode'] = 'Please enter a valid zipcode';
-      }
-    }
-
-
-    this.setState({
-      errors: errors
-    });
-    return formIsValid;
-  }
 
 
   render() {
@@ -175,9 +77,7 @@ export class Dashboard extends React.Component {
     //     <button onClick={() => this.props.dispatch(refreshAuthToken())}>Keep me logged in</button>
     //   );
     // }
-    // let addOrderButton = (
-    //   <button onClick={() => console.log('*** ADD ORDER ***')}>Add Order</button>
-    // );
+
 
     let fragment = null;
     let user = this.props.user;

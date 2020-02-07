@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment }  from 'react';
 import Driver from './driver';
 import PickupList from './pickup-list';
 import DeliveryList from './delivery-list';
@@ -17,29 +17,32 @@ return (
         <h3>Drivers</h3>
         <ul className="driver-list">
           {drivers.map((driver, index) => (
-          <li>
-            <Driver
-              key={index}
-              index={index}
-              {...driver}
-              {...props}
-            />
-            <PickupList className="pickupList"
-              {...driver} 
-              {...props}
+            <Fragment key={'frag' + index}>
+              <Driver
+                key={'driver' + index}
+                index={index}
+                {...driver}
+                {...props}
+              />
+              <PickupList className="pickupList"
+                key={'pickup' + index}
+                index={index}
+                {...driver} 
+                {...props}
 
-              // handleStatusClick={props.handleStatusClick} 
-              // handleDetailsClick={props.handleDetailsClick} 
-              // showDetails={props.showDetails}
-            />
-            <DeliveryList 
-              {...driver}
-              {...props} 
-              // handleStatusClick={props.handleStatusClick} 
-              // handleDetailsClick={props.handleDetailsClick} 
-              // showDetails={props.showDetails}
-            />
-          </li>
+                // handleStatusClick={props.handleStatusClick} 
+                // handleDetailsClick={props.handleDetailsClick} 
+                // showDetails={props.showDetails}
+              />
+              <DeliveryList 
+                key={'delivery' + index}
+                {...driver}
+                {...props} 
+                // handleStatusClick={props.handleStatusClick} 
+                // handleDetailsClick={props.handleDetailsClick} 
+                // showDetails={props.showDetails}
+              />
+            </Fragment>
           ))}
         </ul>
       </div>

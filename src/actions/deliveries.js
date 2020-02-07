@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../config';
-import { normalizeResponseErrors } from './utils';
+// import { normalizeResponseErrors } from './utils';
 // import { SubmissionError } from 'redux-form';
 
 export const UPDATE_DELIVERY_STATUS_REQUESTED = 'UPDATE_DELIVERY_STATUS_REQUESTED';
@@ -28,20 +28,20 @@ export const updateDeliveryStatus = (userType, oldStatus, timestamp, deliveryId)
   const authToken = getState().auth.authToken;
   let newStatus = {'status':'dispatching', 'timestamp': new Date()};
   dispatch(updateDeliveryStatusRequested(userType));
-  console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', deliveryId);
+  //console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', deliveryId);
   if (oldStatus === 'dispatching') {
     newStatus = {'status':'en route', 'timestamp': timestamp};
-    console.log('after updateDeliveryStatus: newStatus: ', newStatus);
+    //console.log('after updateDeliveryStatus: newStatus: ', newStatus);
   } else {
     if (oldStatus === 'en route') {
       newStatus = {'status':'delivered', 'timestamp': timestamp};
-      console.log('after updateDeliveryStatus: newStatus: ', newStatus);
+      //console.log('after updateDeliveryStatus: newStatus: ', newStatus);
     }
   }
   
-  console.log('JSON.stringify({deliveryStatus:newStatus}): ',JSON.stringify({deliveryStatus:newStatus}));
+  //console.log('JSON.stringify({deliveryStatus:newStatus}): ',JSON.stringify({deliveryStatus:newStatus}));
   try {
-    const res = await fetch(`${API_BASE_URL}/deliveries/${deliveryId}`, {
+    await fetch(`${API_BASE_URL}/deliveries/${deliveryId}`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -50,9 +50,9 @@ export const updateDeliveryStatus = (userType, oldStatus, timestamp, deliveryId)
       // body: JSON.stringify(oldStatus)
       body: JSON.stringify({deliveryStatus:newStatus})
     });
-    const res_1 = normalizeResponseErrors(res);
+    // const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
-    // console.log('res_1: ', res_1);
+    // //console.log('res_1: ', res_1);
     return dispatch(updateDeliveryStatusSucceeded(deliveryId, userType, newStatus));
   }
   catch (error) {

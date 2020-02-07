@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 const PickupBasic = (props) => {
-  console.log('PickupBasic props: ', props);
+  //console.log('PickupBasic props: ', props);
    return (
     <Fragment>
       <div className="pickupLocation center">

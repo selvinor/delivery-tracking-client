@@ -6,7 +6,7 @@ case UPDATE_DRIVER_STATUS_REQUESTED:
 case UPDATE_DRIVER_STATUS_SUCCEEDED:
   //create a replacement set of UPDATED drivers
   userType = action.userType;
-  console.log('action: ', action);
+  //console.log('action: ', action);
   let drivers = null;
   let updDrivers = null;
   switch(action.payload.userType) {
@@ -58,7 +58,7 @@ case UPDATE_DRIVER_STATUS_SUCCEEDED:
         }
       }
     default:
-      console.log("Sorry, unknown user type ", userType);
+      //console.log("Sorry, unknown user type ", userType);
   }
 break;
 case UPDATE_DRIVER_STATUS_THREW_ERROR:

@@ -104,23 +104,22 @@ export const postOrder = order => (dispatch, getState) => {
     });
 };
 
-export const updateOrderStatus = (userType, newStatus, orderId) => async (dispatch, getState) => {
+export const updateOrderStatus = (userType, oldStatus, timestamp, orderId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  console.log('before updateOrderStatus: ',userType, ' - ', newStatus,  '- ', orderId);
+  let newStatus = {'status':'pending', 'timestamp': new Date()};
   dispatch(updateOrderStatusRequested(userType));
-  if (newStatus.orderStatus === 'pending') {
-    newStatus.orderStatus = 'ready';
-    console.log('after updateOrderStatus: newStatus: ', newStatus);
+  //console.log('before updateOrderStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', orderId);
+  if (oldStatus === 'pending') {
+    newStatus = {'status':'ready_for_order', 'timestamp': timestamp};
+    //console.log('after updateOrderStatus: newStatus: ', newStatus);
   } else {
-    if (newStatus.orderStatus === 'ready') {
-      newStatus.orderStatus = 'pending';
-      console.log('after updateOrderStatus: newStatus: ', newStatus);
-    } else {
-      newStatus.orderStatus = 'pending';
+    if (oldStatus === 'ready_for_order') {
+      newStatus = {'status':'picked_up', 'timestamp': timestamp};
+      //console.log('after updateOrderStatus: newStatus: ', newStatus);
     }
   }
   
-  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
+  // //console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
   try {
     const res = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
       method: 'PUT',
@@ -133,11 +132,11 @@ export const updateOrderStatus = (userType, newStatus, orderId) => async (dispat
     });
     const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
-    // console.log('res_1: ', res_1);
+    // //console.log('res_1: ', res_1);
     return dispatch(updateOrderStatusSucceeded(orderId, userType, newStatus, res_1));
   }
   catch (error) {
-    console.log('error!: ', error);
+    //console.log('error!: ', error);
     dispatch(updateOrderStatusError(error));
   }
 };

@@ -67,7 +67,7 @@ export const storeInformedUser = () => (dispatch) => {
 };
 
 export const login = (username, password) => dispatch => {
-  console.log('logging in');
+  //console.log('logging in');
   dispatch(authRequested());
   return (
     fetch(`${API_BASE_URL}/auth/login`, {
@@ -125,7 +125,7 @@ export const refreshAuthToken = () => (dispatch, getState) => {
 };
 
 export const showLogoutWarning = () => (dispatch) => {
-  // console.log('dispatching 1 min left warning', Date.now());
+  // //console.log('dispatching 1 min left warning', Date.now());
   dispatch(showWarning());
 };
 

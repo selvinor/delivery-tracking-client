@@ -12,7 +12,7 @@ export class RegistrationForm extends React.Component {
     onSubmit(values) {
         const {username, password, firstName, lastName, email, phone} = values;
         const user = {username, password, firstName, lastName, email, phone};
-        console.log('user:' , user);
+        //console.log('user:' , user);
         return this.props
             .dispatch(registerUser(user))
             .then(() => this.props.dispatch(login(username, password)));

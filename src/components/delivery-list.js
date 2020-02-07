@@ -7,7 +7,7 @@ export default function DeliveryList(props) {
   //    1)  Show today's Deliveries 
   //    2)  change delivery status
   //    3)  select and show Delivery detail   
-console.log('delivery-list props: ', props);
+//console.log('delivery-list props: ', props);
   const deliveries = props.deliveries;
   if (deliveries) {
     if (deliveries.length >= 1) {

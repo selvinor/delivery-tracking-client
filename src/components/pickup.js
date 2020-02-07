@@ -25,8 +25,8 @@ const Pickup = (props) => {
             index={props.index} />
           <PickupDetail 
             component="pickup" {...props}  
-            detailsButtonText={detailsButtonText} />
-          <ShowDetailsButton component="pickup" {...props} /> 
+          />
+          <ShowDetailsButton component="pickup" detailsButtonText={detailsButtonText} {...props} /> 
         </li>     
       </Fragment> 
     ); 
@@ -45,7 +45,7 @@ const Pickup = (props) => {
             numOrders={props.pickupVendor.orders.length} 
             index={props.index} />
         <PickupBasic component="pickup" {...props}  detailsButtonText={detailsButtonText} />
-        <ShowDetailsButton component="pickup" {...props} /> 
+        <ShowDetailsButton component="pickup" detailsButtonText={detailsButtonText} {...props} /> 
       </li>     
     </Fragment> 
   );

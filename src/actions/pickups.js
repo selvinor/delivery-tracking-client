@@ -108,20 +108,20 @@ export const updatePickupStatus = (userType, oldStatus, timestamp, pickupId) => 
   const authToken = getState().auth.authToken;
   let newStatus = {'status':'pending', 'timestamp': new Date()};
   dispatch(updatePickupStatusRequested(userType));
-  console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', pickupId);
+  //console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', pickupId);
   if (oldStatus === 'pending') {
     newStatus = {'status':'picked_up', 'timestamp': timestamp};
-    console.log('after updatePickupStatus: newStatus: ', newStatus);
+    //console.log('after updatePickupStatus: newStatus: ', newStatus);
   } else {
     if (oldStatus === 'picked_up') {
       newStatus = {'status':'dropped_off', 'timestamp': timestamp};
-      console.log('after updatePickupStatus: newStatus: ', newStatus);
+      //console.log('after updatePickupStatus: newStatus: ', newStatus);
     }
   }
   
-  console.log('JSON.stringify({pickupStatus:newStatus}): ',JSON.stringify({pickupStatus:newStatus}));
+  //console.log('JSON.stringify({pickupStatus:newStatus}): ',JSON.stringify({pickupStatus:newStatus}));
   try {
-    const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
+    await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -130,13 +130,13 @@ export const updatePickupStatus = (userType, oldStatus, timestamp, pickupId) => 
       // body: JSON.stringify(oldStatus)
       body: JSON.stringify({pickupStatus:newStatus})
     });
-    const res_1 = normalizeResponseErrors(res);
+    // const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
-    // console.log('res_1: ', res_1);
+    // //console.log('res_1: ', res_1);
     return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus));
   }
   catch (error) {
-    console.log('error!: ', error);
+    //console.log('error!: ', error);
     dispatch(updatePickupStatusError(error));
   }
 };
