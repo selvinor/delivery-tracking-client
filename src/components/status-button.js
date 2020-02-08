@@ -7,8 +7,9 @@ const StatusButton = (props) => {
   let status = props.status;
   let timestamp = props.updated; 
   let order = null; 
+  let vendorName = null; 
 
-  //console.log('status-button status: ', status);
+  console.log('status-button props: ', props);
   //console.log('status-button userType: ', props.userType);
   //console.log('status-button component: ', props.component);
   //console.log('status-button pickup #1 id: ', props.pickups);
@@ -22,6 +23,9 @@ const StatusButton = (props) => {
   }
   if (props.pickups) {
     order = props.numOrders + ' Orders';
+  }
+  if (props.vendor) {
+    vendorName = 'Vendor: '+ props.vendor.vendorName;
   }
   
   //console.log('status-button status2: ', status);
@@ -47,6 +51,7 @@ const StatusButton = (props) => {
           <p className="bold small">{props.component.charAt(0).toUpperCase() + props.component.substring(1)}  #{props.index +1}</p>
           {/* <p className="list-index">{props.id}</p> */}
           <p className="list-index">{order}</p>
+          <p className="list-index">{vendorName}</p>
           <p className="status">{status}</p>
           <p className="updated">{updated}</p>       
         </button>  

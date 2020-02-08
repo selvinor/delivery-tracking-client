@@ -6,7 +6,10 @@ import ShowDetailsButton from './show-details-button';
 import DeleteOrderButton from './delete-order-button';
 
 const Order = (props) => {
-  //console.log('order props: ', props);
+  console.log('order props: ', props);
+  console.log('order props.orderStatus: ', props.orderStatus);
+
+  
   const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
   let detailsButtonText = '-MORE-'
   if (showDetails) {
@@ -35,14 +38,15 @@ const Order = (props) => {
       <Fragment>
         <li className="dashboard">
           <StatusButton 
-            id={props._id}
-            userType={props.userType}
-            component="order" 
-            handleStatusClick={props.handleStatusClick} 
-            updated={props.orderStatus[props.orderStatus.length - 1].timestamp} 
-            status={props.orderStatus[props.orderStatus.length - 1].status} 
-            orderNumber={props.orderNumber} 
-            index={props.index} 
+          id={props._id}
+          userType={props.userType}
+          component="order" 
+          handleStatusClick={props.handleStatusClick}
+          vendor={props.vendor} 
+          updated={props.orderStatus[props.orderStatus.length - 1].timestamp} 
+          status={props.orderStatus[props.orderStatus.length - 1].status} 
+          orderNumber={props.orderNumber} 
+          index={props.index} 
           />
           <OrderBasic component="order" {...props} detailsButtonText={detailsButtonText} />
           <ShowDetailsButton  detailsButtonText={detailsButtonText} component="order" index={props.index} _id={props._id}handleDetailsClick={props.handleDetailsClick} />  

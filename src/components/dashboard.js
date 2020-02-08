@@ -105,11 +105,19 @@ export class Dashboard extends React.Component {
           )
         } else {
           if (user.depot) { // Display components and send props to components based on who's logged in
+          console.log('user.depot.vendors.length: ', user.depot.vendors.length);
+
+          let orders = user.depot.vendors.map(vendor => {
+            console.log('vendor: ', vendor);
+            return vendor.orders;  
+          });
+          console.log('dashboard depot orders: ', orders);
           fragment = (
               <Fragment>
                 <HeaderBar />
                 <h1>Depot Dashboard - {user.depot.depotName}</h1>
                 <h2>Pickup and Delivery Tracking</h2>
+                <OrderList   userType='depot' ordersByVendor={orders} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
                 <PickupList   userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
                 <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}  />
                 <DriverList userType='depot' drivers={user.depot.drivers}   pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails}   />

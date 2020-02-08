@@ -9,21 +9,42 @@ export default function OrderList(props) {
   //    3)  delete Order from list
   //    4)  select and show Order detail   
 //console.log('order-list props: ', props);
-const orders = props.orders;
+console.log('order-list props: ', props);
+if (props.ordersByVendor) {
+  const ordersByVendor = props.ordersByVendor;
+  console.log('typeof(ordersByVendor): ', typeof(ordersByVendor));
+  // const allOrders = ordersByVendor.flat();
+  let allOrders=[];
+console.log('ordersByVendor[0]: ', ordersByVendor[0]);
+allOrders = [].concat.apply([],ordersByVendor);
+console.log('allOrders: ', allOrders);
 
-return (
-      <div>
-        <h3>Orders</h3>
-        <ul className="order-list">
-          {orders.map((order, index) => (
-            <Order
-              key={index}
-              index={index}
-              {...order}
-              {...props}
-            />
-          ))}
-        </ul>
-      </div>
-    );
+  return (
+        <div>
+          <h3>Orders</h3>
+          <ul className="order-list">
+            {allOrders.map((order, index) => {
+              console.log('mapping order: ', order.orderNumber, ' index: ', index)
+              return(
+                <Order
+                  key={index}
+                  index={index}
+                  destination={order.destination}
+                  orderDescription={order.orderDescription}
+                  orderSize={order.orderSize}
+                  orderNumber={order.orderNumber}
+                  orderStatus={order.orderStatus}
+                  vendor={order.vendor}
+                  showDetails={props.showDetails}
+                  // {...props}
+                />
+              )
+              })}
+          </ul>
+        </div>
+      );
+  
+  } else {
+    return null;
+  }
 }
