@@ -16,11 +16,11 @@ import {
   UPDATE_DELIVERY_STATUS_SUCCEEDED,
 } from '../actions/deliveries';
 
-// import {
-//   UPDATE_DRIVER_STATUS_REQUESTED,
-//   UPDATE_DRIVER_STATUS_THREW_ERROR,
-//   UPDATE_DRIVER_STATUS_SUCCEEDED,
-// } from '../actions/drivers';
+import {
+  UPDATE_DRIVER_STATUS_REQUESTED,
+  UPDATE_DRIVER_STATUS_THREW_ERROR,
+  UPDATE_DRIVER_STATUS_SUCCEEDED,
+} from '../actions/drivers';
 
 import {
   UPDATE_ORDER_STATUS_REQUESTED,
@@ -217,7 +217,7 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               vendor: {
                 ...state.user.vendor, //copy level 2
-                pickups: updPickups
+                deliveries: updDeliveries
               }
             }
           }
@@ -242,7 +242,7 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               driver: {
                 ...state.user.driver, //copy level 2
-                pickups: updPickups
+                deliveries: updDeliveries
               }
             }
           }
@@ -282,74 +282,80 @@ export default function reducer(state = initialState, action) {
         error: true
       });
 
-// case UPDATE_DRIVER_STATUS_REQUESTED:
-//   return Object.assign({}, state, {
-//     loading: false,
-//     updating: true
-//   });
-// case UPDATE_DRIVER_STATUS_SUCCEEDED:
-//   //create a replacement set of UPDATED drivers
-//   userType = action.userType;
-//   //console.log('action: ', action);
-//   let drivers = null;
-//   let updDrivers = null;
-//   switch(action.payload.userType) {
-//     case  'driver':
-//       driver = state.user.driver;
-//       if (driver._id === action.payload.id) {
-//         // Return a new object
-//         return ( 
-//           {...driver, driver.driverStatus: [...driverStatus, action.payload.driverStatus]}  // append the new driverStatus               
-//         )
-//       } else {
-//         return (
-//           {...driver}  // return the new pickup              
-//         )
-//       }
-//       return {
-//         ...state,   //copy the state (level 0)
-//         user: {
-//           ...state.user,
-//           driver: {
-//             ...state.user.driver, //copy level 2
-//             driverStatus: action.payload.driverStatus
-//           }
-//         }
-//       }
-//     case  'depot':
-//       drivers = state.user.depot.drivers;
-//       updDrivers = drivers.map((driver, userType,index) => {
-//         // Find the pickup with the matching id
-//         if (driver._id === action.payload.id) {
-//           // Return a new object
-//           return ( 
-//             {...driver, driverStatus: [...driver.driverStatus, action.payload.driverStatus]}  // append the new driverStatus               
-//           )
-//         } else {
-//           return (
-//             {...driver}  // return the new pickup              
-//           )
-//         }
-//       });
-//       return {
-//         ...state,   //copy the state (level 0)
-//         user: {
-//           ...state.user,
-//           depot: {
-//             ...state.user.depot, //copy level 2
-//             drivers: updDrivers
-//           }
-//         }
-//       }
-//     default:
-//       //console.log("Sorry, unknown user type ", userType);
-//   }
-// break;
-// case UPDATE_DRIVER_STATUS_THREW_ERROR:
-//   return Object.assign({}, state, {
-//     loading: false,
-//     error: true
-//   });
+case UPDATE_DRIVER_STATUS_REQUESTED:
+  return Object.assign({}, state, {
+    loading: false,
+    updating: true
+  });
+
+  case UPDATE_DRIVER_STATUS_SUCCEEDED:
+
+    userType = action.userType;
+    //console.log('action: ', action);
+    let driver = null;
+    let updDriver = null;
+    switch(action.payload.userType) {
+      case  'driver':
+        driver = state.user.driver.driver;
+        updDriver = driver.map((driver, userType,index) => {
+          // Find the pickup with the matching id
+          if (driver._id === action.payload.id) {
+            // Return a new object
+            return ( 
+              {...driver, driverStatus: [...driver.driverStatus, action.payload.driverStatus]}  // append the new driverStatus               
+            )
+          } else {
+            return (
+              {...driver}  // return the new pickup              
+            )
+          }
+        });
+        return {
+          ...state,   //copy the state (level 0)
+          user: {
+            ...state.user,
+            driver: {
+              ...state.user.driver, //copy level 2
+              driver: updDriver
+            }
+          }
+        }
+        case  'depot':
+          driver = state.user.depot.driver;
+          //console.log('reducer action.payload: ', action.payload );
+          updDriver = driver.map((driver, userType,index) => {
+            // Find the driver with the matching id
+            if (driver._id === action.payload.id) {
+              // Return a new object
+              return ( 
+                {...driver, driverStatus: [...driver.driverStatus, action.payload.driverStatus]}  // append the new driverStatus               
+              )
+            } else {
+              return (
+                {...driver}  // return the new driver              
+              )
+            }
+          });
+          return {
+            ...state,   //copy the state (level 0)
+            user: {
+              ...state.user,
+              depot: {
+                ...state.user.depot, //copy level 2
+                driver: updDriver
+              }
+            }
+          }
+        default:
+          //console.log("Sorry, unknown user type ", userType);
+      }
+    break;
+case UPDATE_DRIVER_STATUS_THREW_ERROR:
+  return Object.assign({}, state, {
+    loading: false,
+    error: true
+  });
+
 
     case UPDATE_ORDER_STATUS_REQUESTED:
       return Object.assign({}, state, {
@@ -371,7 +377,7 @@ export default function reducer(state = initialState, action) {
             if (order._id === action.payload.id) {
               // Return a new object
               return ( 
-                {...order, deliveryStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new deliveryStatus               
+                {...order, orderStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new driverStatus               
               )
             } else {
               return (
@@ -385,7 +391,7 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               vendor: {
                 ...state.user.vendor, //copy level 2
-                pickups: updOrders
+                orders: updOrders
               }
             }
           }
@@ -396,7 +402,7 @@ export default function reducer(state = initialState, action) {
             if (order._id === action.payload.id) {
               // Return a new object
               return ( 
-                {...order, deliveryStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new deliveryStatus               
+                {...order, orderStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new driverStatus               
               )
             } else {
               return (
@@ -410,13 +416,13 @@ export default function reducer(state = initialState, action) {
               ...state.user,
               driver: {
                 ...state.user.driver, //copy level 2
-                pickups: updOrders
+                orders: updOrders
               }
             }
           }
         case  'depot':
           orders = state.user.depot.orders;
-          updPickups = orders.map((order, userType,index) => {
+          updOrders = orders.map((order, userType,index) => {
             // Find the order with the matching id
             if (order._id === action.payload.id) {
               // Return a new object
