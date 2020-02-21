@@ -108,7 +108,7 @@ import { API_BASE_URL } from '../config';
 // export const updateOrderStatus = (userId, userType, newStatus, timestamp, orderId, ) => async (dispatch, getState) => {
 //   const authToken = getState().auth.authToken;
 //   console.log('updateOrderStatus id = ', getState().protectedData.user.id);
-//   let orderStatus = {'status':'new', 'timestamp': new Date()};
+//   let orderStatus = {'status':'new_order', 'timestamp': new Date()};
 //   dispatch(updateOrderStatusRequested(userType));
 //   console.log('before updateOrderStatus: ',userType, ' newStatus:', newStatus, ' timestamp:', new Date(),  '- ', orderId);
 //   orderStatus = {'orderStatus':{'status':newStatus, 'timestamp': new Date()}};

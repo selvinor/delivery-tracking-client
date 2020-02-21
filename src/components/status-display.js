@@ -6,7 +6,7 @@ const StatusDisplay = (props) => {
   // Find each status level attained and timestamp
 
   let statuses = {
-    'new': {'status': 'completed', 'timestamp': null},
+    'new_order': {'status': 'completed', 'timestamp': null},
     'ready_for_pickup':  {'status': 'pending', 'timestamp': null},
     'picked_up': {'status': 'pending', 'timestamp': null},
     'dropped_off': {'status': 'pending', 'timestamp': null},
