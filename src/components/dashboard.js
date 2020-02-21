@@ -9,11 +9,11 @@ import DriverList from './driver-list';
 
 import { updatePickupStatus } from '../actions/pickups';
 import { updateDeliveryStatus } from '../actions/deliveries';
-import { updateOrderStatus } from '../actions/orders';
+import { updateOrderStatus } from '../actions/protected-data';
 
 import { fetchProtectedData } from '../actions/protected-data';
 import { showDetailsClicked } from '../actions/protected-data';
-import { deleteOrder } from '../actions/orders';
+import { deleteOrder } from '../actions/protected-data';
 
 // import { refreshAuthToken } from '../actions/auth';
 
@@ -39,7 +39,7 @@ export class Dashboard extends React.Component {
     }
   }
 
-  handleStatusClick(userType, component, status, timestamp, id) {
+  handleStatusClick(userId, userType, component, status, timestamp, id) {
     console.log('*** handleStatusClick: ','userType: ', userType, ' |  component: ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
     if (component === 'pickup') {
       this.props.dispatch(updatePickupStatus(userType, status, timestamp, id));
@@ -49,7 +49,7 @@ export class Dashboard extends React.Component {
       } else {
         if (component === 'order') {
           //console.log('dispatching updateOrderStatus')
-          this.props.dispatch(updateOrderStatus(userType, status, timestamp, id));
+          this.props.dispatch(updateOrderStatus(userId, userType, status, timestamp, id));
         }
       }
     }
@@ -105,26 +105,27 @@ export class Dashboard extends React.Component {
           )
         } else {
           if (user.depot) { // Display components and send props to components based on who's logged in
-            console.log('user.depot.vendors.length: ', user.depot.vendors.length);
+            // console.log('user.depot.vendors.length: ', user.depot.vendors.length);
 
             let orders = user.depot.vendors.map(vendor => {
-              console.log('vendor: ', vendor);
+              // console.log('vendor: ', vendor);
               return vendor.orders;
             });
             if (orders) {
-              console.log('typeof(orders): ', typeof (orders));
-              console.log('dashboard depot orders: ', orders);
+              // console.log('typeof(orders): ', typeof (orders));
+              // console.log('dashboard depot orders: ', orders);
               // const allOrders = orders.flat();
               let allOrders = [];
-              console.log('orders[0]: ', orders[0]);
+              // console.log('orders[0]: ', orders[0]);
               allOrders = [].concat.apply([], orders);
-              console.log('allOrders: ', allOrders);
+              // console.log('allOrders: ', allOrders);
+              console.log('this.props.currentUser.id: ', this.props.currentUser.id);
 
               fragment = (
                 <Fragment>
                   <HeaderBar />
                   <h2>Depot Dashboard - {user.depot.depotName}</h2>
-                  <OrderList userType='depot' orders={allOrders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+                  <OrderList userId={this.props.currentUser.id} userType='depot' orders={allOrders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />

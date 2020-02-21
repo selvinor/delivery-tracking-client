@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 const OrderBasic = (props) => {
-  console.log('OrderBasic props: ', props);
+  // console.log('OrderBasic props: ', props);
   let instructions = null;
   let order = null;
   let vendorName = null;

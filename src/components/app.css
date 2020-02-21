@@ -255,8 +255,11 @@ p {
 .deliveryDest p{
   margin: auto;
 }
-.deliveryInstructions{
+.orderDest .deliveryInstructions{
   font-style: italic;
+  margin-top:5px;
+  background: #cccccc;
+  padding:3px 0;
 }
 
 .pickupLocation p{
@@ -339,6 +342,7 @@ p {
   background-color:#cccccc;
   color:#000000;
   font-weight:800;
+  margin-bottom:5px;
 }
 .orderOrigin p {
   font-size:1vw;

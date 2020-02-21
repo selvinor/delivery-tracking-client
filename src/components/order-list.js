@@ -8,18 +8,19 @@ export default function OrderList(props) {
   //    2)  change order status from pending to ready and back
   //    3)  delete Order from list
   //    4)  select and show Order detail   
-//console.log('order-list props: ', props);
 console.log('order-list props: ', props);
+// console.log('order-list props: ', props);
 const orders = props.orders;
   return (
     <div>
       <h3>Orders</h3>
       <ul className="order-list">
         {orders.map((order, index) => {
-          console.log('mapping order: ', order.orderNumber, ' index: ', index)
+          // console.log('mapping order: ', order.orderNumber, ' index: ', index)
         
           return(
             <Order
+              userId={props.userId}
               key={index}
               id={order._id}
               index={index}

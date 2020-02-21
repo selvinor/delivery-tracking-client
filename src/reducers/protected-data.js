@@ -26,7 +26,7 @@ import {
   UPDATE_ORDER_STATUS_REQUESTED,
   UPDATE_ORDER_STATUS_THREW_ERROR,
   UPDATE_ORDER_STATUS_SUCCEEDED,
-} from '../actions/orders';
+} from '../actions/protected-data';
 
 const initialState = {
   user: {
@@ -364,91 +364,98 @@ case UPDATE_DRIVER_STATUS_THREW_ERROR:
       });
       
     case UPDATE_ORDER_STATUS_SUCCEEDED:
+      console.log('UPDATE_ORDER_STATUS_SUCCEEDED');
       //create a replacement set of UPDATED pickups
       userType = action.userType;
-      //console.log('action: ', action);
-      let orders = null;
-      let updOrders = null;
-      switch(action.payload.userType) {
-        case  'vendor':
-          orders = state.user.vendor.orders;
-          updOrders = orders.map((order, userType,index) => {
-            // Find the pickup with the matching id
-            if (order._id === action.payload.id) {
-              // Return a new object
-              return ( 
-                {...order, orderStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new driverStatus               
-              )
-            } else {
-              return (
-                {...order}  // return the new pickup              
-              )
-            }
-          });
-          return {
-            ...state,   //copy the state (level 0)
-            user: {
-              ...state.user,
-              vendor: {
-                ...state.user.vendor, //copy level 2
-                orders: updOrders
-              }
-            }
-          }
-        case  'driver':
-          orders = state.user.driver.orders;
-          updOrders = orders.map((order, userType,index) => {
-            // Find the pickup with the matching id
-            if (order._id === action.payload.id) {
-              // Return a new object
-              return ( 
-                {...order, orderStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new driverStatus               
-              )
-            } else {
-              return (
-                {...order}  // return the new pickup              
-              )
-            }
-          });
-          return {
-            ...state,   //copy the state (level 0)
-            user: {
-              ...state.user,
-              driver: {
-                ...state.user.driver, //copy level 2
-                orders: updOrders
-              }
-            }
-          }
-        case  'depot':
-          orders = state.user.depot.orders;
-          updOrders = orders.map((order, userType,index) => {
-            // Find the order with the matching id
-            if (order._id === action.payload.id) {
-              // Return a new object
-              return {
-                ...order,
-                // copy the existing order   
-                // replace the orderStatus      
-                orderStatus: action.payload.orderStatus.orderStatus  
-              }
-            }
-            return order; // Leave every other order unchanged
-          });
-          return {
-            ...state,   //copy the state (level 0)
-            user: {
-              ...state.user,
-              depot: {
-                ...state.user.depot, //copy level 2
-                orders: updOrders
-              }
-            }
-          }
-        default:
-          //console.log("Sorry, unknown user type ", userType);
-      }
-    break;
+      console.log('action: ', action);
+      // let orders = null;
+      // let updOrders = null;
+      // switch(action.payload.userType) {
+      //   case  'vendor':
+      //     orders = state.user.vendor.orders;
+      //     updOrders = orders.map((order, userType,index) => {
+      //       // Find the pickup with the matching id
+      //       if (order._id === action.payload.id) {
+      //         // Return a new object
+      //         return ( 
+      //           {...order, orderStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new driverStatus               
+      //         )
+      //       } else {
+      //         return (
+      //           {...order}  // return the new pickup              
+      //         )
+      //       }
+      //     });
+      //     return {
+      //       ...state,   //copy the state (level 0)
+      //       user: {
+      //         ...state.user,
+      //         vendor: {
+      //           ...state.user.vendor, //copy level 2
+      //           orders: updOrders
+      //         }
+      //       }
+      //     }
+      //   case  'driver':
+      //     orders = state.user.driver.orders;
+      //     updOrders = orders.map((order, userType,index) => {
+      //       // Find the pickup with the matching id
+      //       if (order._id === action.payload.id) {
+      //         // Return a new object
+      //         return ( 
+      //           {...order, orderStatus: [...order.orderStatus, action.payload.orderStatus]}  // append the new driverStatus               
+      //         )
+      //       } else {
+      //         return (
+      //           {...order}  // return the new pickup              
+      //         )
+      //       }
+      //     });
+      //     return {
+      //       ...state,   //copy the state (level 0)
+      //       user: {
+      //         ...state.user,
+      //         driver: {
+      //           ...state.user.driver, //copy level 2
+      //           orders: updOrders
+      //         }
+      //       }
+      //     }
+      //   case  'depot':
+      //     console.log('case depot: state.user: ', state.user);
+          
+      //     orders = state.user.depot.orders;
+      //     updOrders = orders.map((order, userType,index) => {
+      //       // Find the order with the matching id
+      //       if (order._id === action.payload.id) {
+      //         // Return a new object
+      //         return {
+      //           ...order,
+      //           // copy the existing order   
+      //           // replace the orderStatus      
+      //           orderStatus: action.payload.orderStatus.orderStatus  
+      //         }
+      //       }
+      //       return order; // Leave every other order unchanged
+      //     });
+      //     return {
+      //       ...state,   //copy the state (level 0)
+      //       user: {
+      //         ...state.user,
+      //         depot: {
+      //           ...state.user.depot, //copy level 2
+      //           orders: updOrders
+      //         }
+      //       }
+      //     }
+      //   default:
+      //     //console.log("Sorry, unknown user type ", userType);
+      // }
+    // break;
+    return Object.assign({}, state, {
+      loading: false,
+      updating: false
+    });
     case UPDATE_ORDER_STATUS_THREW_ERROR:
       return Object.assign({}, state, {
         loading: false,

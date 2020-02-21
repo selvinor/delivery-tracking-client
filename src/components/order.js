@@ -12,15 +12,15 @@ const Order = (props) => {
   const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
   let detailsButtonText = '-MORE-';
 
-
   switch (props.userType) {
     case 'vendor':
       console.log('vendor');
       if (showDetails) {
         fragment = (
           <Fragment>
-            <li>
+            <li className="order" key={props.index}>
               <StatusDisplay
+                userId={props.userId}
                 userType={props.userType}
                 component="order"
                 handleStatusClick={props.handleStatusClick}
@@ -38,8 +38,9 @@ const Order = (props) => {
       } else {
         fragment = (
           <Fragment>
-            <li>
+            <li className="order" key={props.index}>
               <StatusDisplay
+                userId={props.userId}              
                 userType={props.userType}
                 component="order"
                 handleStatusClick={props.handleStatusClick}
@@ -61,9 +62,10 @@ const Order = (props) => {
       if (showDetails) {
         fragment = (
           <Fragment>
-            <li className="order">
+            <li className="order" key={props.index}>
               <OrderDetail component="order" {...props} detailsButtonText='-LESS-' />
               <StatusDisplay
+                userId={props.userId}
                 userType={props.userType}
                 component="order"
                 handleStatusClick={props.handleStatusClick}
@@ -80,9 +82,10 @@ const Order = (props) => {
       } else {
         fragment = (
           <Fragment>
-            <li className="order">
+            <li className="order" key={props.index}>
               <OrderBasic component="order" {...props} detailsButtonText='-LESS-' />
               <StatusDisplay
+                userId={props.userId}
                 userType={props.userType}
                 component="order"
                 handleStatusClick={props.handleStatusClick}

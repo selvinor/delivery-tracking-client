@@ -5,7 +5,7 @@ import StatusButton from './status-button';
 import ShowDetailsButton from './show-details-button';
 
 const Pickup = (props) => {
-  console.log('pickup props: ', props);
+  // console.log('pickup props: ', props);
   const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
   let detailsButtonText = '-MORE-'
   if (showDetails) {
