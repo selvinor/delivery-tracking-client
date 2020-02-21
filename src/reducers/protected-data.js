@@ -429,7 +429,8 @@ case UPDATE_DRIVER_STATUS_THREW_ERROR:
               return {
                 ...order,
                 // copy the existing order   
-                orderStatus: action.payload.orderStatus.orderStatus  // replace the orderStatus      
+                // replace the orderStatus      
+                orderStatus: action.payload.orderStatus.orderStatus  
               }
             }
             return order; // Leave every other order unchanged

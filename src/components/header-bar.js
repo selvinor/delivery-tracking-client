@@ -21,6 +21,7 @@ export class HeaderBar extends React.Component {
         }
         return (
             <div className="header">
+              <h1 className="center">Order Pickup and Delivery Tracking</h1>
               {logOutButton}
               <Link to="/" ><div className="logo"></div></Link>
                 

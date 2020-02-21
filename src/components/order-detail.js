@@ -25,8 +25,6 @@ const OrderDetail = (props) => {
         <p className="big bold reverse">Order Size:</p>
         <p>{props.orderSize}</p>
       </div> 
-      <div className= "orderButtons">
-      </div>
     </Fragment>
   );
 

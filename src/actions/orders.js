@@ -106,17 +106,37 @@ export const postOrder = order => (dispatch, getState) => {
 
 export const updateOrderStatus = (userType, oldStatus, timestamp, orderId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
-  let newStatus = {'status':'pending', 'timestamp': new Date()};
+  let newStatus = {'status':'new', 'timestamp': new Date()};
   dispatch(updateOrderStatusRequested(userType));
   //console.log('before updateOrderStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', orderId);
-  if (oldStatus === 'pending') {
-    newStatus = {'status':'ready_for_order', 'timestamp': timestamp};
-    //console.log('after updateOrderStatus: newStatus: ', newStatus);
-  } else {
-    if (oldStatus === 'ready_for_order') {
+  switch (oldStatus) {
+    case 'new':
+      console.log('new');
+      newStatus = {'status':'ready_for_pickup', 'timestamp': timestamp};
+      break;
+    case 'ready_for_pickup':
+      console.log('ready_for_pickup');
       newStatus = {'status':'picked_up', 'timestamp': timestamp};
-      //console.log('after updateOrderStatus: newStatus: ', newStatus);
-    }
+      break;
+    case 'picked_up':
+      console.log('picked_up');
+      newStatus = {'status':'dropped_off', 'timestamp': timestamp};
+      break;
+    case 'dropped_off':
+      console.log('dropped_off');
+      newStatus = {'status':'dispatched', 'timestamp': timestamp};
+      break;
+    case 'dispatched':
+      console.log('dispatched');
+      newStatus = {'status':'out_for_delivery', 'timestamp': timestamp};
+      break;
+    case 'out_for_delivery':
+      console.log('delivered');
+      newStatus = {'status':'dispatched', 'timestamp': timestamp};
+      break;
+    default: 
+      console.log('default');
+      break;  
   }
   
   // //console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
