@@ -39,7 +39,11 @@ const StatusDisplay = (props) => {
       myStatus = myStatus.charAt(0).toUpperCase() + myStatus.substring(1);
       console.log('frag1 key[0]: ', key[0], '  key[1].status: ', key[1].status, '  key[1].timestamp: ', key[1].timestamp);
       console.log('*** myStatus', myStatus);
-      let updated = `Updated ${TimeAgo(key[1].timestamp)}`;
+      let updated = null;
+      if (key[1].timestamp !== null) {
+         updated = `Updated ${TimeAgo(key[1].timestamp)}`;
+      }
+
      return (
 
         <div className="status-button" key={index}>
@@ -56,12 +60,14 @@ const StatusDisplay = (props) => {
 
   let fragment2 = myStatuses.map((key, index) => {
     if (index >= 4) {
-      // let myClass = `status_${index}`;
       let myStatus2 = key[0].replace(/_/g, " ");
       myStatus2 = myStatus2.charAt(0).toUpperCase() + myStatus2.substring(1);
       console.log('frag2 key[0]: ', key[0], '  key[1]: ', key[1]);
       console.log('*** myStatus2', myStatus2);
-      let updated2 = `Updated ${TimeAgo(key[1].timestamp)}`;
+      let updated2 = null;
+      if (key[1].timestamp !== null) {
+        updated2 = `Updated ${TimeAgo(key[1].timestamp)}`;
+     }
       return (
 
         <div className="status-button" key={index}>
