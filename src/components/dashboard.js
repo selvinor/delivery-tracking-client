@@ -39,8 +39,8 @@ export class Dashboard extends React.Component {
     }
   }
 
-  handleStatusClick(statusNum, userType, component, status, timestamp, id) {
-    //console.log('*** handleStatusClick component: ','userType: ', userType, ' | ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
+  handleStatusClick(userType, component, status, timestamp, id) {
+    console.log('*** handleStatusClick: ','userType: ', userType, ' |  component: ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
     if (component === 'pickup') {
       this.props.dispatch(updatePickupStatus(userType, status, timestamp, id));
     } else {
@@ -124,7 +124,7 @@ export class Dashboard extends React.Component {
                 <Fragment>
                   <HeaderBar />
                   <h2>Depot Dashboard - {user.depot.depotName}</h2>
-                  <OrderList userType='depot' orders={allOrders} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+                  <OrderList userType='depot' orders={allOrders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />

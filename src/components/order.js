@@ -29,6 +29,7 @@ const Order = (props) => {
                 orderDescription={props.orderDescription}
                 orderSize={props.orderSize}              
                 index={props.index}
+                id={props.id}
               />
               <OrderDetail component="order" {...props} detailsButtonText='-LESS-' />
             </li>
@@ -45,6 +46,7 @@ const Order = (props) => {
                 orderStatus={props.orderStatus}
                 orderNumber={props.orderNumber}
                 index={props.index}
+                id={props.id}
               />
               <OrderBasic component="order" {...props} detailsButtonText='-MORE-' />
               <ShowDetailsButton detailsButtonText={detailsButtonText} component="order" index={props.index} _id={props._id} handleDetailsClick={props.handleDetailsClick} />
@@ -69,7 +71,8 @@ const Order = (props) => {
                 orderNumber={props.orderNumber}
                 index={props.index}
                 orderDescription={props.orderDescription}
-                orderSize={props.orderSize}              
+                orderSize={props.orderSize}      
+                id={props.id}        
               />
             </li>
           </Fragment>
@@ -86,6 +89,7 @@ const Order = (props) => {
                 orderStatus={props.orderStatus}
                 orderNumber={props.orderNumber}
                 index={props.index}
+                id={props.id}
               />
             </li>
           </Fragment>

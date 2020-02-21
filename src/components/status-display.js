@@ -44,130 +44,20 @@ const StatusDisplay = (props) => {
 
   console.log('statuses:', statuses);
 
-
-  // switch (currentStatus) {
-  //   //display completed status level based on current order status from state
-  //   case 'new':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     updated_0 = null;
-  //     status_1 = 'pending';
-  //     updated_1 = null;
-  //     status_2 = 'pending';
-  //     updated_2 = null;
-  //     status_3 = 'pending';
-  //     updated_3 = null;
-  //     status_4 = 'pending';
-  //     updated_4 = null;
-  //     status_5 = 'pending';
-  //     updated_5 = null;
-  //     status_6 = 'pending';
-  //     updated_6 = null;
-  //     status_7 = 'pending';
-  //     updated_7 = null;
-  //     break;
-  //   case 'ready_for_pickup':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'pending';
-  //     status_3 = 'pending';
-  //     status_4 = 'pending';
-  //     status_5 = 'pending';
-  //     status_6 = 'pending';
-  //     status_7 = 'pending';
-  //     break;
-  //   case 'picked_up':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'completed';
-  //     status_3 = 'pending';
-  //     status_4 = 'pending';
-  //     status_5 = 'pending';
-  //     status_6 = 'pending';
-  //     status_7 = 'pending';
-  //     break;
-  //   case 'dropped_off':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'completed';
-  //     status_3 = 'completed';
-  //     status_4 = 'pending';
-  //     status_5 = 'pending';
-  //     status_6 = 'pending';
-  //     status_7 = 'pending';
-  //     break;
-  //   case 'dispatched':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'completed';
-  //     status_3 = 'completed';
-  //     status_4 = 'completed';
-  //     status_5 = 'pending';
-  //     status_6 = 'pending';
-  //     status_7 = 'pending';
-  //     break;
-  //   case 'out_for_delivery':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'completed';
-  //     status_3 = 'completed';
-  //     status_4 = 'completed';
-  //     status_5 = 'completed';
-  //     status_6 = 'pending';
-  //     status_7 = 'pending';
-  //     break;
-  //   case 'delivered':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'completed';
-  //     status_3 = 'completed';
-  //     status_4 = 'completed';
-  //     status_5 = 'completed';
-  //     status_6 = 'completed';
-  //     status_7 = 'pending';
-  //     break;
-  //   case 'undeliverable':
-  //     console.log('current status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'completed';
-  //     status_2 = 'completed';
-  //     status_3 = 'completed';
-  //     status_4 = 'completed';
-  //     status_5 = 'completed';
-  //     status_6 = 'pending';
-  //     status_7 = 'undeliverable';
-  //     break;
-
-  //   default:
-  //     console.log('default status: ', currentStatus);
-  //     status_0 = 'completed';
-  //     status_1 = 'pending';
-  //     status_2 = 'pending';
-  //     status_3 = 'pending';
-  //     status_4 = 'pending';
-  //     status_5 = 'pending';
-  //     status_6 = 'pending';
-  //     status_7 = 'pending';
-  // }
   let timestamp = props.updated;
   //set background color of all statuses less than or equal to current status
-  console.log('status-button props: ', props);
+  console.log('status-display props: ', props); 
 
   // const statusClass = (`${currentStatus} Button`).replace(/ /g, "_") + ' component';
   //let updated = props.orderStatus[props.orderStatus.length - 1].timestamp;
-  let updated = `Updated ${TimeAgo(timestamp)}`;
 
 
-  let myClass;
+
+
   //console.log('status-button status2: ', status);
   let myStatuses = Object.entries(statuses);   //create key, value pairs
   console.log('myStatuses: ', myStatuses);
+  let myClass;
   let fragment1 = myStatuses.map((key, index) => {
     if (index < 4) {
       myClass = `status_${index}`;
@@ -175,12 +65,13 @@ const StatusDisplay = (props) => {
       let myStatus = key[0].replace(/_/g, " ");
       myStatus = myStatus.charAt(0).toUpperCase() + myStatus.substring(1);
       console.log('*** myStatus', myStatus);
+      let updated = `Updated ${TimeAgo(key[1].timestamp)}`;
      return (
 
         <div className="status-button">
-          <button className={key[1].status} onClick={() => { props.handleStatusClick(props.userType, props.component, props.orderStatus, props.timestamp, props.id) }}>
+          <button className={key[1].status} onClick={() => { console.log('+++CLICKED+++');props.handleStatusClick(props.userType, props.component, key[0], key[1].timestamp, props.id) }}>
             <p className="status">{myStatus}</p>
-            <p className="updated">{key[1].timestamp}</p>
+            <p className="updated">{updated}</p>
           </button>
         </div>
 
@@ -197,7 +88,7 @@ const StatusDisplay = (props) => {
       return (
 
         <div className="status-button">
-          <button className={key[1]} onClick={() => { props.handleStatusClick(props.userType, props.component, props.orderStatus, props.timestamp, props.id) }}>
+          <button className={key[1].status} onClick={() => { props.handleStatusClick(props.userType, props.component, props.orderStatus, props.timestamp, props.id) }}>
             <p className="status">{myStatus}</p>
             <p className="updated"></p>
           </button>

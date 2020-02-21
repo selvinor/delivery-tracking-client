@@ -21,6 +21,7 @@ const orders = props.orders;
           return(
             <Order
               key={index}
+              id={order._id}
               index={index}
               destination={order.destination}
               orderDescription={order.orderDescription}
@@ -28,6 +29,7 @@ const orders = props.orders;
               orderNumber={order.orderNumber}
               orderStatus={order.orderStatus}
               vendor={order.vendor}
+              handleStatusClick={props.handleStatusClick}
               showDetails={props.showDetails}
               userType={props.userType}
               // {...props}
