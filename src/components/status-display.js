@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import TimeAgo from './timeAgo';
+import StatusButton from './status-button';
 
 const StatusDisplay = (props) => {
   console.log('StatusDisplay props: ', props);
@@ -25,15 +26,15 @@ const StatusDisplay = (props) => {
   undeliverable = orderStatus.slice().reverse().find(status => status.status === 'undeliverable') ? orderStatus.slice().reverse().find(status => status.status === 'undeliverable') : null;
 
 
-  console.log('new_order: ', new_order);
-  console.log('ready_for_pickup: ', ready_for_pickup);
-  console.log('picked_up: ', picked_up);
-  console.log('dropped_off: ', dropped_off);
-  console.log('dispatched: ', dispatched);
-  console.log('out_for_delivery: ', out_for_delivery);
-  console.log('delivered: ', delivered);
-  console.log('undeliverable: ', undeliverable);
-
+  // console.log('new_order: ', new_order);
+  // console.log('ready_for_pickup: ', ready_for_pickup);
+  // console.log('picked_up: ', picked_up);
+  // console.log('dropped_off: ', dropped_off);
+  // console.log('dispatched: ', dispatched);
+  // console.log('out_for_delivery: ', out_for_delivery);
+  // console.log('delivered: ', delivered);
+  // console.log('undeliverable: ', undeliverable);
+//get latest status update of type
   let statuses = {
       'new_order':        { 'status': new_order         ? 'completed' : 'pending', 'timestamp': new_order         ? new_order.timestamp         : null, 'users': ['vendor'],                    'prereq': null },
       'ready_for_pickup': { 'status': ready_for_pickup  ? 'completed' : 'pending', 'timestamp': ready_for_pickup  ? ready_for_pickup.timestamp  : null, 'users': ['vendor'],                    'prereq': 'new_order' },
@@ -45,77 +46,55 @@ const StatusDisplay = (props) => {
       'undeliverable':    { 'status': undeliverable     ? 'undeliverable' : 'pending', 'timestamp': undeliverable     ? undeliverable.timestamp     : null, 'users': ['vendor', 'driver', 'depot'], 'prereq': 'ready_for_pickup' }
     };
 
-  console.log('statuses:', statuses);
+  // console.log('statuses:', statuses);
 
   //set background color of all statuses less than or equal to current status
   console.log('status-display props: ', props); 
 
   //console.log('status-button status2: ', status);
-  let myStatuses = Object.entries(statuses);   //create key, value pairs
-  console.log('myStatuses: ', myStatuses);
+  let displayStatuses = Object.entries(statuses);   //create key, value pairs
+  // console.log('displayStatuses: ', displayStatuses);
 
-  let fragment1 = myStatuses.map((key, index) => {
+  let fragment1 = displayStatuses.map((key, index) => {
     if (index < 4) {
-      // let myClass = `status_${index}`;
-      console.log('*** StatusDisplay key', index, ': ', key);
-      let myStatus = key[0].replace(/_/g, " ");
-      myStatus = myStatus.charAt(0).toUpperCase() + myStatus.substring(1);
-      console.log('frag1 key[0]: ', key[0], '  key[1].status: ', key[1].status, '  key[1].timestamp: ', key[1].timestamp);
-      console.log('*** myStatus', myStatus);
+      let displayStatus = key[0].replace(/_/g, " ");
+      displayStatus = displayStatus.charAt(0).toUpperCase() + displayStatus.substring(1);
+
       let updated = null;
       if (key[1].timestamp !== null) {
          updated = `Updated ${TimeAgo(key[1].timestamp)}`;
       }
 
      return (
-
-        <div className="status-button" key={index}>
-          <button className={key[1].status} onClick={() => { console.log('+++CLICKED+++');props.handleStatusClick(props.userId, props.userType, props.component, key[0], new Date(), props.id) }}>
-            <p className="status">{myStatus}</p>
-            <p className="updated">{updated}</p>
-          </button>
-        </div>
-
+        <StatusButton onClick={() => {props.handleStatusClick(props.userId, props.userType, props.component, key[0], new Date(), props.id) }} status={key[1].status} displayStatus={displayStatus} index={index} updated={updated}/>
       );
     }
     return null;
   });
 
-  let fragment2 = myStatuses.map((key, index) => {
+  let fragment2 = displayStatuses.map((key, index) => {      //customize status button text
     if (index >= 4) {
-      let myStatus2 = key[0].replace(/_/g, " ");
-      myStatus2 = myStatus2.charAt(0).toUpperCase() + myStatus2.substring(1);
-      console.log('frag2 key[0]: ', key[0], '  key[1]: ', key[1]);
-      console.log('*** myStatus2', myStatus2);
-      
-      if (myStatus2 === 'Dispatched') {
-        myStatus2 = 'Click to Dispatch';
+      let displayStatus2 = key[0].replace(/_/g, " ");
+      displayStatus2 = displayStatus2.charAt(0).toUpperCase() + displayStatus2.substring(1);    
+      if (displayStatus2 === 'Dispatched') {
+        displayStatus2 = 'Click to Dispatch';
       }
-
-      if (myStatus2 === 'Undeliverable') {
-        myStatus2 = 'Click if Undeliverable';
-
+      if (displayStatus2 === 'Undeliverable') {
+        displayStatus2 = 'Click if Undeliverable';
       }
 
       let updated2 = null;
       if (key[1].timestamp !== null) {
         updated2 = `Updated ${TimeAgo(key[1].timestamp)}`;
-        if (myStatus2 === 'Click to Dispatch') {
-          myStatus2 = 'Dispatched';
+        if (displayStatus2 === 'Click to Dispatch') {
+          displayStatus2 = 'Dispatched';
         }
-        if (myStatus2 === 'Click if Undeliverable') {
-          myStatus2 = 'Undeliverable';
+        if (displayStatus2 === 'Click if Undeliverable') {
+          displayStatus2 = 'Undeliverable';
         }
      }
       return (
-
-        <div className="status-button" key={index}>
-          <button className={key[1].status} onClick={() => { props.handleStatusClick(props.userId, props.userType, props.component, key[0], new Date(), props.id) }}>
-            <p className="status">{myStatus2}</p>
-            <p className="updated">{updated2}</p>
-          </button>
-        </div>
-
+        <StatusButton onClick={() => {props.handleStatusClick(props.userId, props.userType, props.component, key[0], new Date(), props.id) }} status={key[1].status} displayStatus={displayStatus2} index={index} updated={updated2}/>
       );
     }
     return null;
