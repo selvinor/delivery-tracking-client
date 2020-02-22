@@ -42,30 +42,8 @@ const StatusDisplay = (props) => {
       'dispatched':       { 'status': dispatched        ? 'completed' : 'pending', 'timestamp': dispatched        ? dispatched.timestamp        : null, 'users': ['depot'],                     'prereq': 'dropped_off' },
       'out_for_delivery': { 'status': out_for_delivery  ? 'completed' : 'pending', 'timestamp': out_for_delivery  ? out_for_delivery.timestamp  : null, 'users': ['driver', 'depot'],           'prereq': 'dispatched' },
       'delivered':        { 'status': delivered         ? 'completed' : 'pending', 'timestamp': delivered         ? delivered.timestamp         : null, 'users': ['vendor', 'driver', 'depot'], 'prereq': 'out_for_delivery' },
-      'undeliverable':    { 'status': undeliverable     ? 'completed' : 'pending', 'timestamp': undeliverable     ? undeliverable.timestamp     : null, 'users': ['vendor', 'driver', 'depot'], 'prereq': 'ready_for_pickup' }
+      'undeliverable':    { 'status': undeliverable     ? 'undeliverable' : 'pending', 'timestamp': undeliverable     ? undeliverable.timestamp     : null, 'users': ['vendor', 'driver', 'depot'], 'prereq': 'ready_for_pickup' }
     };
-
-
-// const StatusDisplay = (props) => {
-//   console.log('StatusDisplay pps: ', props);
-//   // Find each status level attained and timestamp
-
-//   let statuses = {
-//     'new_order': {'status': 'completed', 'timestamp': null},
-//     'ready_for_pickup':  {'status': 'pending', 'timestamp': null},
-//     'picked_up': {'status': 'pending', 'timestamp': null},
-//     'dropped_off': {'status': 'pending', 'timestamp': null},
-//     'dispatched': {'status': 'pending', 'timestamp': null},
-//     'out_for_delivery': {'status': 'pending', 'timestamp': null},
-//     'delivered': {'status': 'pending', 'timestamp': null},
-//     'undeliverable': {'status': 'pending', 'timestamp': null}
-//   };
-//   const orderStatus = props.orderStatus;
-//   orderStatus.forEach((orderStatus, index) => {
-//     console.log('index:', index, '  orderStatus.status:', orderStatus.status, ' | timestamp: ', orderStatus.timestamp);
-//     statuses[orderStatus.status].status = 'completed';
-//     statuses[orderStatus.status].timestamp = orderStatus.timestamp;
-//   })
 
   console.log('statuses:', statuses);
 
@@ -109,9 +87,25 @@ const StatusDisplay = (props) => {
       myStatus2 = myStatus2.charAt(0).toUpperCase() + myStatus2.substring(1);
       console.log('frag2 key[0]: ', key[0], '  key[1]: ', key[1]);
       console.log('*** myStatus2', myStatus2);
+      
+      if (myStatus2 === 'Dispatched') {
+        myStatus2 = 'Click to Dispatch';
+      }
+
+      if (myStatus2 === 'Undeliverable') {
+        myStatus2 = 'Click if Undeliverable';
+
+      }
+
       let updated2 = null;
       if (key[1].timestamp !== null) {
         updated2 = `Updated ${TimeAgo(key[1].timestamp)}`;
+        if (myStatus2 === 'Click to Dispatch') {
+          myStatus2 = 'Dispatched';
+        }
+        if (myStatus2 === 'Click if Undeliverable') {
+          myStatus2 = 'Undeliverable';
+        }
      }
       return (
 
