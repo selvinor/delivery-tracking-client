@@ -5,7 +5,7 @@ const PickupBasic = (props) => {
     <Fragment>
       <div className="pickupLocation center">
         <p className="big bold reverse"> Pickup Location:</p>
-        <p className="bold"> {props.pickupVendor.vendorName}</p>
+        <p className="bold"> {props.pickupVendor.userName}</p>
         <p>{props.pickupVendor.vendorLocation.streetAddress}</p>
         <p>{props.pickupVendor.vendorLocation.city  +  ', ' + props.pickupVendor.vendorLocation.state + ' ' + props.pickupVendor.vendorLocation.zipcode}</p>
         <p>{props.pickupVendor.vendorPhone}</p>

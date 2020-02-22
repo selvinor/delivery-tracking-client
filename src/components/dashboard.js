@@ -86,7 +86,7 @@ export class Dashboard extends React.Component {
         fragment = (
           <Fragment>
             <HeaderBar />
-            <h1>Vendor Dashboard - {user.vendor.vendorName}</h1>
+            <h1>Vendor Dashboard - {user.vendor.userName}</h1>
             <h2>Order Tracking</h2>
             <OrderList userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteOrder={this.handleDeleteOrder} showDetails={this.props.showDetails} />
           </Fragment>
@@ -97,7 +97,7 @@ export class Dashboard extends React.Component {
           fragment = (
             <Fragment>
               <HeaderBar />
-              <h1>Driver Dashboard - {user.driver.driverName}</h1>
+              <h1>Driver Dashboard - {user.driver.userName}</h1>
               <h2>Pickup and Delivery Tracking</h2>
               <PickupList userType='driver' pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
               <DeliveryList userType='driver' deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
@@ -119,12 +119,12 @@ export class Dashboard extends React.Component {
               // console.log('orders[0]: ', orders[0]);
               allOrders = [].concat.apply([], orders);
               // console.log('allOrders: ', allOrders);
-              console.log('this.props.currentUser.id: ', this.props.currentUser.id);
+              console.log('this.props.currentUser: ', this.props.currentUser);
 
               fragment = (
                 <Fragment>
                   <HeaderBar />
-                  <h2>Depot Dashboard - {user.depot.depotName}</h2>
+                  <h2>Depot Dashboard - {this.props.currentUser.username}</h2>
                   <OrderList userId={this.props.currentUser.id} userType='depot' orders={allOrders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
                   <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />

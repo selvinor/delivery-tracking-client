@@ -4,7 +4,7 @@ const OrderBasic = (props) => {
   // console.log('OrderBasic props: ', props);
   let instructions = null;
   let order = null;
-  let vendorName = null;
+  let userName = null;
 
   if (props.destination.instructions) {
     instructions = `*** ${props.destination.instructions} ***`;
@@ -16,14 +16,14 @@ const OrderBasic = (props) => {
     order = props.numOrders + ' Orders';
   }
   if (props.vendor) {
-    vendorName = 'Vendor: ' + props.vendor.vendorName;
+    userName = 'Vendor: ' + props.vendor.userName;
   }
   return (
     <Fragment>
       <div className="orderDest">
         <div className="orderOrigin">
           <p className="bold small">{props.component.charAt(0).toUpperCase() + props.component.substring(1)}  #{props.index + 1}</p>
-          <p className="list-index">{vendorName}</p>
+          <p className="list-index">{userName}</p>
           <p className="list-index">{order}</p>
         </div>
         <p>{props.destination.recipient}</p>

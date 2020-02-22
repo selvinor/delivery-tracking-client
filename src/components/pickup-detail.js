@@ -10,7 +10,7 @@ const PickupDetail = (props) => {
       <div className="pickupLocation center">
         <p className="big reverse bold"> Pickup Location:</p>
         <p>{props.pickupVendor.businessName}</p>
-        <p>{props.pickupVendor.vendorName}</p>
+        <p>{props.pickupVendor.userName}</p>
         <p>{props.pickupVendor.vendorLocation.streetAddress}</p>
         <p>{props.pickupVendor.vendorLocation.city  +  ', ' + props.pickupVendor.vendorLocation.state + ' ' + props.pickupVendor.vendorLocation.zipcode}</p>
         <p>{props.pickupVendor.vendorPhone}</p>
