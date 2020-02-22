@@ -81,62 +81,106 @@ export class Dashboard extends React.Component {
 
     let fragment = null;
     let user = this.props.user;
-    if (user) {
-      if (user.vendor) {   // Display components and send props to components based on who's logged in
-        fragment = (
-          <Fragment>
-            <HeaderBar />
-            <h1>Vendor Dashboard - {user.vendor.userName}</h1>
-            <h2>Order Tracking</h2>
-            <OrderList userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteOrder={this.handleDeleteOrder} showDetails={this.props.showDetails} />
-          </Fragment>
-        )
+    let userType = this.props.currentUser.userType;
+    let allOrders = null;
+    let orders = null;
 
-      } else {
-        if (user.driver) { // Display components and send props to components based on who's logged in
+
+    if (user) {
+      if (userType === 'depot') {
+        allOrders = user.depot.vendors.map(vendor => {
+          // console.log('vendor: ', vendor);
+          return vendor.orders;
+        });
+        if (allOrders) {
+          let orders = [];
+          // console.log('orders[0]: ', orders[0]);
+          orders = [].concat.apply([], allOrders);
+          // console.log('orders: ', orders);
           fragment = (
             <Fragment>
               <HeaderBar />
-              <h1>Driver Dashboard - {user.driver.userName}</h1>
-              <h2>Pickup and Delivery Tracking</h2>
-              <PickupList userType='driver' pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-              <DeliveryList userType='driver' deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+              <h2>{userType} Dashboard - {this.props.currentUser.username}</h2>
+              <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+              {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+              <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+              <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
             </Fragment>
-          )
-        } else {
-          if (user.depot) { // Display components and send props to components based on who's logged in
-            // console.log('user.depot.vendors.length: ', user.depot.vendors.length);
-
-            let orders = user.depot.vendors.map(vendor => {
-              // console.log('vendor: ', vendor);
-              return vendor.orders;
-            });
-            if (orders) {
-              // console.log('typeof(orders): ', typeof (orders));
-              // console.log('dashboard depot orders: ', orders);
-              // const allOrders = orders.flat();
-              let allOrders = [];
-              // console.log('orders[0]: ', orders[0]);
-              allOrders = [].concat.apply([], orders);
-              // console.log('allOrders: ', allOrders);
-              console.log('this.props.currentUser: ', this.props.currentUser);
-
-              fragment = (
-                <Fragment>
-                  <HeaderBar />
-                  <h2>Depot Dashboard - {this.props.currentUser.username}</h2>
-                  <OrderList userId={this.props.currentUser.id} userType='depot' orders={allOrders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-                  <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-                  <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-                  <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-                </Fragment>
-              )
-            }
-          }
+          );
+          return fragment;
+    
         }
+      } else {
+        orders=user[userType]['orders'];
+        fragment = (
+          <Fragment>
+            <HeaderBar />
+            <h2>{userType} Dashboard - {this.props.currentUser.username}</h2>
+            <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+            {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+            <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+            <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
+          </Fragment>
+        );
+        return fragment;
+  
       }
-      return fragment;
     }
+    //   if (user.vendor) {   // Display components and send props to components based on who's logged in
+    //     fragment = (
+    //       <Fragment>
+    //         <HeaderBar />
+    //         <h1>Vendor Dashboard - {user.vendor.userName}</h1>
+    //         <h2>Order Tracking</h2>
+    //         <OrderList userType='vendor' orders={user.vendor.orders} submitNewOrderForm={this.submitNewOrderForm} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} handleDeleteOrder={this.handleDeleteOrder} showDetails={this.props.showDetails} />
+    //       </Fragment>
+    //     )
+
+    //   } else {
+    //     if (user.driver) { // Display components and send props to components based on who's logged in
+    //       fragment = (
+    //         <Fragment>
+    //           <HeaderBar />
+    //           <h1>Driver Dashboard - {user.driver.userName}</h1>
+    //           <h2>Pickup and Delivery Tracking</h2>
+    //           <PickupList userType='driver' pickups={user.driver.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+    //           <DeliveryList userType='driver' deliveries={user.driver.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+    //         </Fragment>
+    //       )
+    //     } else {
+    //       if (user.depot) { // Display components and send props to components based on who's logged in
+    //         // console.log('user.depot.vendors.length: ', user.depot.vendors.length);
+
+    //         let orders = user.depot.vendors.map(vendor => {
+    //           // console.log('vendor: ', vendor);
+    //           return vendor.orders;
+    //         });
+    //         if (orders) {
+    //           // console.log('typeof(orders): ', typeof (orders));
+    //           // console.log('dashboard depot orders: ', orders);
+    //           // const allOrders = orders.flat();
+    //           let allOrders = [];
+    //           // console.log('orders[0]: ', orders[0]);
+    //           allOrders = [].concat.apply([], orders);
+    //           // console.log('allOrders: ', allOrders);
+    //           console.log('this.props.currentUser: ', this.props.currentUser);
+
+    //           fragment = (
+    //             <Fragment>
+    //               <HeaderBar />
+    //               <h2>Depot Dashboard - {this.props.currentUser.username}</h2>
+    //               <OrderList userId={this.props.currentUser.id} userType='depot' orders={allOrders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+    //               {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+    //               <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+    //               <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
+    //             </Fragment>
+    //           )
+    //         }
+    //       }
+    //     }
+    //   }
+    //   return fragment;
+    // }
   }
 }
 const mapStateToProps = state => {
