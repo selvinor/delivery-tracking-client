@@ -26,14 +26,8 @@ const StatusDisplay = (props) => {
   undeliverable = orderStatus.slice().reverse().find(status => status.status === 'undeliverable') ? orderStatus.slice().reverse().find(status => status.status === 'undeliverable') : null;
 
 
-  // console.log('new_order: ', new_order);
-  // console.log('ready_for_pickup: ', ready_for_pickup);
-  // console.log('picked_up: ', picked_up);
-  // console.log('dropped_off: ', dropped_off);
-  // console.log('dispatched: ', dispatched);
-  // console.log('out_for_delivery: ', out_for_delivery);
-  // console.log('delivered: ', delivered);
-  // console.log('undeliverable: ', undeliverable);
+
+  
 //get latest status update of type
   let statuses = {
       'new_order':        { 'status': new_order         ? 'completed' : 'pending', 'timestamp': new_order         ? new_order.timestamp         : null, 'users': ['vendor'],                    'prereq': null },
@@ -54,6 +48,12 @@ const StatusDisplay = (props) => {
   //console.log('status-button status2: ', status);
   let displayStatuses = Object.entries(statuses);   //create key, value pairs
   // console.log('displayStatuses: ', displayStatuses);
+  const forwardClick= (index, userId, userType, component, status, timestamp, id) => {   //check if previous status has updated yet
+    console.log('***forward click on button', index, userId, userType, component, status, timestamp, id);
+
+    console.log ('curr status: ', status, 'statuses: ', statuses);
+    props.handleStatusClick(userId, userType, component, status, timestamp, id) ;
+  };
 
   let fragment1 = displayStatuses.map((key, index) => {
     if (index < 4) {
@@ -66,7 +66,7 @@ const StatusDisplay = (props) => {
       }
 
      return (
-        <StatusButton onClick={() => {props.handleStatusClick(props.userId, props.userType, props.component, key[0], new Date(), props.id) }} status={key[1].status} displayStatus={displayStatus} index={index} updated={updated}/>
+        <StatusButton  onClick={() => {forwardClick(index={index}, props.userId, props.userType, props.component, key[0], new Date(), props.id) }} status={key[1].status} displayStatus={displayStatus} key={index} index={index} updated={updated}/>
       );
     }
     return null;
@@ -94,7 +94,13 @@ const StatusDisplay = (props) => {
         }
      }
       return (
-        <StatusButton onClick={() => {props.handleStatusClick(props.userId, props.userType, props.component, key[0], new Date(), props.id) }} status={key[1].status} displayStatus={displayStatus2} index={index} updated={updated2}/>
+        <StatusButton 
+          onClick={() => {forwardClick(index={index}, props.userId, props.userType, props.component, key[0], new Date(), props.id) }} 
+          status={key[1].status} 
+          displayStatus={displayStatus2} 
+          index={index} updated={updated2}
+          key={index}
+        />
       );
     }
     return null;

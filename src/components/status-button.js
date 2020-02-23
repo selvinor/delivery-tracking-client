@@ -2,7 +2,7 @@ import React from 'react';
 
 const StatusButton = (props) => {
 
-  console.log('status-button props: ', props);
+  // console.log('status-button props: ', props);
 
   return (
     <div className="status-button" key={props.index}>
