@@ -1,68 +1,67 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# H1 Delivery Tracking System
+## H2 User Stories
+## The Delivery Tracking System provides simple and effective communication capabilities for a Delivery Service that provides Pickup and Delivery services for a group of Vendors who:
+1. Fulfill Orders from their customers that require delivery to a third party.
+2. Want the ability to have automated tracking and notification of the Orders as they are picked up by the Delivery service, sorted and delivered to their destinations.
+3. Want the ability to notify, or have their customers notified or able to view the delivery progress.
+## The Delivery Tracking System provides the Delivery Service with an easy to use interface to match Drivers with Orders, and in a future iteration, provide optimal delivery routing by leveraging Open Street Maps and computing routes based on the number of Drivers and the shortest time between delivery addresses.
 
-## Available Scripts
+## The Delivery Tracking Server provides an API that serves data requests from the front end Users, who have the role of Vendor, Depot or Driver. 
+1. Users
+  * Can have role of Depot, Vendor or Driver
+  * Once logged in, Users are redirected to their role-based dashboard that shows a filtered list of current orders. 
 
-In the project directory, you can run:
+2. Orders
+  * Store Order, Pickup and Delivery status
+  * Specify 
+    ** Pickup location
+    ** Pickup time slot (am/pm) 
+    ** Delivery destination
+  * Provide Delivery Instructions
+  * Provide Vendor order #
+  * Specify order size in standardized vehicle storage units
 
-### `npm start`
+3. Vendors 
+  * Vendors create Orders with initial status "pending"
+  * The Vendor Dashboard shows all orders entered by the Vendor in date order.
+  * Order is added to Pickups queue with 'pending' status.
+  * Order is added to Deliveries queue with 'pending' status.
+  * Can CRUD Orders
+  * Can Cancel Deliveries
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. Depot 
+  * Depot assigns a Driver to each Order for Pickup
+    ** Order status changes to "scheduled for pickup". 
+    ** Order is added to Driver's pickup queue
+    ** Notifications are sent to the Vendor
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+  * Depot receives physical orders and performs Arrival Scan
+    ** Arrival Scan is performed 
+    ** Order status is updated to "at depot"
+    ** Notifications are sent to the Vendor
+  * Depot sorts Orders by delivery Zone  
+  * Depot assigns a Driver to each Order for Delivery
+    ** Order status changes to "dispatched for delivery". 
+    ** Order is added to Driver's delivery queue
+    ** Notifications are sent to the Vendor
+  * Can CRUD Drivers 
+  * Can assign a Driver to a Pickup
+  * Can assign a Driver to a Delivery
+  * Can edit Driver's queue
 
-### `npm test`
+5. Driver 
+  * The Pickup Driver picks up queued Orders from the Vendor
+    ** Order status changes to "Picked up". 
+    ** Pickup status changes to "completed". 
+  * The Pickup Driver drops Orders at the Depot.
+    ** Order status changes to "arrived at depot". 
+    ** Pickup status changes to "completed". 
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  * The Pickup Driver picks up queued Orders from the Vendor and drops them at the Destination.
 
-### `npm run build`
+  * The Delivery Driver picks up queued Orders from the Depot and drops them at the Destination.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  * The Driver dashboard shows Orders in the Pickup queues and the Delivery Queues that have been assigned to the Driver by the Depot.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+  * Changing the Order status to "arrived at Depot" causes the Order  to be removed from the Pickup queue and added to the Delivery queue. The Order is updated with it's Delivery id.
+-
