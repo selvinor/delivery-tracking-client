@@ -18,9 +18,7 @@ export class LandingPage extends React.Component {
     }
     return (
       <Fragment>
-        <section id="main">
-        <h2>Order Pickup and Delivery Tracking</h2>
-        <p>Please login to continue.</p>
+        <section className="Aligner">
           <LogIn />
         </section>
       </Fragment>

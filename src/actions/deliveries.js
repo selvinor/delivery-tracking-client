@@ -1,10 +1,13 @@
 import { API_BASE_URL } from '../config';
-import { normalizeResponseErrors } from './utils';
+// import { normalizeResponseErrors } from './utils';
 // import { SubmissionError } from 'redux-form';
 
 export const UPDATE_DELIVERY_STATUS_REQUESTED = 'UPDATE_DELIVERY_STATUS_REQUESTED';
-export const updateDeliveryStatusRequested = () => ({
-  type: UPDATE_DELIVERY_STATUS_REQUESTED
+export const updateDeliveryStatusRequested = (userType) => ({
+  type: UPDATE_DELIVERY_STATUS_REQUESTED,
+  payload: {
+    userType
+  }
 });
 export const UPDATE_DELIVERY_STATUS_SUCCEEDED = 'UPDATE_DELIVERY_STATUS_SUCCEEDED'; 
 export const updateDeliveryStatusSucceeded = (id, userType, deliveryStatus  ) => ({
@@ -21,34 +24,36 @@ export const updateDeliveryStatusError = error => ({
   error
 });
 
-export const updateDeliveryStatus = (userType, status, deliveryId) => async (dispatch, getState) => {
+export const updateDeliveryStatus = (userType, oldStatus, timestamp, deliveryId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
+  let newStatus = {'status':'dispatching', 'timestamp': new Date()};
   dispatch(updateDeliveryStatusRequested(userType));
-  console.log('status.deliveryStatus before:', status.deliveryStatus);
-  if (status.deliveryStatus === 'dispatching') {
-    status.deliveryStatus = 'en route';
+  //console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', deliveryId);
+  if (oldStatus === 'dispatching') {
+    newStatus = {'status':'en route', 'timestamp': timestamp};
+    //console.log('after updateDeliveryStatus: newStatus: ', newStatus);
   } else {
-    if (status.deliveryStatus === 'en route') {
-      status.deliveryStatus = 'delivered';
-    } else {
-      status.deliveryStatus = 'dispatching';
+    if (oldStatus === 'en route') {
+      newStatus = {'status':'delivered', 'timestamp': timestamp};
+      //console.log('after updateDeliveryStatus: newStatus: ', newStatus);
     }
   }
-  console.log('status.deliveryStatus after:', status.deliveryStatus);
-
+  
+  //console.log('JSON.stringify({deliveryStatus:newStatus}): ',JSON.stringify({deliveryStatus:newStatus}));
   try {
-    const res = await fetch(`${API_BASE_URL}/deliveries/${deliveryId}`, {
+    await fetch(`${API_BASE_URL}/deliveries/${deliveryId}`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
-      // body: JSON.stringify(status)
-      body: JSON.stringify(status)
+      // body: JSON.stringify(oldStatus)
+      body: JSON.stringify({deliveryStatus:newStatus})
     });
-    const res_1 = normalizeResponseErrors(res);
+    // const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
-    return dispatch(updateDeliveryStatusSucceeded(deliveryId, userType, status, res_1));
+    // //console.log('res_1: ', res_1);
+    return dispatch(updateDeliveryStatusSucceeded(deliveryId, userType, newStatus));
   }
   catch (error) {
     dispatch(updateDeliveryStatusError(error));

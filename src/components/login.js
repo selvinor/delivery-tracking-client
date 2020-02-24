@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import LoginForm from './login-form';
+import HeaderBar from './header-bar';
 // import '../styles/forms.css';
 
 export class LogIn extends React.Component {
@@ -8,9 +9,12 @@ export class LogIn extends React.Component {
   
   render() {
     return (
-      <main aria-live="assertive" className="main textCenter" role="main">
-        <LoginForm />
-      </main>
+      <Fragment>
+        <main aria-live="assertive" className="main textCenter" role="main">
+          <HeaderBar />
+          <LoginForm />
+        </main>
+      </Fragment>
     );
   }
 }

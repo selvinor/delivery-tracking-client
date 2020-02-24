@@ -1,12 +1,22 @@
-
+body {
+  margin:0;
+}
 h1 {
-
+  font-size:4.5vw;
   background: transparent;
   border-radius: 4px;
   padding: 5px;
   text-align: center;
+
+}
+h2 {
+  font-size:3.5vw;
+  text-align:center;
+  color:#fff;
+  text-shadow: 2px 2px black;
 }
 h3 {
+  font-size:2.5vw;
   margin:0 5px 0 0;
   background: #000000;
   color: #e8e8e8;
@@ -15,6 +25,7 @@ h3 {
   text-align: center;
 }
 h4 {
+  font-size:2vw;
   margin:0 5px 0 0;
   background: #cccccc;
   color: #000000;
@@ -26,70 +37,62 @@ li {
   list-style-type: none;
 }
 
-button {
-  /* margin-right:40px; */
-  text-align: center;
-}
-button p{
-  /* margin-right:40px; */
-  text-align: center;
+
+button:hover {
+
+  cursor: pointer;
 }
 a{
   text-decoration:'none';
   color:'black';
 }
 p {
-  font-size:.8vw;
+  font-size:1.5vw;
 }
 
+#root {
+  padding:0;
+  margin:0;
+}
 .updated {
-  font-size:.6vw;
+  font-size:1vw;
 }
 
 .timeago {
-  font-size:.4vw;
+  font-size:.8vw;
+}
+.status-display {
+  flex-direction: row;
+
+  flex-wrap: wrap;
+  display:flex;
+  align-content: space-around;
 }
 
 .status {
-  font-size:1vw;
-  background-color:black;
+  font-size:1.5vw;
+  background-color:transparent;
   color:white;
   padding:5px;
+  text-align:center;
 }
-.status:hover {
-  font-size:1vw;
-  background-color:white;
+/* .status:hover {
+  font-size:1.1vw;
+  font-weight:800;
   color:red;
   padding:5px;
-}
+} */
 
-.status-button {
-  /* margin: auto; */
-  font-size:.5vw;
-  text-align:center;
-  min-width:170px;
-}
-
-.status-button button{
-  /* margin-right:40px; */
-  font-size:.8vw;
-  margin:auto;
-}
-
-.status-button  p{
-text-align: center;
-
-}
 
 .list-index {
-  font-size:.6vw;
+  font-size:1vw;
 }
 
 .center {
   text-align:center;
 }
 .status-text {
-  width:120px;
+  /* width:120px; */
   
 }
 .order-text {
@@ -119,21 +122,14 @@ text-align: center;
   min-height: 150vh;
 }
 
-/* .order-list {
-  background: #e8e8e8;
-  border-radius: 4px;
-  padding: 5px;
-  max-width: 400px;
-
-} */
 .newOrder {
   background: #e8e8e8;
   border-radius: 4px;
   padding: 5px;
-  max-width: 400px;
+  /* max-width: 400px; */
   font-size: 12px;
 }
-.order, .pickup, .delivery, .driver, .depot, .zone {
+.order{
   background: #fff;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
   padding: 3px 10px;
@@ -141,11 +137,14 @@ text-align: center;
   margin-bottom: 6px;
   border-radius: 3px;
   display: flex;
-  align-items: top;
-  justify-content: space-between;
+  /* justify-content: center; */
 }
 .pickup p {
   text-align: center;
+}
+.top{
+  padding:0;
+  margin: auto;
 }
 .order p {
   text-align: center;
@@ -162,20 +161,26 @@ text-align: center;
   flex-basis: 100%;
   flex: 1;
 }
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  flex: 1;
+}
 
 
 .bold {
   font-weight:800;
 }
 .big {
-  font-size: .9vw;
+  font-size: 1.8vw;
 }
 .center {
   text-align: center;
-  margin:0 auto;
 }
 .center p {
   margin:0 auto;
+  text-align:center;
 }
 .Button {
   padding: 0 24px;
@@ -184,20 +189,34 @@ text-align: center;
   color: black;
   font-weight: bold;
 }
-
-.pending_Button, .dispatching_Button {
+.undeliverable {
   background: red;
-  color: black;
-  font: size 0.7vw;
-  padding: 24px;
-  border-radius: 4px;
-  font-weight: bold;
 }
-.pending_Button:hover, .dispatching_Button:hover {
-  color:#666666;
-  cursor: pointer;
+
+.status-button {
+  width:25%;
 }
-.picked_up_Button, .en_route_Button {
+.status-button button {
+  /* min-width:80px; */
+  border:1px solid black;
+  margin:3px;
+  width:15vw;
+  border-radius:4px;
+  height:10vw;
+  text-align: center;
+}
+.status-button button.pending {
+  background: #eeeeee;
+  border-color: #cccccc;
+}
+.pending p{
+  color:#999999;
+}
+.completed {
+  background: green;
+}
+
+.picked_up, .en_route {
   background: gold;
   color: black;
   font: size 0.7vw;
@@ -205,62 +224,61 @@ text-align: center;
   border-radius: 4px;
   font-weight: bold;
 }
-.picked_up_Button:hover, .en_route_Button:hover {
-  color:#999999;
-  cursor: pointer;
-}
 
-.dropped_off_Button, .delivered_Button, .ready_Button {
-  background: green;
-  color: white;
-  font: size 0.7vw;
-  padding: 24px;
-  border-radius: 4px;
-  font-weight: bold;
-}
-
-.dropped_off_Button:hover, .delivered_Button:hover {
-  color:#333333;
-  cursor: pointer;
-}
-.Button:hover {
+.button:hover {
   cursor: pointer;
 }
 .index {
   margin:0 auto;
 }
 .small {
-  font-size: .6vw;
+  font-size: 1vw;
 }
-
+.reverse {
+  background-color:#cccccc;
+  color:#000000;
+  padding:0 5px;
+  font-weight:800;
+  border-radius:4px;
+}
 .deliveryDest {
-  min-width: 175px;
-  margin:auto;
+  /* padding:0; */
   text-align:center;
 }
 .deliveryDest p{
   margin: auto;
-  font-size:1vw;
 }
-.deliveryInstructions{
+.orderDest .deliveryInstructions{
   font-style: italic;
+  margin-top:5px;
+  background: #cccccc;
+  padding:3px 0;
 }
 
 .pickupLocation p{
-  padding:0;
   margin: auto;
 }
 .orderDest {
-  min-width: 175px;
-  margin:auto;
+  /* min-width: 175px; */
+  width:20%;
+  /* margin:auto; */
   text-align:center;
+  margin-right:10px;
 }
 .orderDest p{
   padding:0;
   margin: auto;
+
+}
+.detail {
+  font-size:.8vw;
+  margin:0;
 }
 .details {
-  font-size:.5vw;
+  font-size:1.1vw;
+}
+.makeModel {
+  margin-bottom:0px;
 }
 .orderContents {
   min-width: 175px;
@@ -275,3 +293,66 @@ text-align: center;
 .delete {
   background-color:red;
 }
+.order-list {
+  display: block;
+  list-style-type: none;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+}
+.small-list p {
+  margin: auto;
+}
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Aligner-item {
+  max-width: 50%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+.login-section p {
+  font-size:2vw;
+}
+.form-error {
+  color:red;
+  font-size:2vw;
+  font-weight:800;
+}
+.orderOrigin {
+  border:1px solid black;
+  background-color:#cccccc;
+  color:#000000;
+  font-weight:800;
+  margin-bottom:5px;
+}
+.orderOrigin p {
+  font-size:1vw;
+}
+/* Inserting this collapsed row between two flex items will make 
+ * the flex item that comes after it break to a new row */
+ .break {
+  flex-basis: 100%;
+  height: 0;
+}
+.undeliverable {
+  background:red;
+}
+@supports (-webkit-text-stroke: 1px black) {
+  .form-error {
+    -webkit-text-stroke: .33px black;
+    -webkit-text-fill-color: red;
+  }
+}
+

@@ -1,28 +1,37 @@
 import React, { Fragment } from 'react';
-import StatusButton from './status-button';
-import ShowDetailsButton from './show-details-button';
-import DeleteOrderButton from './delete-button';
 
 const OrderBasic = (props) => {
-  console.log('OrderBasic props: ', props);
+  // console.log('OrderBasic props: ', props);
   let instructions = null;
+  let order = null;
+  let userName = null;
+
   if (props.destination.instructions) {
     instructions = `*** ${props.destination.instructions} ***`;
-  }  
+  }
+  if (props.orderNumber) {
+    order = 'Order Ref: ' + props.orderNumber;
+  }
+  if (props.pickups) {
+    order = props.numOrders + ' Orders';
+  }
+  if (props.vendor) {
+    userName = 'Vendor: ' + props.vendor.userName;
+  }
   return (
     <Fragment>
-      <StatusButton component="delivery" {...props}  index={props.index}  status={props.orderStatus.replace(/_/g, " ")}  />
       <div className="orderDest">
-        <p className="big  bold"> Destination:</p>
-        <p>{props.destination.recipient.businessName}</p>
+        <div className="orderOrigin">
+          <p className="bold small">{props.component.charAt(0).toUpperCase() + props.component.substring(1)}  #{props.index + 1}</p>
+          <p className="list-index">{userName}</p>
+          <p className="list-index">{order}</p>
+        </div>
         <p>{props.destination.recipient}</p>
+        <p>{props.destination.businessName}</p>
         <p>{props.destination.streetAddress}</p>
-        <p>{props.destination.city  +  ', ' + props.destination.state + ' ' + props.destination.zipcode}</p>
-        <p>{props.destination.recipient.recipientPhone}</p>
+        <p>{props.destination.city}</p>
         <p className="bold deliveryInstructions">{instructions}</p>
-      </div>       
-      <ShowDetailsButton component="order" {...props} />   
-      <DeleteOrderButton component="order" {...props} />   
+      </div>
     </Fragment>
   );
 

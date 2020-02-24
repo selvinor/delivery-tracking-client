@@ -104,40 +104,39 @@ export const postPickup = pickup => (dispatch, getState) => {
     });
 };
 
-export const updatePickupStatus = (userType, newStatus, pickupId) => async (dispatch, getState) => {
+export const updatePickupStatus = (userType, oldStatus, timestamp, pickupId) => async (dispatch, getState) => {
   const authToken = getState().auth.authToken;
+  let newStatus = {'status':'ready-for-pickup', 'timestamp': new Date()};
   dispatch(updatePickupStatusRequested(userType));
-  console.log('before updatePickupStatus: ',userType, ' - ', newStatus,  '- ', pickupId);
-  if (newStatus.pickupStatus === 'pending') {
-    newStatus.pickupStatus = 'picked_up';
-    console.log('after updatePickupStatus: newStatus: ', newStatus);
+  //console.log('before updatePickupStatus: ',userType, ' oldStatus:', oldStatus, ' timestamp:', timestamp,  '- ', pickupId);
+  if (oldStatus === 'ready-for-pickup') {
+    newStatus = {'status':'picked_up', 'timestamp': timestamp};
+    //console.log('after updatePickupStatus: newStatus: ', newStatus);
   } else {
-    if (newStatus.pickupStatus === 'picked up') {
-      newStatus.pickupStatus = 'dropped_off';
-      console.log('after updatePickupStatus: newStatus: ', newStatus);
-    } else {
-      newStatus.pickupStatus = 'pending';
+    if (oldStatus === 'picked_up') {
+      newStatus = {'status':'ready_for_dispatch', 'timestamp': timestamp};
+      //console.log('after updatePickupStatus: newStatus: ', newStatus);
     }
   }
   
-  // console.log('JSON.stringify(newStatus): ',JSON.stringify(newStatus));
+  //console.log('JSON.stringify({pickupStatus:newStatus}): ',JSON.stringify({pickupStatus:newStatus}));
   try {
-    const res = await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
+    await fetch(`${API_BASE_URL}/pickups/${pickupId}`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${authToken}`
       },
-      // body: JSON.stringify(newStatus)
-      body: JSON.stringify(newStatus)
+      // body: JSON.stringify(oldStatus)
+      body: JSON.stringify({pickupStatus:newStatus})
     });
-    const res_1 = normalizeResponseErrors(res);
+    // const res_1 = normalizeResponseErrors(res);
     // const res_2 = res_1.json();
-    // console.log('res_1: ', res_1);
-    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus, res_1));
+    // //console.log('res_1: ', res_1);
+    return dispatch(updatePickupStatusSucceeded(pickupId, userType, newStatus));
   }
   catch (error) {
-    console.log('error!: ', error);
+    //console.log('error!: ', error);
     dispatch(updatePickupStatusError(error));
   }
 };

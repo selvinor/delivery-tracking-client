@@ -50,7 +50,7 @@ export default function TimeAgo(dateParam) {
 
 
   if (seconds < 5) {
-    return 'now';
+    return 'just now';
   } else if (seconds < 60) {
     return `${ seconds } seconds ago`;
   } else if (seconds < 90) {

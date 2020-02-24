@@ -1,6 +1,6 @@
 import React from 'react';
 import Order from './order';
-import OrderForm from './order-form';
+
 export default function OrderList(props) {
 
   // This component has these responsibilities:
@@ -9,24 +9,35 @@ export default function OrderList(props) {
   //    3)  delete Order from list
   //    4)  select and show Order detail   
 console.log('order-list props: ', props);
+// console.log('order-list props: ', props);
 const orders = props.orders;
-const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','phone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
-const submitNewOrderForm = props.submitNewOrderForm;
-
-return (
-      <div>
-        <h3>Orders</h3>
-        <ul className="order-list">
-          {orders.map((order, index) => (
+  return (
+    <div>
+      <h3>Orders</h3>
+      <ul className="order-list">
+        {orders.map((order, index) => {
+          // console.log('mapping order: ', order.orderNumber, ' index: ', index)
+        
+          return(
             <Order
+              userId={props.userId}
               key={index}
+              id={order._id}
               index={index}
-              {...order}
-              {...props}
+              destination={order.destination}
+              orderDescription={order.orderDescription}
+              orderSize={order.orderSize}
+              orderNumber={order.orderNumber}
+              orderStatus={order.orderStatus}
+              vendor={order.vendor}
+              handleStatusClick={props.handleStatusClick}
+              showDetails={props.showDetails}
+              userType={props.userType}
+              // {...props}
             />
-          ))}
-        </ul>
-        <OrderForm className="order-form" newOrderFields={newOrderFields} submitNewOrderForm={submitNewOrderForm} />
-      </div>
-    );
+          )
+          })}
+      </ul>
+    </div>
+  );
 }

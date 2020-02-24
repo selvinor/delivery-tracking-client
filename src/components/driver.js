@@ -1,23 +1,59 @@
 import React, { Fragment } from 'react';
-
+import DriverBasic from './driver-basic';
+import DriverDetail from './driver-detail';
+import StatusButton from './status-button';
+import ShowDetailsButton from './show-details-button';
 
 const Driver = (props) => {
-  const driver = props.driver;
-
-  return (
-    <Fragment>
-      <li className="driver">
-      <p><span className="bold"> Driver Name</span><br />{driver.driverName} </p>
-      <p><span className="bold"> Phone: </span><br />{ driver.driverPhone} </p>
-      <p><span className="bold"> VehicleMake: </span><br />{driver.driverVehicleMake}</p>
-      <p><span className="bold"> VehicleModel: </span><br />{driver.driverVehicleModel}</p>  
-      <p><span className="bold"> VehiclePlate: </span><br />{driver.driverVehiclePlate}</p>  
-      <p><span className="bold"> Driver StatusButton: </span><br />{driver.driverStatus}<br />{driver.updatedAt}  </p>
-      {/* <p><span className="bold"> Pickups: </span><br />{driver.pickups} </p>
-      <p><span className="bold"> Deliveries: </span><br />{driver.deliveries} </p> */}
-    </li>     
-    </Fragment>
-  );
+  //console.log('Driver.js props: ', props);
+  let  status = props.driverStatus[props.driverStatus.length-1];
+  //console.log('typeof(status): ', typeof(status));
+  //console.log('Driver.js status: ', status);
+  status= status.status.replace(/_/g, " ");
+  //console.log('Driver.js status after: ', status);
+  const showDetails = props.showDetails.findIndex(detail => detail.id === props._id) > -1;
+  let detailsButtonText = '-MORE-'
+  if (showDetails) {
+    let detailsButtonText = '-LESS-'
+    return (
+      <Fragment>
+        <li className="dashboard">
+        <StatusButton 
+            id={props._id}
+            userType={props.userType}
+            component="driver" 
+            handleStatusClick={props.handleStatusClick} 
+            updated={props.driverStatus[props.driverStatus.length - 1].timestamp} 
+            status={status} 
+            timestamp={props.driverStatus[props.driverStatus.length - 1].timestamp} 
+            index={props.index} 
+          />
+          <DriverDetail component="driver" {...props} detailsButtonText={detailsButtonText} />
+          <ShowDetailsButton component="driver" detailsButtonText={detailsButtonText} {...props} />
+        </li>
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        <li className="dashboard">
+        <StatusButton 
+          id={props._id}
+          userType={props.userType}
+          component="driver" 
+          handleStatusClick={props.handleStatusClick} 
+          updated={props.driverStatus[props.driverStatus.length - 1].timestamp} 
+          status={status} 
+          timestamp={props.driverStatus[props.driverStatus.length - 1].timestamp} 
+          index={props.index} 
+          {...props}
+        />
+        <DriverBasic component="driver" {...props} detailsButtonText={detailsButtonText} />
+        <ShowDetailsButton component="driver"  detailsButtonText={detailsButtonText} {...props} />
+        </li>
+      </Fragment>
+    );
+  }
 };
 
 export default Driver;

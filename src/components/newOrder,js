@@ -1,0 +1,128 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import orderForm from './order-form';
+// import '../styles/forms.css';
+
+export class NewOrder extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.submitNewOrderForm = this.submitNewOrderForm.bind(this);
+  }
+
+  submitNewOrderForm(e) {
+    e.preventDefault();
+    let errors = {}
+
+    if (this.validateForm()) {
+      let fields = {};
+      this.setState({ fields: fields });
+    } else {
+      errors['zip'] = 'Please enter a valid zip code';
+      this.setState({ errors: errors })
+    }
+  }
+
+  validateForm() {
+
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+
+    if (!fields['orderNumber']) {
+      formIsValid = false;
+      errors['orderNumber'] = 'Please enter an order number';
+    }
+
+    if (typeof fields['orderNumber'] !== 'undefined') {
+      if (!fields['orderNumber'].match(/\d\w\S/)) {
+        formIsValid = false;
+        errors['orderNumber'] = 'Please enter a valid order number';
+      }
+    }
+    if (!fields['orderSize']) {
+      fields['orderSize'] = 1;
+    }
+
+    if (typeof fields['orderSize'] !== 'undefined') {
+      if (!fields['orderSize'].match(/\d/)) {
+        formIsValid = false;
+        errors['orderSize'] = 'Please enter a valid order size 1-3';
+      }
+    }
+    if (!fields['recipient']) {
+      formIsValid = false;
+      errors['recipient'] = 'Please enter a recipient name';
+    }
+
+    if (typeof fields['recipient'] !== 'undefined') {
+      if (!fields['recipient'].match(/\w/)) {
+        formIsValid = false;
+        errors['recipient'] = 'Please enter a valid recipient name';
+      }
+    }
+    if (!fields['phone']) {
+      formIsValid = false;
+      errors['phone'] = 'Please enter a recipient phone';
+    }
+
+    if (typeof fields['phone'] !== 'undefined') {
+      if (!fields['phone'].match(/^[0][1-9]\d{9}$|^[1-9]\d{9}$/g)) {
+        formIsValid = false;
+        errors['phone'] = 'Please enter a valid recipient phone';
+      }
+    }
+
+    if (!fields['streetAddress']) {
+      formIsValid = false;
+      errors['streetAddress'] = 'Please enter a street address';
+    }
+
+    if (!fields['city']) {
+      formIsValid = false;
+      errors['city'] = 'Please enter a city';
+    }
+
+    if (!fields['state']) {
+      formIsValid = false;
+      errors['state'] = 'Please enter a state';
+    }
+
+    if (!fields['zipcode']) {
+      formIsValid = false;
+      errors['zipcode'] = 'Please enter a zipcode';
+    }
+
+    if (typeof fields['zipcode'] !== 'undefined') {
+      if (!fields['zipcode'].match(/^\d{5}$|^\d{5}-\d{4}$/)) {
+        formIsValid = false;
+        errors['zipcode'] = 'Please enter a valid zipcode';
+      }
+    }
+
+
+    this.setState({
+      errors: errors
+    });
+    return formIsValid;
+  }
+
+  
+  render() {
+    const newOrderFields = ['orderNumber',  'orderDetails', 'orderSize', 'recipient','phone', 'businessName','streetAddress', 'city', 'state', 'zipcode', 'instructions'];
+    const submitNewOrderForm = this.submitNewOrderForm;
+
+    return (
+      <main aria-live="assertive" className="main textCenter" role="main">
+        <OrderForm className="order-form" newOrderFields={newOrderFields} submitNewOrderForm={submitNewOrderForm} />
+
+      </main>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  user: state.protectedData.user,
+});
+
+export default connect(mapStateToProps)(NewOrder);

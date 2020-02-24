@@ -4,7 +4,6 @@ import Input from './input';
 import {login} from '../actions/auth';
 import {required, nonEmpty} from '../validators';
 import { Link } from 'react-router-dom';
-import HeaderBar from './header-bar';
 //import './styles/login.css';
 
 export class LoginForm extends React.Component {
@@ -27,9 +26,9 @@ export class LoginForm extends React.Component {
 
       return (
         <Fragment>
-        <section id="main" className="signin">
-          <HeaderBar />
+        <section className="signin">
           <section className="login-section">
+          <p>Please login to continue.</p>
             <form
               className="login-form"
               onSubmit={this.props.handleSubmit(values =>
@@ -42,11 +41,11 @@ export class LoginForm extends React.Component {
                   type="text"
                   name="username"
                   id="username"
-                  placeholder="Username"
+                  placeholder="username"
                   autocomplete="username"
                   validate={[required, nonEmpty]}
               />
-              <label htmlFor="password">demo password = ""</label>
+              <label htmlFor="password">demo password = "depot1"</label>
               <Field
                   component={Input}
                   type="password"

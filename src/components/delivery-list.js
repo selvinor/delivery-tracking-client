@@ -7,7 +7,7 @@ export default function DeliveryList(props) {
   //    1)  Show today's Deliveries 
   //    2)  change delivery status
   //    3)  select and show Delivery detail   
-console.log('delivery-list props: ', props);
+//console.log('delivery-list props: ', props);
   const deliveries = props.deliveries;
   if (deliveries) {
     if (deliveries.length >= 1) {
@@ -17,10 +17,16 @@ console.log('delivery-list props: ', props);
           <ul className="delivery-list">
             {deliveries.map((delivery, index) => (
               <Delivery
-                key={index}
-                index={index}
-                {...delivery}
-                {...props}
+              key={index}
+              index={index}
+              {...delivery}
+              id={delivery.id}
+              userType={props.userType}
+              component="pickup"  
+              handleStatusClick={props.handleStatusClick}
+              handleDetailsClick={props.handleDetailsClick}
+              showDetails={props.showDetails}
+
               />
             ))}
           </ul>
