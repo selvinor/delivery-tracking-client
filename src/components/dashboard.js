@@ -87,6 +87,8 @@ export class Dashboard extends React.Component {
 
 
     if (user) {
+      let displayUserType = userType.charAt(0).toUpperCase() + userType.substring(1);
+      let displayUserName = this.props.currentUser.username.charAt(0).toUpperCase() + this.props.currentUser.username.substring(1);
       if (userType === 'depot') {
         allOrders = user.depot.vendors.map(vendor => {
           // console.log('vendor: ', vendor);
@@ -100,7 +102,7 @@ export class Dashboard extends React.Component {
           fragment = (
             <Fragment>
               <HeaderBar />
-              <h2>{userType} Dashboard - {this.props.currentUser.username}</h2>
+              <h2>{displayUserType} Dashboard - {displayUserName}</h2>
               <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
               {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
               <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
@@ -115,7 +117,7 @@ export class Dashboard extends React.Component {
         fragment = (
           <Fragment>
             <HeaderBar />
-            <h2>{userType} Dashboard - {this.props.currentUser.username}</h2>
+            <h2>{displayUserType} Dashboard - {displayUserName}</h2>
             <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
             {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
             <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />

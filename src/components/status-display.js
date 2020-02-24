@@ -6,7 +6,7 @@ const StatusDisplay = (props) => {
   console.log('StatusDisplay props: ', props);
   // Find each status level attained and timestamp
   const orderStatus = props.orderStatus;
-  console.log('***orderStatus : ', orderStatus);
+  // console.log('***orderStatus : ', orderStatus);
   let new_order = null;
   let ready_for_pickup = null;
   let picked_up = null;
