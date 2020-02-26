@@ -58,7 +58,7 @@ const storeAuthInfo = (authToken, dispatch) => {
 
 export const storeReturningUser = () => (dispatch) => {
   dispatch(setReturningUser());
-  saveReturningUser();
+  saveReturningUser(); 
 };
 
 export const storeInformedUser = () => (dispatch) => {
