@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 const OrderBasic = (props) => {
-  // console.log('OrderBasic props: ', props);
+  console.log('OrderBasic props: ', props);
   let instructions = null;
   let order = null;
   let userName = null;
@@ -16,12 +16,12 @@ const OrderBasic = (props) => {
     order = props.numOrders + ' Orders';
   }
   if (props.vendor) {
-    userName = 'Vendor: ' + props.vendor.userName;
+    userName = 'Vendor: ' + props.vendor.name;
   }
   return (
     <Fragment>
-      <div className="orderDest">
-        <div className="orderOrigin">
+      <div className="orderDest reverse">
+        <div className="orderOrigin ">
           <p className="bold small">{props.component.charAt(0).toUpperCase() + props.component.substring(1)}  #{props.index + 1}</p>
           <p className="list-index">{userName}</p>
           <p className="list-index">{order}</p>

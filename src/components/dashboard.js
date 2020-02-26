@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import HeaderBar from './header-bar';
 import OrderList from './order-list';
-import DeliveryList from './delivery-list';
-import PickupList from './pickup-list';
-import DriverList from './driver-list';
+// import DeliveryList from './delivery-list';
+// import PickupList from './pickup-list';
+// import DriverList from './driver-list';
 
 import { updatePickupStatus } from '../actions/pickups';
 import { updateDeliveryStatus } from '../actions/deliveries';
@@ -40,7 +40,7 @@ export class Dashboard extends React.Component {
   }
 
   handleStatusClick(userId, userType, component, status, timestamp, id) {
-    console.log('*** handleStatusClick: ','userType: ', userType, ' |  component: ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
+    console.log('*** handleStatusClick: ', userId, userType, component, status, timestamp, id);
     if (component === 'pickup') {
       this.props.dispatch(updatePickupStatus(userType, status, timestamp, id));
     } else {
@@ -91,7 +91,7 @@ export class Dashboard extends React.Component {
       let displayUserName = this.props.currentUser.username.charAt(0).toUpperCase() + this.props.currentUser.username.substring(1);
       if (userType === 'depot') {
         allOrders = user.depot.vendors.map(vendor => {
-          // console.log('vendor: ', vendor);
+          console.log('vendor: ', vendor);
           return vendor.orders;
         });
         if (allOrders) {
@@ -101,30 +101,34 @@ export class Dashboard extends React.Component {
           // console.log('orders: ', orders);
           fragment = (
             <Fragment>
+            <div className="title">
               <HeaderBar />
               <h2>{displayUserType} Dashboard - {displayUserName}</h2>
               <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
               {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-              <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-              <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
+                <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+                <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
+            </div>
             </Fragment>
           );
           return fragment;
-    
+
         }
       } else {
-        orders=user[userType]['orders'];
+        orders = user[userType]['orders'];
         fragment = (
           <Fragment>
-            <HeaderBar />
-            <h2>{displayUserType} Dashboard - {displayUserName}</h2>
-            <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-            {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-            <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
-            <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
+            <div className="title">
+              <HeaderBar />
+              <h2>{displayUserType} Dashboard - {displayUserName}</h2>
+              <OrderList userId={this.props.currentUser.id} userType={userType} orders={orders} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+              {/* <PickupList userType='depot' pickups={user.depot.pickups} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+                <DeliveryList userType='depot' deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} />
+                <DriverList userType='depot' drivers={user.depot.drivers} pickups={user.depot.pickups} deliveries={user.depot.deliveries} handleStatusClick={this.handleStatusClick} handleDetailsClick={this.handleDetailsClick} showDetails={this.props.showDetails} /> */}
+            </div>
           </Fragment>
         );
-        return fragment; 
+        return fragment;
       }
     }
   }
