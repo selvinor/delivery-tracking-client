@@ -15,6 +15,7 @@ const StatusDisplay = (props) => {
   let out_for_delivery = null;
   let delivered = null;
   let undeliverable = null;
+  let statusClassName = 'solid';
 
   new_order = orderStatus.slice().reverse().find(status => status.status === 'new_order') ? orderStatus.slice().reverse().find(status => status.status === 'new_order') : null;
   ready_for_pickup = orderStatus.slice().reverse().find(status => status.status === 'ready_for_pickup') ? orderStatus.slice().reverse().find(status => status.status === 'ready_for_pickup') : null;
@@ -28,7 +29,8 @@ const StatusDisplay = (props) => {
 
 
   
-//get latest status update of type
+// get latest status update of type. 
+// If the status has been set, then set the className to completed, otherwise set to pending.
   let statuses = {
       'new_order':        { 'status': new_order         ? 'completed' : 'pending', 'timestamp': new_order         ? new_order.timestamp         : null, 'users': ['vendor'],                    'prereq': null },
       'ready_for_pickup': { 'status': ready_for_pickup  ? 'completed' : 'pending', 'timestamp': ready_for_pickup  ? ready_for_pickup.timestamp  : null, 'users': ['vendor'],                    'prereq': 'new_order' },
@@ -54,16 +56,7 @@ const StatusDisplay = (props) => {
     let currIndex = index ;
     let prevIndex = currIndex -1;
 
-    console.log('prevIndex: ', prevIndex);
-    console.log('currIndex: ', currIndex);
-
-    console.log('***button pressed: ', currIndex,  'status: ', status);
-    console.log('***displayStatuses[prevIndex]: ', displayStatuses[prevIndex]);
-    console.log('***displayStatuses[currIndex]: ', displayStatuses[currIndex]);
-    console.log('***displayStatuses[prevIndex][1].status: ', displayStatuses[prevIndex][1].status);
-    console.log('***displayStatuses[currIndex][1].status: ', displayStatuses[currIndex][1].status);
-    console.log('+++ id is: ', id, ' +++');
-    if (displayStatuses[prevIndex][1].status === 'completed')  {
+    if (displayStatuses[prevIndex][1].status === 'completed' || status === 'undeliverable')  {
       return props.handleStatusClick(userId, userType, component, status, timestamp, id);
     }
     return null ;
@@ -82,6 +75,7 @@ const StatusDisplay = (props) => {
 
      return (
         <StatusButton  
+          className={statusClassName}
           onClick={() => {
             forwardClick(index, 
               props.userId, 
