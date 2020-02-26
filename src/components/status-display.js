@@ -40,21 +40,35 @@ const StatusDisplay = (props) => {
       'undeliverable':    { 'status': undeliverable     ? 'undeliverable' : 'pending', 'timestamp': undeliverable     ? undeliverable.timestamp     : null, 'users': ['vendor', 'driver', 'depot'], 'prereq': 'ready_for_pickup' }
     };
 
-  // console.log('statuses:', statuses);
+  console.log('statuses:', statuses);
 
   //set background color of all statuses less than or equal to current status
   console.log('status-display props: ', props); 
 
   //console.log('status-button status2: ', status);
   let displayStatuses = Object.entries(statuses);   //create key, value pairs
-  // console.log('displayStatuses: ', displayStatuses);
+  console.log('displayStatuses: ', displayStatuses);
+  
   const forwardClick= (index, userId, userType, component, status, timestamp, id) => {   //check if previous status has updated yet
-    console.log('***forward click on button', index, userId, userType, component, status, timestamp, id);
+    console.log('*** forwardClick: index: ', index, ' userId: ',userId, ' userType: ', userType, ' component: ', component, ' status: ', status, ' timestamp: ', timestamp, '  id: ', id, ' ***');
+    let currIndex = index ;
+    let prevIndex = currIndex -1;
 
-    console.log ('curr status: ', status, 'statuses: ', statuses);
-    props.handleStatusClick(userId, userType, component, status, timestamp, id) ;
+    console.log('prevIndex: ', prevIndex);
+    console.log('currIndex: ', currIndex);
+
+    console.log('***button pressed: ', currIndex,  'status: ', status);
+    console.log('***displayStatuses[prevIndex]: ', displayStatuses[prevIndex]);
+    console.log('***displayStatuses[currIndex]: ', displayStatuses[currIndex]);
+    console.log('***displayStatuses[prevIndex][1].status: ', displayStatuses[prevIndex][1].status);
+    console.log('***displayStatuses[currIndex][1].status: ', displayStatuses[currIndex][1].status);
+    console.log('+++ id is: ', id, ' +++');
+    if (displayStatuses[prevIndex][1].status === 'completed')  {
+      return props.handleStatusClick(userId, userType, component, status, timestamp, id);
+    }
+    return null ;
   };
-
+  //split output into two rows
   let fragment1 = displayStatuses.map((key, index) => {
     if (index < 4) {
       let displayStatus = key[0].replace(/_/g, " ");
@@ -64,9 +78,25 @@ const StatusDisplay = (props) => {
       if (key[1].timestamp !== null) {
          updated = `Updated ${TimeAgo(key[1].timestamp)}`;
       }
+      console.log('Update1 check = ', key[1].timestamp !== null, ' Value= ', key[1].timestamp );//disabled={!this.state.value}
 
      return (
-        <StatusButton  onClick={() => {forwardClick(index={index}, props.userId, props.userType, props.component, key[0], new Date(), props.id) }} status={key[1].status} displayStatus={displayStatus} key={index} index={index} updated={updated}/>
+        <StatusButton  
+          onClick={() => {
+            forwardClick(index, 
+              props.userId, 
+              props.userType, 
+              props.component, 
+              key[0], 
+              new Date(), 
+              props.id) 
+          }} 
+          status={key[1].status} 
+          displayStatus={displayStatus} 
+          key={index} 
+          index={index} 
+          updated={updated}
+        />
       );
     }
     return null;
@@ -93,12 +123,22 @@ const StatusDisplay = (props) => {
           displayStatus2 = 'Undeliverable';
         }
      }
+     console.log('Update2 check = ', key[1].timestamp !== null, ' Value= ', key[1].timestamp);//disabled={!this.state.value}
       return (
         <StatusButton 
-          onClick={() => {forwardClick(index={index}, props.userId, props.userType, props.component, key[0], new Date(), props.id) }} 
-          status={key[1].status} 
+          onClick={() => {
+            forwardClick(index, 
+              props.userId, 
+              props.userType, 
+              props.component, 
+              key[0], 
+              new Date(), 
+              props.id) 
+          }} 
+          status={key[1].status}
           displayStatus={displayStatus2} 
-          index={index} updated={updated2}
+          index={index} 
+          updated={updated2}
           key={index}
         />
       );
@@ -119,7 +159,6 @@ const StatusDisplay = (props) => {
     </Fragment>
 
   );
-
 };
 
 export default StatusDisplay;

@@ -40,7 +40,7 @@ export class Dashboard extends React.Component {
   }
 
   handleStatusClick(userId, userType, component, status, timestamp, id) {
-    console.log('*** handleStatusClick: ','userType: ', userType, ' |  component: ', component, '| status: ', status, '| timestamp: ', timestamp, '| id: ', id, ' ***');
+    console.log('*** handleStatusClick: ', userId, userType, component, status, timestamp, id);
     if (component === 'pickup') {
       this.props.dispatch(updatePickupStatus(userType, status, timestamp, id));
     } else {
