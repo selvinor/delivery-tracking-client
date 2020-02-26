@@ -1,6 +1,6 @@
 # H1 Delivery Tracking System
             SCREENSHOT
-![Depot Dashboard](/screenshots/depotDashboard.png)
+![Depot Dashboard](/screenshots/depot_Dashboard.png)
  
 ## H2 User Stories
 ## The Delivery Tracking System provides simple and effective communication capabilities for a Delivery Service that provides Pickup and Delivery services for a group of Vendors who:
