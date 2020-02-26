@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 import OrderBasic from './order-basic';
 import OrderDetail from './order-detail';
 import StatusDisplay from './status-display';
-import ShowDetailsButton from './show-details-button';
-import DeleteOrderButton from './delete-order-button';
 
 const Order = (props) => {
   console.log('*** order props: ', props);
