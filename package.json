@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "eslint-utils": "^1.4.3",
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.6",
+    "jest": "^25.3.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "lodash.template": "^4.5.0",
@@ -19,7 +20,8 @@
     "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^2.1.2",
-    "set-value": "^2.0.1"
+    "set-value": "^2.0.1",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
