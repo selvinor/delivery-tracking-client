@@ -20,7 +20,7 @@
     "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^2.1.2",
-    "set-value": "^2.0.1",
+    "set-value": "^4.0.1",
     "typescript": "^3.8.3"
   },
   "scripts": {
